@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
   <title>Grover Audio Services</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
     body{background:#f0f4ff;font-family:'Segoe UI',Arial,sans-serif;overscroll-behavior:none;color:#111;}
@@ -38,22 +39,21 @@
     .preview-chip{font-size:11px;border-radius:5px;padding:2px 7px;}
     .section{background:#fff;border-radius:12px;border:1.5px solid #e3eaff;margin-bottom:12px;padding:12px;}
     .section-title{font-size:10px;font-weight:800;color:#1565c0;letter-spacing:0.1em;margin-bottom:10px;border-bottom:1px solid #e3eaff;padding-bottom:6px;}
-    .assigned-card{display:flex;align-items:flex-start;gap:10px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;}
+    .assigned-card{display:flex;align-items:center;gap:10px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;}
     .staff-row{display:flex;align-items:center;gap:10px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;}
     .emp-avatar{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
     .emp-name{font-size:14px;font-weight:700;color:#111;margin-bottom:2px;}
     .emp-role{font-size:11px;font-weight:600;}
-    .timing-row{display:flex;align-items:center;gap:5px;margin-top:6px;flex-wrap:wrap;}
-    .timing-label{font-size:10px;color:#888;font-weight:700;}
-    .time-select{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:7px;color:#0d47a1;padding:4px 7px;font-size:11px;font-weight:600;cursor:pointer;}
+    .duty-row{display:flex;align-items:center;gap:6px;margin-top:6px;}
+    .duty-label{font-size:10px;color:#888;font-weight:700;}
+    .time-select{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:7px;color:#0d47a1;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer;}
     .rm-btn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:7px;width:30px;height:30px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
     .add-btn{background:#e3f2fd;border:1.5px solid #90caf9;color:#1565c0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:12px;font-weight:700;flex-shrink:0;white-space:nowrap;}
     .empty{text-align:center;color:#bbb;font-size:13px;padding:30px 20px;}
     .empty-state{text-align:center;padding:50px 20px;color:#888;}
     .empty-state .ei{font-size:40px;margin-bottom:12px;}
     .empty-state .et{font-size:15px;font-weight:700;color:#1565c0;margin-bottom:6px;}
-    .empty-state .es{font-size:13px;}
-    .detail-header{display:flex;align-items:flex-start;gap:10px;background:#fff;padding:12px 14px;border-bottom:1.5px solid #e3eaff;margin-bottom:0;}
+    .detail-header{display:flex;align-items:flex-start;gap:10px;background:#fff;padding:12px 14px;border-bottom:1.5px solid #e3eaff;}
     .back-btn{background:#e3eaff;border:none;color:#1565c0;border-radius:8px;padding:7px 14px;font-size:14px;cursor:pointer;font-weight:600;flex-shrink:0;}
     .detail-title{font-size:14px;font-weight:800;color:#0d47a1;line-height:1.3;}
     .detail-meta{font-size:11px;color:#1565c0;margin-top:2px;}
@@ -62,7 +62,6 @@
     .drop-zone.over{background:#c8e6c9;border-color:#2e7d32;}
     .role-filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:4px;}
     .role-pill{background:#f0f4ff;color:#1565c0;border:1px solid #bbdefb;border-radius:20px;padding:6px 13px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0;cursor:pointer;}
-    .role-pill.active{color:#fff;border:none;}
     .add-box{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:12px;padding:14px;margin-bottom:14px;}
     .add-box-title{font-size:12px;font-weight:800;color:#1565c0;margin-bottom:10px;}
     .input-field{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:8px;display:block;}
@@ -70,7 +69,7 @@
     .add-big-btn{width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:12px 0;font-size:14px;font-weight:700;cursor:pointer;}
     .manage-row{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;}
     .delete-btn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:7px;width:34px;height:34px;cursor:pointer;font-size:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-    .sub-tabs{display:flex;gap:0;border-bottom:2px solid #e3eaff;margin-bottom:14px;}
+    .sub-tabs{display:flex;border-bottom:2px solid #e3eaff;margin-bottom:14px;}
     .sub-tab{flex:1;background:transparent;border:none;color:#555;padding:10px 4px;font-size:11px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
     .sub-tab.active{color:#fff;background:#1565c0;border-bottom:2px solid #0d47a1;}
     .leave-header{display:flex;align-items:center;gap:14px;border-radius:12px;padding:14px;margin-bottom:14px;border:1.5px solid;}
@@ -84,17 +83,14 @@
     .pdf-venue-name{font-size:15px;font-weight:800;color:#0d47a1;}
     .pdf-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0f4ff;}
     .pdf-serial{color:#bbb;font-size:11px;width:20px;flex-shrink:0;font-weight:700;}
-    .pdf-timing{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;gap:1px;}
     .pdf-btn{display:block;width:100%;background:#1565c0;border:none;color:#fff;border-radius:12px;padding:15px 0;font-size:16px;font-weight:800;cursor:pointer;margin-top:16px;margin-bottom:20px;}
     .toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);padding:10px 22px;border-radius:24px;color:#fff;font-weight:700;font-size:13px;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:none;}
     .ghost{position:fixed;z-index:9999;pointer-events:none;opacity:0.95;}
   </style>
 </head>
 <body>
-
 <div class="toast" id="toast"></div>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-inner">
     <div class="logo">
@@ -116,16 +112,12 @@
   </div>
 </div>
 
-<!-- VENUES SCREEN -->
 <div class="screen active" id="screen-venues">
-  <div style="margin-bottom:10px;" id="venue-search-wrap">
-    <input class="sbar" placeholder="Search venues..." oninput="renderVenues()" id="venue-search"/>
-  </div>
-  <div class="drag-tip">☝️ Tap a venue to open it and assign staff</div>
+  <input class="sbar" placeholder="Search venues..." oninput="renderVenues()" id="venue-search"/>
+  <div class="drag-tip">☝️ Tap a venue to open and assign staff</div>
   <div id="venues-list"></div>
 </div>
 
-<!-- VENUE DETAIL SCREEN -->
 <div class="screen" id="screen-venueDetail">
   <div class="detail-header">
     <button class="back-btn" onclick="goScreen('venues')">‹ Back</button>
@@ -135,17 +127,18 @@
     </div>
     <button class="clear-btn" id="clear-venue-btn" onclick="clearActiveVenue()">Clear All</button>
   </div>
-  <div class="drop-zone" id="main-drop-zone">⬇ Drop staff here or tap "+ Add" below</div>
-  <div id="assigned-section"></div>
-  <div class="section">
-    <div class="section-title">ADD STAFF TO THIS VENUE</div>
-    <input class="sbar" placeholder="Search staff..." oninput="renderAddStaff()" id="add-staff-search"/>
-    <div class="role-filters" id="role-filters"></div>
-    <div id="add-staff-list"></div>
+  <div style="padding:0 0 0 0;">
+    <div class="drop-zone" id="main-drop-zone">⬇ Drop staff here or tap "+ Add" below</div>
+    <div id="assigned-section"></div>
+    <div class="section">
+      <div class="section-title">ADD STAFF TO THIS VENUE</div>
+      <input class="sbar" placeholder="Search staff..." oninput="renderAddStaff()" id="add-staff-search"/>
+      <div class="role-filters" id="role-filters"></div>
+      <div id="add-staff-list"></div>
+    </div>
   </div>
 </div>
 
-<!-- MANAGE SCREEN -->
 <div class="screen" id="screen-manage">
   <div class="sub-tabs">
     <button class="sub-tab active" onclick="manageTab('staff')" id="mtab-staff">👥 Staff</button>
@@ -165,7 +158,7 @@
   <div id="manage-venues-panel" class="hidden">
     <div class="add-box">
       <div class="add-box-title">➕ Add New Venue</div>
-      <input class="input-field" placeholder="Venue Name (e.g. Taj Hotel, Delhi)" id="new-venue-name"/>
+      <input class="input-field" placeholder="Venue Name" id="new-venue-name"/>
       <button class="add-big-btn" onclick="addVenue()">+ Add Venue</button>
     </div>
     <input class="sbar" placeholder="Search venues..." oninput="renderManageVenues()" id="manage-venue-search"/>
@@ -181,41 +174,32 @@
   </div>
 </div>
 
-<!-- LEAVE SCREEN -->
 <div class="screen" id="screen-leave">
   <div class="leave-header" style="background:#fff5f5;border-color:#ffcdd2;">
     <span style="font-size:30px">🌴</span>
-    <div>
-      <div class="leave-title" style="color:#c62828;">On Leave</div>
-      <div style="font-size:13px;color:#555;" id="leave-count">0 staff marked</div>
-    </div>
+    <div><div class="leave-title" style="color:#c62828;">On Leave</div><div style="font-size:13px;color:#555;" id="leave-count">0 staff</div></div>
   </div>
   <div style="display:flex;gap:8px;margin-bottom:10px;">
-    <button class="toggle-btn active" onclick="leaveTab('avail')" id="ltab-avail" style="flex:1;background:#c62828;color:#fff;border-color:#c62828;">Available</button>
-    <button class="toggle-btn" onclick="leaveTab('marked')" id="ltab-marked" style="flex:1;color:#c62828;border-color:#c62828;">Marked</button>
+    <button onclick="leaveTab('avail')" id="ltab-avail" style="flex:1;background:#c62828;color:#fff;border:1.5px solid #c62828;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;">Available</button>
+    <button onclick="leaveTab('marked')" id="ltab-marked" style="flex:1;background:transparent;color:#c62828;border:1.5px solid #c62828;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;">Marked</button>
   </div>
   <input class="sbar" placeholder="Search staff..." oninput="renderLeave()" id="leave-search"/>
   <div id="leave-list"></div>
 </div>
 
-<!-- OFFICE SCREEN -->
 <div class="screen" id="screen-office">
   <div class="leave-header" style="background:#fff8f0;border-color:#ffe0b2;">
     <span style="font-size:30px">🏢</span>
-    <div>
-      <div class="leave-title" style="color:#e65100;">In Office</div>
-      <div style="font-size:13px;color:#555;" id="office-count">0 staff marked</div>
-    </div>
+    <div><div class="leave-title" style="color:#e65100;">In Office</div><div style="font-size:13px;color:#555;" id="office-count">0 staff</div></div>
   </div>
   <div style="display:flex;gap:8px;margin-bottom:10px;">
-    <button class="toggle-btn active" onclick="officeTab('avail')" id="otab-avail" style="flex:1;background:#e65100;color:#fff;border-color:#e65100;">Available</button>
-    <button class="toggle-btn" onclick="officeTab('marked')" id="otab-marked" style="flex:1;color:#e65100;border-color:#e65100;">Marked</button>
+    <button onclick="officeTab('avail')" id="otab-avail" style="flex:1;background:#e65100;color:#fff;border:1.5px solid #e65100;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;">Available</button>
+    <button onclick="officeTab('marked')" id="otab-marked" style="flex:1;background:transparent;color:#e65100;border:1.5px solid #e65100;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;">Marked</button>
   </div>
   <input class="sbar" placeholder="Search staff..." oninput="renderOffice()" id="office-search"/>
   <div id="office-list"></div>
 </div>
 
-<!-- PDF SCREEN -->
 <div class="screen" id="screen-pdf">
   <div class="pdf-header">
     <span style="font-size:32px">📋</span>
@@ -227,49 +211,53 @@
   </div>
   <div class="summary-box" id="pdf-summary"></div>
   <div id="pdf-venue-list"></div>
-  <button class="pdf-btn" onclick="downloadReport()">⬇ Download Report</button>
+  <button class="pdf-btn" onclick="downloadPDF()">⬇ Download PDF</button>
 </div>
 
 <script>
-// ── State ─────────────────────────────────────────────────────────────────────
-var staff = [];
-var venues = [];
-var categories = ["Sound Engineer","Lighting Tech","AV Tech","Stage Manager","Camera Operator","Video Tech","Crew Lead","Setup Specialist","Live Stream Tech","Projection Tech","DJ Operator","Truss Rigger"];
-var assignments = {}; // venueId -> { empId -> {emp, timeIn, timeOut} }
-var onLeave = {};     // empId -> {emp, timeIn, timeOut}
-var inOffice = {};    // empId -> {emp, timeIn, timeOut}
-var activeVenueId = null;
-var activeRoleFilter = "All";
-var leaveShowTab = "avail";
-var officeShowTab = "avail";
-var manageShowTab = "staff";
+var staff=[];
+var venues=[
+  "The Leela Palace New Delhi","The Oberoi New Delhi","ITC Maurya New Delhi","Taj Mahal Hotel New Delhi",
+  "The Imperial New Delhi","Hyatt Regency Delhi","Radisson Blu Plaza Delhi Airport","Le Meridien New Delhi",
+  "The Ashok New Delhi","Sheraton New Delhi Hotel","Eros Hotel New Delhi","The Suryaa New Delhi",
+  "Crowne Plaza Today Okhla","JW Marriott Hotel New Delhi Aerocity","Pullman New Delhi Aerocity",
+  "Novotel New Delhi Aerocity","Andaz Delhi","Aloft New Delhi Aerocity","Ibis New Delhi Aerocity",
+  "Pride Plaza Hotel Aerocity","Holiday Inn New Delhi Aerocity","Roseate House New Delhi Aerocity",
+  "The Grand New Delhi","Shangri-La Eros New Delhi","Lalit New Delhi","Hans Hotel New Delhi",
+  "The Manor New Delhi","Hotel Bristol New Delhi","Jaypee Siddharth New Delhi","Vivanta New Delhi Dwarka",
+  "Lemon Tree Premier New Delhi","The Westin Gurgaon","Trident Gurgaon","Hyatt Place Gurgaon",
+  "Courtyard by Marriott Gurgaon","ITC Grand Bharat Gurgaon","Hilton Garden Inn Gurgaon",
+  "Four Points by Sheraton Gurgaon","DoubleTree by Hilton Gurgaon","Le Meridien Gurgaon",
+  "Park Hyatt Gurgaon","Radisson Blu MBD Hotel Noida","Crowne Plaza Greater Noida",
+  "Jaypee Greens Golf Resort Noida","The Westin Sohna Resort","Fairmont Jaipur","Vivanta Surajkund",
+  "Country Inn Sahibabad","Sheraton Saket New Delhi","Fortune Select Excalibur Gurgaon"
+].map(function(n){return{id:makeId(),name:n};});
+var categories=["Sound Engineer","Lighting Tech","AV Tech","Stage Manager","Camera Operator","Video Tech","Crew Lead","Setup Specialist","Live Stream Tech","Projection Tech","DJ Operator","Truss Rigger"];
+var assignments={};
+var onLeave={};
+var inOffice={};
+var activeVenueId=null;
+var activeRoleFilter="All";
+var leaveShowTab="avail";
+var officeShowTab="avail";
+var manageShowTab="staff";
+var CAT_COLORS=["#1565c0","#6a1b9a","#0277bd","#1b5e20","#b71c1c","#880e4f","#e65100","#00695c","#33691e","#4527a0","#c62828","#4e342e","#00796b","#ad1457","#283593","#558b2f","#0288d1","#7b1fa2","#2e7d32"];
+var TIME_SLOTS=["6:00 AM","7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","8:00 PM","9:00 PM","10:00 PM","11:00 PM"];
 
-var CAT_COLORS = ["#1565c0","#6a1b9a","#0277bd","#1b5e20","#b71c1c","#880e4f","#e65100","#00695c","#33691e","#4527a0","#c62828","#4e342e","#00796b","#ad1457","#283593","#558b2f","#0288d1","#7b1fa2","#2e7d32"];
-var TIME_SLOTS = ["6:00 AM","7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","8:00 PM","9:00 PM","10:00 PM","11:00 PM"];
+function makeId(){return Math.random().toString(36).slice(2,9);}
+function catColor(cat){var i=categories.indexOf(cat);return CAT_COLORS[i>=0?i%CAT_COLORS.length:0]||"#1565c0";}
+function initials(name){var p=name.trim().split(" ");return p[0][0]+(p[1]?p[1][0]:"");}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function nextDay(d){var dt=new Date(d);dt.setDate(dt.getDate()+1);return dt.toISOString().slice(0,10);}
+function fmtDate(d){var dt=new Date(d);return dt.toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});}
+function getDate(){return document.getElementById("date-input").value||new Date().toISOString().slice(0,10);}
 
-function makeId(){ return Math.random().toString(36).slice(2,9); }
-function catColor(cat){ var i=categories.indexOf(cat); return CAT_COLORS[i>=0?i%CAT_COLORS.length:0]||"#1565c0"; }
-function initials(name){ var p=name.trim().split(" "); return p[0][0]+(p[1]?p[1][0]:""); }
+var today=new Date().toISOString().slice(0,10);
+document.getElementById("date-input").value=today;
+document.getElementById("date-input").addEventListener("change",function(){renderPDF&&renderPDF();});
 
-function nextDay(d){
-  var dt=new Date(d); dt.setDate(dt.getDate()+1);
-  return dt.toISOString().slice(0,10);
-}
-function fmtDate(d){
-  var dt=new Date(d);
-  return dt.toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});
-}
-
-// date
-var today = new Date().toISOString().slice(0,10);
-document.getElementById("date-input").value = today;
-document.getElementById("date-input").addEventListener("change", function(){ renderAll(); });
-
-function getDate(){ return document.getElementById("date-input").value || today; }
-
-// ── Toast ─────────────────────────────────────────────────────────────────────
 var toastTimer;
-function showToast(msg, type){
+function showToast(msg,type){
   var el=document.getElementById("toast");
   el.textContent=msg;
   el.style.background=type==="err"?"#c62828":type==="warn"?"#e65100":"#1b5e20";
@@ -278,14 +266,12 @@ function showToast(msg, type){
   toastTimer=setTimeout(function(){el.style.display="none";},2500);
 }
 
-// ── Navigation ────────────────────────────────────────────────────────────────
 function goScreen(name){
   document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});
   document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.remove("active");});
-  var s=document.getElementById("screen-"+name);
-  if(s)s.classList.add("active");
-  var n=document.getElementById("nav-"+name.replace("venueDetail","venues"));
-  if(n)n.classList.add("active");
+  var s=document.getElementById("screen-"+name);if(s)s.classList.add("active");
+  var nid="nav-"+(name==="venueDetail"?"venues":name);
+  var nb=document.getElementById(nid);if(nb)nb.classList.add("active");
   if(name==="venues")renderVenues();
   if(name==="venueDetail")renderVenueDetail();
   if(name==="manage")renderManage();
@@ -295,101 +281,60 @@ function goScreen(name){
   renderStats();
 }
 
-function renderAll(){renderStats();if(activeVenueId)renderVenueDetail();}
+function getAssignedIds(){var ids=[];Object.values(assignments).forEach(function(vm){Object.keys(vm).forEach(function(id){ids.push(id);});});return ids;}
+function getVenueTeam(vid){return Object.values(assignments[vid]||{});}
 
-// ── Stats ─────────────────────────────────────────────────────────────────────
-function getAssignedIds(){
-  var ids=[];
-  Object.values(assignments).forEach(function(vm){Object.keys(vm).forEach(function(id){ids.push(id);});});
-  return ids;
-}
 function renderStats(){
-  var aIds=getAssignedIds();
-  var lIds=Object.keys(onLeave);
-  var oIds=Object.keys(inOffice);
+  var aIds=getAssignedIds();var lIds=Object.keys(onLeave);var oIds=Object.keys(inOffice);
   var free=staff.length-aIds.length-lIds.length-oIds.length;
-  var bar=document.getElementById("stats-bar");
-  bar.innerHTML=
-    chip("Staff",staff.length,"#1565c0")+
-    chip("Deployed",aIds.length,"#1b5e20")+
-    chip("Leave",lIds.length,"#c62828")+
-    chip("Office",oIds.length,"#e65100")+
+  document.getElementById("stats-bar").innerHTML=
+    chip("Staff",staff.length,"#1565c0")+chip("Deployed",aIds.length,"#1b5e20")+
+    chip("Leave",lIds.length,"#c62828")+chip("Office",oIds.length,"#e65100")+
     chip("Free",free<0?0:free,"#4527a0");
 }
-function chip(label,val,color){
-  return '<div class="stat-chip" style="border:1.5px solid '+color+'44;">'+
-    '<div class="stat-val" style="color:'+color+'">'+val+'</div>'+
-    '<div class="stat-label">'+label+'</div></div>';
-}
+function chip(l,v,c){return '<div class="stat-chip" style="border:1.5px solid '+c+'44;"><div class="stat-val" style="color:'+c+'">'+v+'</div><div class="stat-label">'+l+'</div></div>';}
 
-// ── Venues Screen ─────────────────────────────────────────────────────────────
 function renderVenues(){
   var search=(document.getElementById("venue-search")||{}).value||"";
   var list=document.getElementById("venues-list");
   var filtered=venues.filter(function(v){return v.name.toLowerCase().includes(search.toLowerCase());});
-  if(venues.length===0){
-    list.innerHTML='<div class="empty-state"><div class="ei">🏨</div><div class="et">No Venues Yet</div><div class="es">Go to Manage tab to add venues</div></div>';
-    return;
-  }
-  var html="";
-  filtered.forEach(function(venue,i){
+  if(venues.length===0){list.innerHTML='<div class="empty-state"><div class="ei">🏨</div><div class="et">No Venues Yet</div><div class="es">Go to Manage tab to add venues</div></div>';return;}
+  list.innerHTML=filtered.map(function(venue,i){
     var team=getVenueTeam(venue.id);
-    var preview="";
-    team.slice(0,5).forEach(function(a){
-      var c=catColor(a.emp.role);
-      preview+='<span class="preview-chip" style="color:'+c+';background:'+c+'18;border:1px solid '+c+'33">'+a.emp.name.split(" ")[0]+'</span>';
-    });
-    if(team.length>5)preview+='<span style="font-size:11px;color:#888">+' +(team.length-5)+' more</span>';
-    html+='<div class="vcard" onclick="openVenue(\''+venue.id+'\')">'+
+    var preview=team.slice(0,5).map(function(a){var c=catColor(a.emp.role);return'<span class="preview-chip" style="color:'+c+';background:'+c+'18;border:1px solid '+c+'33">'+esc(a.emp.name.split(" ")[0])+'</span>';}).join("");
+    if(team.length>5)preview+='<span style="font-size:11px;color:#888">+'+(team.length-5)+' more</span>';
+    return '<div class="vcard" onclick="openVenue(\''+venue.id+'\')">'+
       '<div class="vcard-top">'+
         '<div class="vnum">V'+(i+1)+'</div>'+
         '<div style="flex:1;min-width:0"><div class="vname">'+esc(venue.name)+'</div>'+
         '<div class="vmeta"><span style="color:#1565c0;font-weight:700">'+team.length+'</span> staff assigned</div></div>'+
-        '<div style="display:flex;align-items:center;gap:6px">'+
-        (team.length>0?'<div class="assigned-dot">'+team.length+'</div>':'')+
+        '<div style="display:flex;align-items:center;gap:6px">'+(team.length>0?'<div class="assigned-dot">'+team.length+'</div>':'')+
         '<span style="font-size:20px;color:#bbb">›</span></div>'+
-      '</div>'+
-      (preview?'<div class="preview-row">'+preview+'</div>':'')+
+      '</div>'+(preview?'<div class="preview-row">'+preview+'</div>':'')+
     '</div>';
-  });
-  list.innerHTML=html;
+  }).join("");
 }
 
-function openVenue(id){
-  activeVenueId=id;
-  activeRoleFilter="All";
-  document.getElementById("add-staff-search").value="";
-  goScreen("venueDetail");
-}
-
-// ── Venue Detail ──────────────────────────────────────────────────────────────
-function getVenueTeam(venueId){ return Object.values(assignments[venueId]||{}); }
+function openVenue(id){activeVenueId=id;activeRoleFilter="All";document.getElementById("add-staff-search").value="";goScreen("venueDetail");}
 
 function renderVenueDetail(){
-  var venue=venues.find(function(v){return v.id===activeVenueId;});
-  if(!venue)return;
+  var venue=venues.find(function(v){return v.id===activeVenueId;});if(!venue)return;
   var team=getVenueTeam(activeVenueId);
   document.getElementById("detail-title").textContent=venue.name;
   document.getElementById("detail-meta").textContent=team.length+" staff assigned";
   document.getElementById("clear-venue-btn").style.display=team.length>0?"block":"none";
-
-  // assigned section
   var aHtml="";
   if(team.length>0){
     aHtml='<div class="section"><div class="section-title">ASSIGNED TEAM — '+team.length+' STAFF</div>';
     team.forEach(function(a){
-      var c=catColor(a.emp.role);
-      var ini=initials(a.emp.name);
+      var c=catColor(a.emp.role);var ini=initials(a.emp.name);
       aHtml+='<div class="assigned-card">'+
         '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
         '<div style="flex:1;min-width:0">'+
           '<div class="emp-name">'+esc(a.emp.name)+'</div>'+
           '<div class="emp-role" style="color:'+c+'">'+esc(a.emp.role)+'</div>'+
-          '<div class="timing-row">'+
-            '<span class="timing-label">In:</span>'+
-            timeSelect("vti",a.emp.id,activeVenueId,"timeIn",a.timeIn)+
-            '<span class="timing-label">Out:</span>'+
-            timeSelect("vto",a.emp.id,activeVenueId,"timeOut",a.timeOut)+
+          '<div class="duty-row"><span class="duty-label">⏰ Duty Time:</span>'+
+          mkTimeSelect("vt",a.emp.id,a.dutyTime,"updateVenueDuty('"+a.emp.id+"','"+activeVenueId+"',this.value)")+
           '</div>'+
         '</div>'+
         '<button class="rm-btn" onclick="removeFromVenue(\''+a.emp.id+'\',\''+activeVenueId+'\')">✕</button>'+
@@ -398,78 +343,52 @@ function renderVenueDetail(){
     aHtml+='</div>';
   }
   document.getElementById("assigned-section").innerHTML=aHtml;
-
-  // role filters
-  var rfHtml='<button class="role-pill'+(activeRoleFilter==="All"?" active":"")+'" style="'+(activeRoleFilter==="All"?"background:#1565c0;color:#fff;border:none;":"")+'" onclick="setRoleFilter(\'All\')">All</button>';
-  categories.forEach(function(r){
-    var c=catColor(r);
-    var on=activeRoleFilter===r;
-    rfHtml+='<button class="role-pill'+(on?" active":"")+'" style="'+(on?"background:"+c+";color:#fff;border:none;":"")+'" onclick="setRoleFilter(\''+esc(r)+'\')">'+esc(r)+'</button>';
-  });
+  var rfHtml='<button class="role-pill" style="'+(activeRoleFilter==="All"?"background:#1565c0;color:#fff;border:none;":"")+'" onclick="setRoleFilter(\'All\')">All</button>';
+  categories.forEach(function(r){var c=catColor(r);var on=activeRoleFilter===r;rfHtml+='<button class="role-pill" style="'+(on?"background:"+c+";color:#fff;border:none;":"")+'" onclick="setRoleFilter(\''+esc(r)+'\')">'+esc(r)+'</button>';});
   document.getElementById("role-filters").innerHTML=rfHtml;
-
   renderAddStaff();
+}
+
+function mkTimeSelect(prefix,empId,current,onchange){
+  var opts=TIME_SLOTS.map(function(t){return'<option'+(t===current?' selected':'')+'>'+t+'</option>';}).join("");
+  return '<select class="time-select" onchange="'+onchange+'">'+opts+'</select>';
 }
 
 function renderAddStaff(){
   var search=(document.getElementById("add-staff-search")||{}).value||"";
-  var aIds=getAssignedIds();
-  var lIds=Object.keys(onLeave);
-  var oIds=Object.keys(inOffice);
-  var avail=staff.filter(function(e){
-    return !aIds.includes(e.id)&&!lIds.includes(e.id)&&!oIds.includes(e.id)&&
-      e.name.toLowerCase().includes(search.toLowerCase())&&
-      (activeRoleFilter==="All"||e.role===activeRoleFilter);
-  });
+  var aIds=getAssignedIds();var lIds=Object.keys(onLeave);var oIds=Object.keys(inOffice);
+  var avail=staff.filter(function(e){return !aIds.includes(e.id)&&!lIds.includes(e.id)&&!oIds.includes(e.id)&&e.name.toLowerCase().includes(search.toLowerCase())&&(activeRoleFilter==="All"||e.role===activeRoleFilter);});
   var html="";
-  if(staff.length===0){html='<div class="empty">No staff added yet. Go to Manage tab.</div>';}
-  else if(avail.length===0){html='<div class="empty">No available staff matching filters.</div>';}
-  else{
-    avail.forEach(function(emp){
-      var c=catColor(emp.role);
-      var ini=initials(emp.name);
-      html+='<div class="staff-row" ontouchstart="touchStart(event,\''+emp.id+'\')" onclick="assignEmp(\''+emp.id+'\')">'+
-        '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-        '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(emp.role)+'</div></div>'+
-        '<button class="add-btn" onclick="event.stopPropagation();assignEmp(\''+emp.id+'\')">+ Add</button>'+
-      '</div>';
-    });
-  }
+  if(staff.length===0)html='<div class="empty">No staff added yet. Go to Manage tab.</div>';
+  else if(avail.length===0)html='<div class="empty">No available staff matching filters.</div>';
+  else avail.forEach(function(emp){
+    var c=catColor(emp.role);var ini=initials(emp.name);
+    html+='<div class="staff-row" ontouchstart="touchStart(event,\''+emp.id+'\')" onclick="assignEmp(\''+emp.id+'\')">'+
+      '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
+      '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(emp.role)+'</div></div>'+
+      '<button class="add-btn" onclick="event.stopPropagation();assignEmp(\''+emp.id+'\')">+ Add</button>'+
+    '</div>';
+  });
   document.getElementById("add-staff-list").innerHTML=html;
 }
 
-function setRoleFilter(r){ activeRoleFilter=r; renderVenueDetail(); }
+function setRoleFilter(r){activeRoleFilter=r;renderVenueDetail();}
+function updateVenueDuty(empId,venueId,val){if(assignments[venueId]&&assignments[venueId][empId])assignments[venueId][empId].dutyTime=val;}
 
 function assignEmp(empId){
-  var emp=staff.find(function(e){return e.id===empId;});
-  if(!emp||!activeVenueId)return;
+  var emp=staff.find(function(e){return e.id===empId;});if(!emp||!activeVenueId)return;
   if(!assignments[activeVenueId])assignments[activeVenueId]={};
-  // remove from other venues
   Object.keys(assignments).forEach(function(vid){if(assignments[vid][empId])delete assignments[vid][empId];});
-  // remove from leave/office
-  delete onLeave[empId]; delete inOffice[empId];
-  assignments[activeVenueId][empId]={emp:emp,timeIn:"6:00 AM",timeOut:"6:00 AM"};
+  delete onLeave[empId];delete inOffice[empId];
+  assignments[activeVenueId][empId]={emp:emp,dutyTime:"6:00 AM"};
   var venue=venues.find(function(v){return v.id===activeVenueId;});
   showToast(emp.name+" → "+(venue?venue.name:"venue"));
-  renderVenueDetail(); renderStats();
+  renderVenueDetail();renderStats();
 }
 
-function removeFromVenue(empId,venueId){
-  if(assignments[venueId])delete assignments[venueId][empId];
-  renderVenueDetail(); renderStats();
-}
+function removeFromVenue(empId,venueId){if(assignments[venueId])delete assignments[venueId][empId];renderVenueDetail();renderStats();}
+function clearActiveVenue(){if(activeVenueId)assignments[activeVenueId]={};showToast("Venue cleared","warn");renderVenueDetail();renderStats();}
 
-function clearActiveVenue(){
-  if(activeVenueId)assignments[activeVenueId]={};
-  showToast("Venue cleared","warn");
-  renderVenueDetail(); renderStats();
-}
-
-function updateVenueTiming(empId,venueId,field,val){
-  if(assignments[venueId]&&assignments[venueId][empId])assignments[venueId][empId][field]=val;
-}
-
-// ── Manage ────────────────────────────────────────────────────────────────────
 function manageTab(t){
   manageShowTab=t;
   ["staff","venues","cats"].forEach(function(x){
@@ -487,8 +406,7 @@ function renderManage(){
 }
 
 function updateCatDropdown(){
-  var sel=document.getElementById("new-staff-role");
-  if(!sel)return;
+  var sel=document.getElementById("new-staff-role");if(!sel)return;
   var cur=sel.value;
   sel.innerHTML=categories.map(function(c){return'<option'+(c===cur?' selected':'')+'>'+esc(c)+'</option>';}).join("");
 }
@@ -499,16 +417,14 @@ function addStaff(){
   if(!name){showToast("Enter a name","warn");return;}
   staff.push({id:makeId(),name:name,role:role});
   document.getElementById("new-staff-name").value="";
-  showToast(name+" added!");
-  renderManageStaff(); renderStats();
+  showToast(name+" added!");renderManageStaff();renderStats();
 }
 
 function deleteStaff(empId){
   staff=staff.filter(function(e){return e.id!==empId;});
-  delete onLeave[empId]; delete inOffice[empId];
+  delete onLeave[empId];delete inOffice[empId];
   Object.keys(assignments).forEach(function(vid){delete assignments[vid][empId];});
-  showToast("Staff removed","warn");
-  renderManageStaff(); renderStats();
+  showToast("Staff removed","warn");renderManageStaff();renderStats();
 }
 
 function renderManageStaff(){
@@ -517,13 +433,11 @@ function renderManageStaff(){
   var list=document.getElementById("manage-staff-list");
   if(staff.length===0){list.innerHTML='<div class="empty-state"><div class="ei">👤</div><div class="et">No Staff Added Yet</div><div class="es">Add your team members above</div></div>';return;}
   list.innerHTML=filtered.map(function(emp){
-    var c=catColor(emp.role);
-    var ini=initials(emp.name);
+    var c=catColor(emp.role);var ini=initials(emp.name);
     return '<div class="manage-row">'+
       '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
       '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(emp.role)+'</div></div>'+
-      '<button class="delete-btn" onclick="deleteStaff(\''+emp.id+'\')">🗑️</button>'+
-    '</div>';
+      '<button class="delete-btn" onclick="deleteStaff(\''+emp.id+'\')">🗑️</button></div>';
   }).join("");
 }
 
@@ -532,85 +446,71 @@ function addVenue(){
   if(!name){showToast("Enter venue name","warn");return;}
   venues.push({id:makeId(),name:name});
   document.getElementById("new-venue-name").value="";
-  showToast(name+" added!");
-  renderManageVenues(); renderVenues();
+  showToast(name+" added!");renderManageVenues();renderVenues();
 }
 
 function deleteVenue(venueId){
   venues=venues.filter(function(v){return v.id!==venueId;});
   delete assignments[venueId];
-  showToast("Venue removed","warn");
-  renderManageVenues(); renderVenues();
+  showToast("Venue removed","warn");renderManageVenues();renderVenues();
 }
 
 function renderManageVenues(){
   var search=(document.getElementById("manage-venue-search")||{}).value||"";
   var filtered=venues.filter(function(v){return v.name.toLowerCase().includes(search.toLowerCase());});
   var list=document.getElementById("manage-venues-list");
-  if(venues.length===0){list.innerHTML='<div class="empty-state"><div class="ei">🏨</div><div class="et">No Venues Added Yet</div><div class="es">Add your venues above</div></div>';return;}
+  if(venues.length===0){list.innerHTML='<div class="empty-state"><div class="ei">🏨</div><div class="et">No Venues</div></div>';return;}
   list.innerHTML=filtered.map(function(venue,i){
     return '<div class="manage-row">'+
       '<div class="emp-avatar" style="background:#e3eaff;color:#1565c0;font-size:11px">V'+(venues.indexOf(venue)+1)+'</div>'+
       '<div style="flex:1;min-width:0"><div class="emp-name" style="font-size:13px">'+esc(venue.name)+'</div></div>'+
-      '<button class="delete-btn" onclick="deleteVenue(\''+venue.id+'\')">🗑️</button>'+
-    '</div>';
+      '<button class="delete-btn" onclick="deleteVenue(\''+venue.id+'\')">🗑️</button></div>';
   }).join("");
 }
 
 function addCategory(){
   var name=document.getElementById("new-cat-name").value.trim();
-  if(!name){showToast("Enter category name","warn");return;}
+  if(!name){showToast("Enter category","warn");return;}
   if(categories.includes(name)){showToast("Already exists","warn");return;}
-  categories.push(name);
-  document.getElementById("new-cat-name").value="";
-  showToast(name+" added!");
-  renderManageCats(); updateCatDropdown();
+  categories.push(name);document.getElementById("new-cat-name").value="";
+  showToast(name+" added!");renderManageCats();updateCatDropdown();
 }
 
 function deleteCategory(cat){
   categories=categories.filter(function(c){return c!==cat;});
-  showToast(cat+" removed","warn");
-  renderManageCats(); updateCatDropdown();
+  showToast(cat+" removed","warn");renderManageCats();updateCatDropdown();
 }
 
 function renderManageCats(){
   var list=document.getElementById("manage-cats-list");
-  if(categories.length===0){list.innerHTML='<div class="empty-state"><div class="ei">🏷️</div><div class="et">No Categories Yet</div></div>';return;}
+  if(categories.length===0){list.innerHTML='<div class="empty-state"><div class="ei">🏷️</div><div class="et">No Categories</div></div>';return;}
   list.innerHTML=categories.map(function(cat,i){
     var c=catColor(cat);
     return '<div class="manage-row">'+
       '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;font-size:11px">'+(i+1)+'</div>'+
       '<div style="flex:1;min-width:0"><div class="emp-name" style="color:'+c+'">'+esc(cat)+'</div></div>'+
-      '<button class="delete-btn" onclick="deleteCategory(\''+esc(cat)+'\')">🗑️</button>'+
-    '</div>';
+      '<button class="delete-btn" onclick="deleteCategory(\''+esc(cat)+'\')">🗑️</button></div>';
   }).join("");
 }
 
-// ── Leave ─────────────────────────────────────────────────────────────────────
 function leaveTab(t){
   leaveShowTab=t;
-  document.getElementById("ltab-avail").style.cssText=t==="avail"?"flex:1;background:#c62828;color:#fff;border-color:#c62828;":"flex:1;color:#c62828;border-color:#c62828;background:transparent;";
-  document.getElementById("ltab-marked").style.cssText=t==="marked"?"flex:1;background:#c62828;color:#fff;border-color:#c62828;":"flex:1;color:#c62828;border-color:#c62828;background:transparent;";
+  document.getElementById("ltab-avail").style.background=t==="avail"?"#c62828":"transparent";
+  document.getElementById("ltab-avail").style.color=t==="avail"?"#fff":"#c62828";
+  document.getElementById("ltab-marked").style.background=t==="marked"?"#c62828":"transparent";
+  document.getElementById("ltab-marked").style.color=t==="marked"?"#fff":"#c62828";
   renderLeave();
 }
 
 function markLeave(empId){
-  var emp=staff.find(function(e){return e.id===empId;});
-  if(!emp)return;
+  var emp=staff.find(function(e){return e.id===empId;});if(!emp)return;
   Object.keys(assignments).forEach(function(vid){delete assignments[vid][empId];});
   delete inOffice[empId];
-  onLeave[empId]={emp:emp,timeIn:"6:00 AM",timeOut:"6:00 AM"};
-  showToast(emp.name+" marked on leave");
-  renderLeave(); renderStats();
+  onLeave[empId]={emp:emp,dutyTime:"6:00 AM"};
+  showToast(emp.name+" on leave");renderLeave();renderStats();
 }
-
-function removeLeave(empId){
-  delete onLeave[empId];
-  showToast("Leave removed","warn");
-  renderLeave(); renderStats();
-}
-
-function updateLeaveTiming(empId,field,val){ if(onLeave[empId])onLeave[empId][field]=val; }
+function removeLeave(empId){delete onLeave[empId];showToast("Leave removed","warn");renderLeave();renderStats();}
+function updateLeaveDuty(empId,val){if(onLeave[empId])onLeave[empId].dutyTime=val;}
 
 function renderLeave(){
   var search=(document.getElementById("leave-search")||{}).value||"";
@@ -619,65 +519,48 @@ function renderLeave(){
   var list=document.getElementById("leave-list");
   if(leaveShowTab==="avail"){
     var avail=staff.filter(function(e){return !onLeave[e.id]&&e.name.toLowerCase().includes(search.toLowerCase());});
-    if(avail.length===0){list.innerHTML='<div class="empty">No available staff.</div>';return;}
+    if(!avail.length){list.innerHTML='<div class="empty">No available staff.</div>';return;}
     list.innerHTML=avail.map(function(emp){
-      var c=catColor(emp.role);
-      var ini=initials(emp.name);
+      var c=catColor(emp.role);var ini=initials(emp.name);
       return '<div class="manage-row">'+
         '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
         '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(emp.role)+'</div></div>'+
-        '<button class="toggle-btn" style="color:#c62828;border-color:#c62828;" onclick="markLeave(\''+emp.id+'\')">Mark</button>'+
-      '</div>';
+        '<button class="toggle-btn" style="color:#c62828;border-color:#c62828;" onclick="markLeave(\''+emp.id+'\')">Mark</button></div>';
     }).join("");
   } else {
     var marked=Object.values(onLeave).filter(function(a){return a.emp.name.toLowerCase().includes(search.toLowerCase());});
-    if(marked.length===0){list.innerHTML='<div class="empty">No staff on leave.</div>';return;}
+    if(!marked.length){list.innerHTML='<div class="empty">No staff on leave.</div>';return;}
     list.innerHTML=marked.map(function(a){
-      var c=catColor(a.emp.role);
-      var ini=initials(a.emp.name);
+      var c=catColor(a.emp.role);var ini=initials(a.emp.name);
       return '<div class="assigned-card" style="background:#fff5f5;border:1.5px solid #ffcdd2;margin-bottom:8px;">'+
         '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-        '<div style="flex:1;min-width:0">'+
-          '<div class="emp-name">'+esc(a.emp.name)+'</div>'+
-          '<div class="emp-role" style="color:'+c+'">'+esc(a.emp.role)+'</div>'+
-          '<div class="timing-row">'+
-            '<span class="timing-label">In:</span>'+
-            leaveTimeSelect("li",a.emp.id,"timeIn",a.timeIn)+
-            '<span class="timing-label">Out:</span>'+
-            leaveTimeSelect("lo",a.emp.id,"timeOut",a.timeOut)+
-          '</div>'+
-        '</div>'+
-        '<button class="rm-btn" onclick="removeLeave(\''+a.emp.id+'\')">✕</button>'+
-      '</div>';
+        '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(a.emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(a.emp.role)+'</div>'+
+        '<div class="duty-row"><span class="duty-label">⏰ Duty:</span>'+
+        mkTimeSelect("lt",a.emp.id,a.dutyTime,"updateLeaveDuty('"+a.emp.id+"',this.value)")+
+        '</div></div>'+
+        '<button class="rm-btn" onclick="removeLeave(\''+a.emp.id+'\')">✕</button></div>';
     }).join("");
   }
 }
 
-// ── Office ────────────────────────────────────────────────────────────────────
 function officeTab(t){
   officeShowTab=t;
-  document.getElementById("otab-avail").style.cssText=t==="avail"?"flex:1;background:#e65100;color:#fff;border-color:#e65100;":"flex:1;color:#e65100;border-color:#e65100;background:transparent;";
-  document.getElementById("otab-marked").style.cssText=t==="marked"?"flex:1;background:#e65100;color:#fff;border-color:#e65100;":"flex:1;color:#e65100;border-color:#e65100;background:transparent;";
+  document.getElementById("otab-avail").style.background=t==="avail"?"#e65100":"transparent";
+  document.getElementById("otab-avail").style.color=t==="avail"?"#fff":"#e65100";
+  document.getElementById("otab-marked").style.background=t==="marked"?"#e65100":"transparent";
+  document.getElementById("otab-marked").style.color=t==="marked"?"#fff":"#e65100";
   renderOffice();
 }
 
 function markOffice(empId){
-  var emp=staff.find(function(e){return e.id===empId;});
-  if(!emp)return;
+  var emp=staff.find(function(e){return e.id===empId;});if(!emp)return;
   Object.keys(assignments).forEach(function(vid){delete assignments[vid][empId];});
   delete onLeave[empId];
-  inOffice[empId]={emp:emp,timeIn:"6:00 AM",timeOut:"6:00 AM"};
-  showToast(emp.name+" marked in office");
-  renderOffice(); renderStats();
+  inOffice[empId]={emp:emp,dutyTime:"6:00 AM"};
+  showToast(emp.name+" in office");renderOffice();renderStats();
 }
-
-function removeOffice(empId){
-  delete inOffice[empId];
-  showToast("Removed from office","warn");
-  renderOffice(); renderStats();
-}
-
-function updateOfficeTiming(empId,field,val){ if(inOffice[empId])inOffice[empId][field]=val; }
+function removeOffice(empId){delete inOffice[empId];showToast("Removed","warn");renderOffice();renderStats();}
+function updateOfficeDuty(empId,val){if(inOffice[empId])inOffice[empId].dutyTime=val;}
 
 function renderOffice(){
   var search=(document.getElementById("office-search")||{}).value||"";
@@ -686,197 +569,220 @@ function renderOffice(){
   var list=document.getElementById("office-list");
   if(officeShowTab==="avail"){
     var avail=staff.filter(function(e){return !inOffice[e.id]&&e.name.toLowerCase().includes(search.toLowerCase());});
-    if(avail.length===0){list.innerHTML='<div class="empty">No available staff.</div>';return;}
+    if(!avail.length){list.innerHTML='<div class="empty">No available staff.</div>';return;}
     list.innerHTML=avail.map(function(emp){
-      var c=catColor(emp.role);
-      var ini=initials(emp.name);
+      var c=catColor(emp.role);var ini=initials(emp.name);
       return '<div class="manage-row">'+
         '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
         '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(emp.role)+'</div></div>'+
-        '<button class="toggle-btn" style="color:#e65100;border-color:#e65100;" onclick="markOffice(\''+emp.id+'\')">Mark</button>'+
-      '</div>';
+        '<button class="toggle-btn" style="color:#e65100;border-color:#e65100;" onclick="markOffice(\''+emp.id+'\')">Mark</button></div>';
     }).join("");
   } else {
     var marked=Object.values(inOffice).filter(function(a){return a.emp.name.toLowerCase().includes(search.toLowerCase());});
-    if(marked.length===0){list.innerHTML='<div class="empty">No staff in office.</div>';return;}
+    if(!marked.length){list.innerHTML='<div class="empty">No staff in office.</div>';return;}
     list.innerHTML=marked.map(function(a){
-      var c=catColor(a.emp.role);
-      var ini=initials(a.emp.name);
+      var c=catColor(a.emp.role);var ini=initials(a.emp.name);
       return '<div class="assigned-card" style="background:#fff8f0;border:1.5px solid #ffe0b2;margin-bottom:8px;">'+
         '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-        '<div style="flex:1;min-width:0">'+
-          '<div class="emp-name">'+esc(a.emp.name)+'</div>'+
-          '<div class="emp-role" style="color:'+c+'">'+esc(a.emp.role)+'</div>'+
-          '<div class="timing-row">'+
-            '<span class="timing-label">In:</span>'+
-            officeTimeSelect("oi",a.emp.id,"timeIn",a.timeIn)+
-            '<span class="timing-label">Out:</span>'+
-            officeTimeSelect("oo",a.emp.id,"timeOut",a.timeOut)+
-          '</div>'+
-        '</div>'+
-        '<button class="rm-btn" onclick="removeOffice(\''+a.emp.id+'\')">✕</button>'+
-      '</div>';
+        '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(a.emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(a.emp.role)+'</div>'+
+        '<div class="duty-row"><span class="duty-label">⏰ Duty:</span>'+
+        mkTimeSelect("ot",a.emp.id,a.dutyTime,"updateOfficeDuty('"+a.emp.id+"',this.value)")+
+        '</div></div>'+
+        '<button class="rm-btn" onclick="removeOffice(\''+a.emp.id+'\')">✕</button></div>';
     }).join("");
   }
 }
 
-// ── PDF / Report ──────────────────────────────────────────────────────────────
 function renderPDF(){
-  var d=getDate();
-  var nd=nextDay(d);
+  var d=getDate();var nd=nextDay(d);
   document.getElementById("pdf-duty-date").textContent="Duty Date: "+fmtDate(nd);
   document.getElementById("pdf-prep-date").textContent="Prepared: "+fmtDate(d);
-  var aIds=getAssignedIds();
-  var lList=Object.values(onLeave);
-  var oList=Object.values(inOffice);
+  var aIds=getAssignedIds();var lList=Object.values(onLeave);var oList=Object.values(inOffice);
   var activeV=venues.filter(function(v){return getVenueTeam(v.id).length>0;});
   document.getElementById("pdf-summary").innerHTML=
     '<div class="summary-row"><span>Total Deployed</span><strong style="color:#1b5e20;font-size:16px">'+aIds.length+'</strong></div>'+
     '<div class="summary-row"><span>Active Venues</span><strong style="color:#1565c0">'+activeV.length+'</strong></div>'+
     '<div class="summary-row"><span>On Leave</span><strong style="color:#c62828">'+lList.length+'</strong></div>'+
     '<div class="summary-row"><span>In Office</span><strong style="color:#e65100">'+oList.length+'</strong></div>';
-
   var html="";
   venues.forEach(function(venue){
-    var team=getVenueTeam(venue.id);
-    if(team.length===0)return;
-    html+='<div class="pdf-venue-card">'+
-      '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;">'+
-        '<span style="font-size:20px;flex-shrink:0;margin-top:2px">🏨</span>'+
-        '<div><div class="pdf-venue-name">'+esc(venue.name)+'</div>'+
-        '<div style="font-size:12px;color:#1565c0;font-weight:600">'+team.length+' staff assigned</div></div>'+
-      '</div>';
+    var team=getVenueTeam(venue.id);if(!team.length)return;
+    html+='<div class="pdf-venue-card"><div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;"><span style="font-size:20px;flex-shrink:0">🏨</span><div><div class="pdf-venue-name">'+esc(venue.name)+'</div><div style="font-size:12px;color:#1565c0;font-weight:600">'+team.length+' staff assigned</div></div></div>';
     team.forEach(function(a,i){
       var c=catColor(a.emp.role);
-      html+='<div class="pdf-row">'+
-        '<span class="pdf-serial">'+(i+1)+'</span>'+
-        '<div style="flex:1;min-width:0">'+
-          '<div style="font-weight:700;color:#111;font-size:13px">'+esc(a.emp.name)+'</div>'+
-          '<span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;border:1px solid '+c+'33">'+esc(a.emp.role)+'</span>'+
-        '</div>'+
-        '<div class="pdf-timing">'+
-          '<div style="font-size:10px;color:#888">Duty Time</div>'+
-          '<div style="font-size:12px;font-weight:700;color:#0d47a1">'+a.timeIn+'</div>'+
-          '<div style="font-size:10px;color:#888">to</div>'+
-          '<div style="font-size:12px;font-weight:700;color:#0d47a1">'+a.timeOut+'</div>'+
-        '</div>'+
-      '</div>';
+      html+='<div class="pdf-row"><span class="pdf-serial">'+(i+1)+'</span>'+
+        '<div style="flex:1;min-width:0"><div style="font-weight:700;color:#111;font-size:13px">'+esc(a.emp.name)+'</div>'+
+        '<span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;border:1px solid '+c+'33">'+esc(a.emp.role)+'</span></div>'+
+        '<div style="font-size:12px;font-weight:700;color:#0d47a1;flex-shrink:0">⏰ '+esc(a.dutyTime)+'</div></div>';
     });
     html+='</div>';
   });
-
-  if(lList.length>0){
-    html+='<div class="pdf-venue-card" style="border-left:4px solid #c62828;">'+
-      '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;"><span style="font-size:20px">🌴</span>'+
-      '<div><div class="pdf-venue-name" style="color:#c62828;">On Leave</div><div style="font-size:12px;color:#c62828;">'+lList.length+' staff</div></div></div>';
-    lList.forEach(function(a,i){
-      var c=catColor(a.emp.role);
-      html+='<div class="pdf-row"><span class="pdf-serial">'+(i+1)+'</span>'+
-        '<div style="flex:1;min-width:0"><div style="font-weight:700;color:#111;font-size:13px">'+esc(a.emp.name)+'</div>'+
-        '<span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;">'+esc(a.emp.role)+'</span></div>'+
-        '<div class="pdf-timing"><div style="font-size:12px;font-weight:700;color:#c62828">'+a.timeIn+'</div>'+
-        '<div style="font-size:10px;color:#888">to</div><div style="font-size:12px;font-weight:700;color:#c62828">'+a.timeOut+'</div></div></div>';
-    });
+  if(lList.length){
+    html+='<div class="pdf-venue-card" style="border-left:4px solid #c62828;"><div style="display:flex;gap:10px;margin-bottom:10px;"><span style="font-size:20px">🌴</span><div><div class="pdf-venue-name" style="color:#c62828;">On Leave</div><div style="font-size:12px;color:#c62828;">'+lList.length+' staff</div></div></div>';
+    lList.forEach(function(a,i){var c=catColor(a.emp.role);html+='<div class="pdf-row"><span class="pdf-serial">'+(i+1)+'</span><div style="flex:1;min-width:0"><div style="font-weight:700;color:#111;font-size:13px">'+esc(a.emp.name)+'</div><span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;">'+esc(a.emp.role)+'</span></div><div style="font-size:12px;font-weight:700;color:#c62828;flex-shrink:0">⏰ '+esc(a.dutyTime)+'</div></div>';});
     html+='</div>';
   }
-
-  if(oList.length>0){
-    html+='<div class="pdf-venue-card" style="border-left:4px solid #e65100;">'+
-      '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;"><span style="font-size:20px">🏢</span>'+
-      '<div><div class="pdf-venue-name" style="color:#e65100;">In Office</div><div style="font-size:12px;color:#e65100;">'+oList.length+' staff</div></div></div>';
-    oList.forEach(function(a,i){
-      var c=catColor(a.emp.role);
-      html+='<div class="pdf-row"><span class="pdf-serial">'+(i+1)+'</span>'+
-        '<div style="flex:1;min-width:0"><div style="font-weight:700;color:#111;font-size:13px">'+esc(a.emp.name)+'</div>'+
-        '<span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;">'+esc(a.emp.role)+'</span></div>'+
-        '<div class="pdf-timing"><div style="font-size:12px;font-weight:700;color:#e65100">'+a.timeIn+'</div>'+
-        '<div style="font-size:10px;color:#888">to</div><div style="font-size:12px;font-weight:700;color:#e65100">'+a.timeOut+'</div></div></div>';
-    });
+  if(oList.length){
+    html+='<div class="pdf-venue-card" style="border-left:4px solid #e65100;"><div style="display:flex;gap:10px;margin-bottom:10px;"><span style="font-size:20px">🏢</span><div><div class="pdf-venue-name" style="color:#e65100;">In Office</div><div style="font-size:12px;color:#e65100;">'+oList.length+' staff</div></div></div>';
+    oList.forEach(function(a,i){var c=catColor(a.emp.role);html+='<div class="pdf-row"><span class="pdf-serial">'+(i+1)+'</span><div style="flex:1;min-width:0"><div style="font-weight:700;color:#111;font-size:13px">'+esc(a.emp.name)+'</div><span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;">'+esc(a.emp.role)+'</span></div><div style="font-size:12px;font-weight:700;color:#e65100;flex-shrink:0">⏰ '+esc(a.dutyTime)+'</div></div>';});
     html+='</div>';
   }
-
-  if(activeV.length===0&&lList.length===0&&oList.length===0){
-    html='<div class="empty">No staff deployed yet.</div>';
-  }
+  if(!activeV.length&&!lList.length&&!oList.length)html='<div class="empty">No staff deployed yet.</div>';
   document.getElementById("pdf-venue-list").innerHTML=html;
 }
 
-function downloadReport(){
-  var d=getDate(); var nd=nextDay(d);
+function downloadPDF(){
+  var d=getDate();var nd=nextDay(d);
   var aIds=getAssignedIds();
-  var lList=Object.values(onLeave); var oList=Object.values(inOffice);
-  var lines=["GROVER AUDIO SERVICES","Staff Duty Deployment Report",
-    "Duty Date: "+fmtDate(nd),"Prepared: "+fmtDate(d),
-    "================================================",
-    "TOTAL DEPLOYED: "+aIds.length+" | LEAVE: "+lList.length+" | OFFICE: "+oList.length,
-    "================================================"];
-  var vc=0;
-  venues.forEach(function(venue){
-    var team=getVenueTeam(venue.id);
-    if(!team.length)return;
-    vc++;
-    lines.push("","VENUE "+vc+": "+venue.name,"Total Staff: "+team.length,"------------------------------------------------");
-    team.forEach(function(a,i){lines.push((i+1)+". "+a.emp.name+" | "+a.emp.role+" | Duty: "+a.timeIn+" to "+a.timeOut);});
-  });
-  if(lList.length){lines.push("","ON LEAVE","------------------------------------------------");lList.forEach(function(a,i){lines.push((i+1)+". "+a.emp.name+" | "+a.emp.role+" | "+a.timeIn+" to "+a.timeOut);});}
-  if(oList.length){lines.push("","IN OFFICE","------------------------------------------------");oList.forEach(function(a,i){lines.push((i+1)+". "+a.emp.name+" | "+a.emp.role+" | "+a.timeIn+" to "+a.timeOut);});}
-  lines.push("","================================================","Generated by Grover Audio Services");
-  var blob=new Blob([lines.join("\n")],{type:"text/plain"});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement("a");a.href=url;a.download="GAS_Duty_"+nd+".txt";a.click();
-  URL.revokeObjectURL(url);
-  showToast("Report downloaded!");
+  var lList=Object.values(onLeave);var oList=Object.values(inOffice);
+  var activeV=venues.filter(function(v){return getVenueTeam(v.id).length>0;});
+
+  try{
+    var doc=new window.jspdf.jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+    var pageW=210;var margin=14;var y=margin;var lineH=7;
+
+    function checkPage(needed){if(y+needed>285){doc.addPage();y=margin;}}
+
+    // Header
+    doc.setFillColor(21,101,192);doc.rect(0,0,pageW,28,\"F\");
+    doc.setTextColor(255,255,255);doc.setFontSize(18);doc.setFont(\"helvetica\",\"bold\");
+    doc.text(\"GROVER AUDIO SERVICES\",pageW/2,12,{align:\"center\"});
+    doc.setFontSize(10);doc.setFont(\"helvetica\",\"normal\");
+    doc.text(\"Staff Duty Deployment Report\",pageW/2,20,{align:\"center\"});
+    y=36;
+
+    // Dates
+    doc.setTextColor(13,71,161);doc.setFontSize(11);doc.setFont(\"helvetica\",\"bold\");
+    doc.text(\"Duty Date: \"+fmtDate(nd),margin,y);
+    doc.setFont(\"helvetica\",\"normal\");doc.setFontSize(9);doc.setTextColor(100,100,100);
+    doc.text(\"Prepared: \"+fmtDate(d),margin,y+6);
+    y+=16;
+
+    // Summary box
+    doc.setFillColor(240,244,255);doc.roundedRect(margin,y,pageW-margin*2,22,3,3,\"F\");
+    doc.setDrawColor(187,222,251);doc.roundedRect(margin,y,pageW-margin*2,22,3,3,\"S\");
+    doc.setFontSize(9);doc.setTextColor(50,50,50);doc.setFont(\"helvetica\",\"normal\");
+    var cols=[margin+4,62,105,148];
+    var lbls=[\"Total Deployed\",\"Active Venues\",\"On Leave\",\"In Office\"];
+    var vals=[aIds.length,activeV.length,lList.length,oList.length];
+    var vcolors=[[27,94,32],[21,101,192],[198,40,40],[230,81,0]];
+    lbls.forEach(function(l,i){
+      doc.setTextColor(100,100,100);doc.setFontSize(7);doc.text(l,cols[i],y+8);
+      doc.setFontSize(13);doc.setFont(\"helvetica\",\"bold\");
+      doc.setTextColor(vcolors[i][0],vcolors[i][1],vcolors[i][2]);
+      doc.text(String(vals[i]),cols[i],y+18);
+    });
+    y+=30;
+
+    // Venues
+    var vc=0;
+    venues.forEach(function(venue){
+      var team=getVenueTeam(venue.id);if(!team.length)return;vc++;
+      checkPage(24);
+      doc.setFillColor(21,101,192);doc.roundedRect(margin,y,pageW-margin*2,10,2,2,\"F\");
+      doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont(\"helvetica\",\"bold\");
+      doc.text(\"V\"+vc+\"  \"+venue.name,margin+3,y+7);
+      doc.text(team.length+\" staff\",pageW-margin-3,y+7,{align:\"right\"});
+      y+=12;
+      // Table header
+      doc.setFillColor(227,234,255);doc.rect(margin,y,pageW-margin*2,6,\"F\");
+      doc.setTextColor(13,71,161);doc.setFontSize(7);doc.setFont(\"helvetica\",\"bold\");
+      doc.text(\"#\",margin+2,y+4.5);doc.text(\"Name\",margin+10,y+4.5);
+      doc.text(\"Role\",margin+80,y+4.5);doc.text(\"Duty Time\",pageW-margin-3,y+4.5,{align:\"right\"});
+      y+=7;
+      team.forEach(function(a,i){
+        checkPage(7);
+        if(i%2===0){doc.setFillColor(248,250,255);doc.rect(margin,y,pageW-margin*2,6.5,\"F\");}
+        doc.setTextColor(50,50,50);doc.setFontSize(8);doc.setFont(\"helvetica\",\"normal\");
+        doc.text(String(i+1),margin+2,y+4.5);
+        doc.setFont(\"helvetica\",\"bold\");doc.text(a.emp.name,margin+10,y+4.5);
+        doc.setFont(\"helvetica\",\"normal\");doc.setFontSize(7);doc.setTextColor(100,100,100);
+        doc.text(a.emp.role,margin+80,y+4.5);
+        doc.setTextColor(13,71,161);doc.setFont(\"helvetica\",\"bold\");doc.setFontSize(8);
+        doc.text(a.dutyTime,pageW-margin-3,y+4.5,{align:\"right\"});
+        y+=6.5;
+      });
+      y+=4;
+    });
+
+    // Leave
+    if(lList.length){
+      checkPage(20);
+      doc.setFillColor(198,40,40);doc.roundedRect(margin,y,pageW-margin*2,10,2,2,\"F\");
+      doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont(\"helvetica\",\"bold\");
+      doc.text(\"ON LEAVE — \"+lList.length+\" staff\",margin+3,y+7);y+=12;
+      lList.forEach(function(a,i){
+        checkPage(7);
+        if(i%2===0){doc.setFillColor(255,245,245);doc.rect(margin,y,pageW-margin*2,6.5,\"F\");}
+        doc.setTextColor(50,50,50);doc.setFontSize(8);doc.setFont(\"helvetica\",\"normal\");
+        doc.text(String(i+1),margin+2,y+4.5);
+        doc.setFont(\"helvetica\",\"bold\");doc.text(a.emp.name,margin+10,y+4.5);
+        doc.setFont(\"helvetica\",\"normal\");doc.setFontSize(7);doc.setTextColor(100,100,100);doc.text(a.emp.role,margin+80,y+4.5);
+        doc.setTextColor(198,40,40);doc.setFont(\"helvetica\",\"bold\");doc.setFontSize(8);
+        doc.text(a.dutyTime,pageW-margin-3,y+4.5,{align:\"right\"});y+=6.5;
+      });y+=4;
+    }
+
+    // Office
+    if(oList.length){
+      checkPage(20);
+      doc.setFillColor(230,81,0);doc.roundedRect(margin,y,pageW-margin*2,10,2,2,\"F\");
+      doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont(\"helvetica\",\"bold\");
+      doc.text(\"IN OFFICE — \"+oList.length+\" staff\",margin+3,y+7);y+=12;
+      oList.forEach(function(a,i){
+        checkPage(7);
+        if(i%2===0){doc.setFillColor(255,248,240);doc.rect(margin,y,pageW-margin*2,6.5,\"F\");}
+        doc.setTextColor(50,50,50);doc.setFontSize(8);doc.setFont(\"helvetica\",\"normal\");
+        doc.text(String(i+1),margin+2,y+4.5);
+        doc.setFont(\"helvetica\",\"bold\");doc.text(a.emp.name,margin+10,y+4.5);
+        doc.setFont(\"helvetica\",\"normal\");doc.setFontSize(7);doc.setTextColor(100,100,100);doc.text(a.emp.role,margin+80,y+4.5);
+        doc.setTextColor(230,81,0);doc.setFont(\"helvetica\",\"bold\");doc.setFontSize(8);
+        doc.text(a.dutyTime,pageW-margin-3,y+4.5,{align:\"right\"});y+=6.5;
+      });y+=4;
+    }
+
+    // Footer
+    var pageCount=doc.internal.getNumberOfPages();
+    for(var p=1;p<=pageCount;p++){
+      doc.setPage(p);
+      doc.setFillColor(240,244,255);doc.rect(0,287,pageW,10,\"F\");
+      doc.setFontSize(7);doc.setTextColor(100,100,100);doc.setFont(\"helvetica\",\"normal\");
+      doc.text(\"Grover Audio Services | Generated: \"+fmtDate(d),margin,293);
+      doc.text(\"Page \"+p+\" of \"+pageCount,pageW-margin,293,{align:\"right\"});
+    }
+
+    doc.save(\"GAS_Duty_\"+nd+\".pdf\");
+    showToast(\"PDF downloaded!\");
+  } catch(err){
+    showToast(\"PDF error: \"+err.message,\"err\");
+    console.error(err);
+  }
 }
 
-// ── Time Select Helpers ───────────────────────────────────────────────────────
-function timeSelect(prefix,empId,venueId,field,current){
-  var id=prefix+"_"+empId;
-  var opts=TIME_SLOTS.map(function(t){return'<option'+(t===current?' selected':'')+'>'+t+'</option>';}).join("");
-  return '<select class="time-select" id="'+id+'" onchange="updateVenueTiming(\''+empId+'\',\''+venueId+'\',\''+field+'\',this.value)">'+opts+'</select>';
-}
-function leaveTimeSelect(prefix,empId,field,current){
-  var opts=TIME_SLOTS.map(function(t){return'<option'+(t===current?' selected':'')+'>'+t+'</option>';}).join("");
-  return '<select class="time-select" onchange="updateLeaveTiming(\''+empId+'\',\''+field+'\',this.value)">'+opts+'</select>';
-}
-function officeTimeSelect(prefix,empId,field,current){
-  var opts=TIME_SLOTS.map(function(t){return'<option'+(t===current?' selected':'')+'>'+t+'</option>';}).join("");
-  return '<select class="time-select" onchange="updateOfficeTiming(\''+empId+'\',\''+field+'\',this.value)">'+opts+'</select>';
-}
-
-// ── Touch Drag & Drop ─────────────────────────────────────────────────────────
-var dragEmpId=null, ghostEl=null;
+// Touch drag
+var dragEmpId=null,ghostEl=null;
 function touchStart(e,empId){
-  dragEmpId=empId;
-  var t=e.touches[0];
-  var emp=staff.find(function(x){return x.id===empId;});
-  if(!emp)return;
-  var c=catColor(emp.role);
-  var ini=initials(emp.name);
-  ghostEl=document.createElement("div");
-  ghostEl.className="ghost";
-  ghostEl.style.left=(t.clientX-110)+"px";
-  ghostEl.style.top=(t.clientY-30)+"px";
+  dragEmpId=empId;var t=e.touches[0];
+  var emp=staff.find(function(x){return x.id===empId;});if(!emp)return;
+  var c=catColor(emp.role);var ini=initials(emp.name);
+  ghostEl=document.createElement("div");ghostEl.className="ghost";
+  ghostEl.style.left=(t.clientX-110)+"px";ghostEl.style.top=(t.clientY-30)+"px";
   ghostEl.innerHTML='<div style="background:#fff;border:2px solid '+c+';border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px rgba(0,0,0,0.18);font-family:sans-serif">'+
     '<div style="width:32px;height:32px;border-radius:7px;background:'+c+'22;color:'+c+';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px">'+ini+'</div>'+
     '<div><div style="font-size:13px;font-weight:700;color:#111">'+esc(emp.name)+'</div><div style="font-size:10px;color:'+c+'">'+esc(emp.role)+'</div></div></div>';
   document.body.appendChild(ghostEl);
-  if(navigator.vibrate)navigator.vibrate(30);
-  e.stopPropagation();
+  if(navigator.vibrate)navigator.vibrate(30);e.stopPropagation();
 }
 document.addEventListener("touchmove",function(e){
-  if(!dragEmpId||!ghostEl)return;
-  e.preventDefault();
+  if(!dragEmpId||!ghostEl)return;e.preventDefault();
   var t=e.touches[0];
-  ghostEl.style.left=(t.clientX-110)+"px";
-  ghostEl.style.top=(t.clientY-30)+"px";
+  ghostEl.style.left=(t.clientX-110)+"px";ghostEl.style.top=(t.clientY-30)+"px";
   var dz=document.getElementById("main-drop-zone");
   if(dz){var r=dz.getBoundingClientRect();dz.classList.toggle("over",t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom);}
 },{passive:false});
 document.addEventListener("touchend",function(e){
   if(!dragEmpId){if(ghostEl){try{document.body.removeChild(ghostEl);}catch(x){}ghostEl=null;}return;}
-  var t=e.changedTouches[0];
-  var dz=document.getElementById("main-drop-zone");
-  var dropped=false;
+  var t=e.changedTouches[0];var dz=document.getElementById("main-drop-zone");var dropped=false;
   if(dz){var r=dz.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom){assignEmp(dragEmpId);dropped=true;}}
   if(dz)dz.classList.remove("over");
   if(ghostEl){try{document.body.removeChild(ghostEl);}catch(x){}ghostEl=null;}
@@ -884,12 +790,7 @@ document.addEventListener("touchend",function(e){
   dragEmpId=null;
 });
 
-// ── Utils ─────────────────────────────────────────────────────────────────────
-function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-
-// ── Init ──────────────────────────────────────────────────────────────────────
-renderStats();
-renderVenues();
+renderStats();renderVenues();
 </script>
 </body>
 </html>
