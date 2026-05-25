@@ -9,15 +9,13 @@
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
     body{background:#f0f4ff;font-family:'Segoe UI',Arial,sans-serif;overscroll-behavior:none;color:#111;}
     input,select,button{font-family:inherit;}
-    ::-webkit-scrollbar{width:3px;}
-    ::-webkit-scrollbar-thumb{background:#bbdefb;border-radius:2px;}
     .hidden{display:none!important;}
-    .screen{display:none;padding:12px 14px 60px;}
+    .screen{display:none;padding:12px 14px 80px;}
     .screen.active{display:block;}
     .header{background:#fff;border-bottom:2px solid #bbdefb;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(21,101,192,0.09);}
     .header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;}
     .logo{display:flex;align-items:center;gap:10px;}
-    .logo-name{font-size:15px;font-weight:800;color:#0d47a1;line-height:1.2;}
+    .logo-name{font-size:15px;font-weight:800;color:#0d47a1;}
     .logo-sub{font-size:9px;color:#1565c0;letter-spacing:0.1em;text-transform:uppercase;margin-top:1px;}
     .stats-bar{display:flex;gap:6px;padding:0 12px 10px;overflow-x:auto;}
     .stat-chip{background:#fff;border-radius:10px;padding:5px 10px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:52px;}
@@ -26,771 +24,771 @@
     .nav-tabs{display:flex;border-top:1px solid #e3eaff;}
     .nav-btn{flex:1;background:transparent;border:none;color:#555;padding:8px 2px;font-size:10px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;border-bottom:3px solid transparent;}
     .nav-btn.active{background:#1565c0;color:#fff;border-bottom:3px solid #0d47a1;}
-    .nav-btn .icon{font-size:16px;}
     .sbar{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:10px;color:#111;padding:10px 14px;font-size:14px;outline:none;display:block;margin-bottom:10px;}
-    .drag-tip{background:#e3f2fd;border:1px solid #90caf9;border-radius:8px;padding:7px 12px;font-size:11px;color:#1565c0;margin-bottom:12px;}
-    .vcard{background:#fff;border:1.5px solid #e3eaff;border-radius:14px;margin-bottom:10px;overflow:hidden;cursor:pointer;box-shadow:0 1px 4px rgba(21,101,192,0.06);}
-    .vcard-top{display:flex;align-items:center;padding:13px 14px 8px;gap:10px;}
+    .vcard{background:#fff;border:1.5px solid #e3eaff;border-radius:14px;margin-bottom:10px;overflow:hidden;cursor:pointer;}
+    .vcard-top{display:flex;align-items:center;padding:13px 14px 10px;gap:10px;}
     .vnum{font-weight:800;font-size:11px;color:#1565c0;background:#e3eaff;border-radius:6px;padding:3px 8px;flex-shrink:0;}
     .vname{font-size:13px;font-weight:700;color:#0d47a1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
     .vmeta{font-size:11px;color:#555;margin-top:2px;}
-    .assigned-dot{background:#1565c0;color:#fff;border-radius:12px;padding:2px 9px;font-size:11px;font-weight:700;}
-    .preview-row{display:flex;flex-wrap:wrap;gap:5px;padding:4px 14px 12px;}
-    .preview-chip{font-size:11px;border-radius:5px;padding:2px 7px;}
     .section{background:#fff;border-radius:12px;border:1.5px solid #e3eaff;margin-bottom:12px;padding:12px;}
-    .section-title{font-size:10px;font-weight:800;color:#1565c0;letter-spacing:0.1em;margin-bottom:10px;border-bottom:1px solid #e3eaff;padding-bottom:6px;}
-    .assigned-card{display:flex;align-items:center;gap:10px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;}
-    .staff-row{display:flex;align-items:center;gap:10px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;}
-    .emp-avatar{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
-    .emp-name{font-size:14px;font-weight:700;color:#111;margin-bottom:2px;}
-    .emp-role{font-size:11px;font-weight:600;}
-    .duty-row{display:flex;align-items:center;gap:6px;margin-top:6px;}
-    .duty-label{font-size:10px;color:#888;font-weight:700;}
-    .time-select{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:7px;color:#0d47a1;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer;}
-    .rm-btn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:7px;width:30px;height:30px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .add-btn{background:#e3f2fd;border:1.5px solid #90caf9;color:#1565c0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:12px;font-weight:700;flex-shrink:0;white-space:nowrap;}
+    .sec-title{font-size:10px;font-weight:800;color:#1565c0;letter-spacing:0.1em;margin-bottom:10px;border-bottom:1px solid #e3eaff;padding-bottom:6px;}
+    .acard{display:flex;align-items:center;gap:10px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;}
+    .srow{display:flex;align-items:center;gap:10px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer;touch-action:none;}
+    .avatar{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+    .ename{font-size:14px;font-weight:700;color:#111;margin-bottom:2px;}
+    .erole{font-size:11px;font-weight:600;}
+    .drow{display:flex;align-items:center;gap:6px;margin-top:6px;}
+    .dlabel{font-size:10px;color:#888;font-weight:700;}
+    .tsel{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:7px;color:#0d47a1;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer;}
+    .rmbtn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:7px;width:30px;height:30px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .addbtn{background:#e3f2fd;border:1.5px solid #90caf9;color:#1565c0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:12px;font-weight:700;flex-shrink:0;white-space:nowrap;}
     .empty{text-align:center;color:#bbb;font-size:13px;padding:30px 20px;}
-    .empty-state{text-align:center;padding:50px 20px;color:#888;}
-    .empty-state .ei{font-size:40px;margin-bottom:12px;}
-    .empty-state .et{font-size:15px;font-weight:700;color:#1565c0;margin-bottom:6px;}
-    .detail-header{display:flex;align-items:flex-start;gap:10px;background:#fff;padding:12px 14px;border-bottom:1.5px solid #e3eaff;}
-    .back-btn{background:#e3eaff;border:none;color:#1565c0;border-radius:8px;padding:7px 14px;font-size:14px;cursor:pointer;font-weight:600;flex-shrink:0;}
-    .detail-title{font-size:14px;font-weight:800;color:#0d47a1;line-height:1.3;}
-    .detail-meta{font-size:11px;color:#1565c0;margin-top:2px;}
-    .clear-btn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:8px;padding:7px 12px;font-size:12px;cursor:pointer;font-weight:600;flex-shrink:0;}
-    .drop-zone{margin:10px 0;background:#e8f5e9;border:2px dashed #66bb6a;border-radius:12px;padding:11px 16px;color:#1b5e20;font-size:13px;font-weight:600;text-align:center;transition:all 0.2s;}
-    .drop-zone.over{background:#c8e6c9;border-color:#2e7d32;}
-    .role-filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:4px;}
-    .role-pill{background:#f0f4ff;color:#1565c0;border:1px solid #bbdefb;border-radius:20px;padding:6px 13px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0;cursor:pointer;}
-    .add-box{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:12px;padding:14px;margin-bottom:14px;}
-    .add-box-title{font-size:12px;font-weight:800;color:#1565c0;margin-bottom:10px;}
-    .input-field{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:8px;display:block;}
-    .select-field{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:8px;color:#0d47a1;padding:10px 12px;font-size:14px;outline:none;margin-bottom:8px;display:block;}
-    .add-big-btn{width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:12px 0;font-size:14px;font-weight:700;cursor:pointer;}
-    .manage-row{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;}
-    .delete-btn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:7px;width:34px;height:34px;cursor:pointer;font-size:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-    .sub-tabs{display:flex;border-bottom:2px solid #e3eaff;margin-bottom:14px;}
-    .sub-tab{flex:1;background:transparent;border:none;color:#555;padding:10px 4px;font-size:11px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
-    .sub-tab.active{color:#fff;background:#1565c0;border-bottom:2px solid #0d47a1;}
-    .leave-header{display:flex;align-items:center;gap:14px;border-radius:12px;padding:14px;margin-bottom:14px;border:1.5px solid;}
-    .leave-title{font-size:18px;font-weight:800;}
-    .toggle-btn{border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:700;border:1.5px solid;background:transparent;flex-shrink:0;}
-    .pdf-header{background:#fff;border:1.5px solid #e3eaff;border-radius:14px;padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;border-left:5px solid #1565c0;}
-    .pdf-title{font-size:18px;font-weight:800;color:#0d47a1;}
-    .summary-box{background:#fff;border:1.5px solid #e3eaff;border-radius:12px;padding:14px;margin-bottom:14px;}
-    .summary-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:7px 0;border-bottom:1px solid #f0f4ff;}
-    .pdf-venue-card{background:#fff;border:1.5px solid #e3eaff;border-left:4px solid #1565c0;border-radius:12px;padding:14px;margin-bottom:12px;}
-    .pdf-venue-name{font-size:15px;font-weight:800;color:#0d47a1;}
-    .pdf-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0f4ff;}
-    .pdf-serial{color:#bbb;font-size:11px;width:20px;flex-shrink:0;font-weight:700;}
-    .pdf-btn{display:block;width:100%;background:#1565c0;border:none;color:#fff;border-radius:12px;padding:15px 0;font-size:16px;font-weight:800;cursor:pointer;margin-top:16px;margin-bottom:20px;}
-    .toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);padding:10px 22px;border-radius:24px;color:#fff;font-weight:700;font-size:13px;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:none;}
-    .ghost{position:fixed;z-index:9999;pointer-events:none;opacity:0.95;}
+    .dheader{display:flex;align-items:flex-start;gap:10px;background:#fff;padding:12px 14px;border-bottom:1.5px solid #e3eaff;}
+    .bbtn{background:#e3eaff;border:none;color:#1565c0;border-radius:8px;padding:7px 14px;font-size:14px;cursor:pointer;font-weight:600;flex-shrink:0;}
+    .cbtn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:8px;padding:7px 12px;font-size:12px;cursor:pointer;font-weight:600;flex-shrink:0;}
+    .dropz{margin:10px 0;background:#e8f5e9;border:2px dashed #66bb6a;border-radius:12px;padding:11px 16px;color:#1b5e20;font-size:13px;font-weight:600;text-align:center;}
+    .rfilters{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:4px;}
+    .rpill{background:#f0f4ff;color:#1565c0;border:1px solid #bbdefb;border-radius:20px;padding:6px 13px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0;cursor:pointer;}
+    .addbox{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:12px;padding:14px;margin-bottom:14px;}
+    .abtitle{font-size:12px;font-weight:800;color:#1565c0;margin-bottom:10px;}
+    .ifield{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:8px;display:block;}
+    .sfield{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:8px;color:#0d47a1;padding:10px 12px;font-size:14px;outline:none;margin-bottom:8px;display:block;}
+    .abigbtn{width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:12px 0;font-size:14px;font-weight:700;cursor:pointer;}
+    .mrow{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #e3eaff;border-radius:10px;padding:10px;margin-bottom:8px;}
+    .delbtn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:7px;width:34px;height:34px;cursor:pointer;font-size:16px;flex-shrink:0;}
+    .stabs{display:flex;border-bottom:2px solid #e3eaff;margin-bottom:14px;}
+    .stab{flex:1;background:transparent;border:none;color:#555;padding:10px 4px;font-size:11px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
+    .stab.active{color:#fff;background:#1565c0;border-bottom:2px solid #0d47a1;}
+    .lhdr{display:flex;align-items:center;gap:14px;border-radius:12px;padding:14px;margin-bottom:14px;border:1.5px solid;}
+    .ltitle{font-size:18px;font-weight:800;}
+    .togbtn{border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:700;border:1.5px solid;flex-shrink:0;}
+    .phdr{background:#fff;border:1.5px solid #e3eaff;border-radius:14px;padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;border-left:5px solid #1565c0;}
+    .ptitle{font-size:18px;font-weight:800;color:#0d47a1;}
+    .sbox{background:#fff;border:1.5px solid #e3eaff;border-radius:12px;padding:14px;margin-bottom:14px;}
+    .srow2{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:7px 0;border-bottom:1px solid #f0f4ff;}
+    .pvcard{background:#fff;border:1.5px solid #e3eaff;border-left:4px solid #1565c0;border-radius:12px;padding:14px;margin-bottom:12px;}
+    .pvname{font-size:15px;font-weight:800;color:#0d47a1;}
+    .prow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;}
+    .pserial{color:#bbb;font-size:11px;width:20px;flex-shrink:0;font-weight:700;}
+    .pdfbtn{display:block;width:100%;background:#1565c0;border:none;color:#fff;border-radius:12px;padding:15px 0;font-size:16px;font-weight:800;cursor:pointer;margin-top:16px;margin-bottom:20px;}
+    .toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);padding:10px 22px;border-radius:24px;color:#fff;font-weight:700;font-size:13px;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.2);display:none;}
+    .ghost{position:fixed;z-index:9999;pointer-events:none;}
   </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
-
 <div class="header">
   <div class="header-inner">
     <div class="logo">
-      <span style="font-size:26px">🎵</span>
-      <div>
-        <div class="logo-name">Grover Audio Services</div>
-        <div class="logo-sub">Staff Deployment System</div>
-      </div>
+      <span style="font-size:24px">🎵</span>
+      <div><div class="logo-name">Grover Audio Services</div><div class="logo-sub">Staff Deployment System</div></div>
     </div>
-    <input type="date" id="date-input" style="background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#0d47a1;padding:7px 10px;font-size:12px;outline:none;font-weight:600;"/>
+    <input type="date" id="datepicker" style="background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#0d47a1;padding:7px 8px;font-size:12px;outline:none;font-weight:600;"/>
   </div>
-  <div class="stats-bar" id="stats-bar"></div>
+  <div class="stats-bar" id="statsbar"></div>
   <div class="nav-tabs">
-    <button class="nav-btn active" onclick="goScreen('venues')" id="nav-venues"><span class="icon">🏨</span>Venues</button>
-    <button class="nav-btn" onclick="goScreen('manage')" id="nav-manage"><span class="icon">⚙️</span>Manage</button>
-    <button class="nav-btn" onclick="goScreen('leave')" id="nav-leave"><span class="icon">🌴</span>Leave</button>
-    <button class="nav-btn" onclick="goScreen('office')" id="nav-office"><span class="icon">🏢</span>Office</button>
-    <button class="nav-btn" onclick="goScreen('pdf')" id="nav-pdf"><span class="icon">📄</span>Report</button>
+    <button class="nav-btn active" id="nav-venues" onclick="gotoScreen('venues')"><span>🏨</span><span>Venues</span></button>
+    <button class="nav-btn" id="nav-manage" onclick="gotoScreen('manage')"><span>⚙️</span><span>Manage</span></button>
+    <button class="nav-btn" id="nav-leave" onclick="gotoScreen('leave')"><span>🌴</span><span>Leave</span></button>
+    <button class="nav-btn" id="nav-office" onclick="gotoScreen('office')"><span>🏢</span><span>Office</span></button>
+    <button class="nav-btn" id="nav-pdf" onclick="gotoScreen('pdf')"><span>📄</span><span>Report</span></button>
   </div>
 </div>
 
 <div class="screen active" id="screen-venues">
-  <input class="sbar" placeholder="Search venues..." oninput="renderVenues()" id="venue-search"/>
-  <div class="drag-tip">☝️ Tap a venue to open and assign staff</div>
-  <div id="venues-list"></div>
+  <input class="sbar" id="vsearch" placeholder="Search venues..." oninput="drawVenues()"/>
+  <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:8px;padding:7px 12px;font-size:11px;color:#1565c0;margin-bottom:12px;">☝️ Tap a venue to open and assign staff</div>
+  <div id="vlist"></div>
 </div>
 
-<div class="screen" id="screen-venueDetail">
-  <div class="detail-header">
-    <button class="back-btn" onclick="goScreen('venues')">‹ Back</button>
-    <div style="flex:1;min-width:0;">
-      <div class="detail-title" id="detail-title"></div>
-      <div class="detail-meta" id="detail-meta"></div>
-    </div>
-    <button class="clear-btn" id="clear-venue-btn" onclick="clearActiveVenue()">Clear All</button>
+<div class="screen" id="screen-detail">
+  <div class="dheader">
+    <button class="bbtn" onclick="gotoScreen('venues')">‹ Back</button>
+    <div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:800;color:#0d47a1;line-height:1.3;" id="dtitle"></div><div style="font-size:11px;color:#1565c0;margin-top:2px;" id="dmeta"></div></div>
+    <button class="cbtn" id="clearbtn" onclick="clearVenue()">Clear All</button>
   </div>
   <div style="padding:0 0 0 0;">
-    <div class="drop-zone" id="main-drop-zone">⬇ Drop staff here or tap "+ Add" below</div>
-    <div id="assigned-section"></div>
+    <div class="dropz" id="dropzone">⬇ Drop staff here or use "+ Add" button</div>
+    <div id="asection"></div>
     <div class="section">
-      <div class="section-title">ADD STAFF TO THIS VENUE</div>
-      <input class="sbar" placeholder="Search staff..." oninput="renderAddStaff()" id="add-staff-search"/>
-      <div class="role-filters" id="role-filters"></div>
-      <div id="add-staff-list"></div>
+      <div class="sec-title">ADD STAFF</div>
+      <input class="sbar" id="asearch" placeholder="Search staff..." oninput="drawAddStaff()"/>
+      <div class="rfilters" id="rfilters"></div>
+      <div id="alist"></div>
     </div>
   </div>
 </div>
 
 <div class="screen" id="screen-manage">
-  <div class="sub-tabs">
-    <button class="sub-tab active" onclick="manageTab('staff')" id="mtab-staff">👥 Staff</button>
-    <button class="sub-tab" onclick="manageTab('venues')" id="mtab-venues">🏨 Venues</button>
-    <button class="sub-tab" onclick="manageTab('cats')" id="mtab-cats">🏷️ Roles</button>
+  <div class="stabs">
+    <button class="stab active" id="mt-staff" onclick="mtab('staff')">👥 Staff</button>
+    <button class="stab" id="mt-venues" onclick="mtab('venues')">🏨 Venues</button>
+    <button class="stab" id="mt-roles" onclick="mtab('roles')">🏷️ Roles</button>
   </div>
-  <div id="manage-staff-panel">
-    <div class="add-box">
-      <div class="add-box-title">➕ Add New Staff Member</div>
-      <input class="input-field" placeholder="Full Name" id="new-staff-name"/>
-      <select class="select-field" id="new-staff-role"></select>
-      <button class="add-big-btn" onclick="addStaff()">+ Add Staff Member</button>
+  <div id="mp-staff">
+    <div class="addbox"><div class="abtitle">➕ Add New Staff</div>
+      <input class="ifield" id="ns-name" placeholder="Full Name"/>
+      <select class="sfield" id="ns-role"></select>
+      <button class="abigbtn" onclick="doAddStaff()">+ Add Staff Member</button>
     </div>
-    <input class="sbar" placeholder="Search staff..." oninput="renderManageStaff()" id="manage-staff-search"/>
-    <div id="manage-staff-list"></div>
+    <input class="sbar" id="ms-search" placeholder="Search staff..." oninput="drawManageStaff()"/>
+    <div id="ms-list"></div>
   </div>
-  <div id="manage-venues-panel" class="hidden">
-    <div class="add-box">
-      <div class="add-box-title">➕ Add New Venue</div>
-      <input class="input-field" placeholder="Venue Name" id="new-venue-name"/>
-      <button class="add-big-btn" onclick="addVenue()">+ Add Venue</button>
+  <div id="mp-venues" class="hidden">
+    <div class="addbox"><div class="abtitle">➕ Add New Venue</div>
+      <input class="ifield" id="nv-name" placeholder="Venue Name"/>
+      <button class="abigbtn" onclick="doAddVenue()">+ Add Venue</button>
     </div>
-    <input class="sbar" placeholder="Search venues..." oninput="renderManageVenues()" id="manage-venue-search"/>
-    <div id="manage-venues-list"></div>
+    <input class="sbar" id="mv-search" placeholder="Search venues..." oninput="drawManageVenues()"/>
+    <div id="mv-list"></div>
   </div>
-  <div id="manage-cats-panel" class="hidden">
-    <div class="add-box">
-      <div class="add-box-title">➕ Add New Role / Category</div>
-      <input class="input-field" placeholder="e.g. Sound Technician, Rigger..." id="new-cat-name"/>
-      <button class="add-big-btn" onclick="addCategory()">+ Add Category</button>
+  <div id="mp-roles" class="hidden">
+    <div class="addbox"><div class="abtitle">➕ Add New Role</div>
+      <input class="ifield" id="nr-name" placeholder="e.g. Sound Technician"/>
+      <button class="abigbtn" onclick="doAddRole()">+ Add Role</button>
     </div>
-    <div id="manage-cats-list"></div>
+    <div id="mr-list"></div>
   </div>
 </div>
 
 <div class="screen" id="screen-leave">
-  <div class="leave-header" style="background:#fff5f5;border-color:#ffcdd2;">
-    <span style="font-size:30px">🌴</span>
-    <div><div class="leave-title" style="color:#c62828;">On Leave</div><div style="font-size:13px;color:#555;" id="leave-count">0 staff</div></div>
-  </div>
+  <div class="lhdr" style="background:#fff5f5;border-color:#ffcdd2;"><span style="font-size:28px">🌴</span><div><div class="ltitle" style="color:#c62828;">On Leave</div><div style="font-size:13px;color:#666;" id="lcount">0 staff</div></div></div>
   <div style="display:flex;gap:8px;margin-bottom:10px;">
-    <button onclick="leaveTab('avail')" id="ltab-avail" style="flex:1;background:#c62828;color:#fff;border:1.5px solid #c62828;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;">Available</button>
-    <button onclick="leaveTab('marked')" id="ltab-marked" style="flex:1;background:transparent;color:#c62828;border:1.5px solid #c62828;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;">Marked</button>
+    <button id="ltab-a" onclick="ltab('a')" style="flex:1;padding:9px;border-radius:8px;border:1.5px solid #c62828;background:#c62828;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">Available</button>
+    <button id="ltab-m" onclick="ltab('m')" style="flex:1;padding:9px;border-radius:8px;border:1.5px solid #c62828;background:transparent;color:#c62828;font-size:12px;font-weight:700;cursor:pointer;">Marked</button>
   </div>
-  <input class="sbar" placeholder="Search staff..." oninput="renderLeave()" id="leave-search"/>
-  <div id="leave-list"></div>
+  <input class="sbar" id="lsearch" placeholder="Search staff..." oninput="drawLeave()"/>
+  <div id="llist"></div>
 </div>
 
 <div class="screen" id="screen-office">
-  <div class="leave-header" style="background:#fff8f0;border-color:#ffe0b2;">
-    <span style="font-size:30px">🏢</span>
-    <div><div class="leave-title" style="color:#e65100;">In Office</div><div style="font-size:13px;color:#555;" id="office-count">0 staff</div></div>
-  </div>
+  <div class="lhdr" style="background:#fff8f0;border-color:#ffe0b2;"><span style="font-size:28px">🏢</span><div><div class="ltitle" style="color:#e65100;">In Office</div><div style="font-size:13px;color:#666;" id="ocount">0 staff</div></div></div>
   <div style="display:flex;gap:8px;margin-bottom:10px;">
-    <button onclick="officeTab('avail')" id="otab-avail" style="flex:1;background:#e65100;color:#fff;border:1.5px solid #e65100;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;">Available</button>
-    <button onclick="officeTab('marked')" id="otab-marked" style="flex:1;background:transparent;color:#e65100;border:1.5px solid #e65100;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;">Marked</button>
+    <button id="otab-a" onclick="otab('a')" style="flex:1;padding:9px;border-radius:8px;border:1.5px solid #e65100;background:#e65100;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">Available</button>
+    <button id="otab-m" onclick="otab('m')" style="flex:1;padding:9px;border-radius:8px;border:1.5px solid #e65100;background:transparent;color:#e65100;font-size:12px;font-weight:700;cursor:pointer;">Marked</button>
   </div>
-  <input class="sbar" placeholder="Search staff..." oninput="renderOffice()" id="office-search"/>
-  <div id="office-list"></div>
+  <input class="sbar" id="osearch" placeholder="Search staff..." oninput="drawOffice()"/>
+  <div id="olist"></div>
 </div>
 
 <div class="screen" id="screen-pdf">
-  <div class="pdf-header">
-    <span style="font-size:32px">📋</span>
-    <div>
-      <div class="pdf-title">Duty Deployment Report</div>
-      <div style="font-size:13px;color:#1565c0;font-weight:600;margin-top:2px;" id="pdf-duty-date"></div>
-      <div style="font-size:11px;color:#888;" id="pdf-prep-date"></div>
-    </div>
-  </div>
-  <div class="summary-box" id="pdf-summary"></div>
-  <div id="pdf-venue-list"></div>
-  <button class="pdf-btn" onclick="downloadPDF()">⬇ Download PDF</button>
+  <div class="phdr"><span style="font-size:30px">📋</span><div><div class="ptitle">Duty Report</div><div style="font-size:13px;color:#1565c0;font-weight:600;margin-top:2px;" id="pdf-duty"></div><div style="font-size:11px;color:#888;" id="pdf-prep"></div></div></div>
+  <div class="sbox" id="pdf-summary"></div>
+  <div id="pdf-body"></div>
+  <button class="pdfbtn" onclick="makePDF()">⬇ Download PDF</button>
 </div>
 
 <script>
-var staff=[];
-var venues=[
-  "The Leela Palace New Delhi","The Oberoi New Delhi","ITC Maurya New Delhi","Taj Mahal Hotel New Delhi",
-  "The Imperial New Delhi","Hyatt Regency Delhi","Radisson Blu Plaza Delhi Airport","Le Meridien New Delhi",
-  "The Ashok New Delhi","Sheraton New Delhi Hotel","Eros Hotel New Delhi","The Suryaa New Delhi",
-  "Crowne Plaza Today Okhla","JW Marriott Hotel New Delhi Aerocity","Pullman New Delhi Aerocity",
-  "Novotel New Delhi Aerocity","Andaz Delhi","Aloft New Delhi Aerocity","Ibis New Delhi Aerocity",
-  "Pride Plaza Hotel Aerocity","Holiday Inn New Delhi Aerocity","Roseate House New Delhi Aerocity",
-  "The Grand New Delhi","Shangri-La Eros New Delhi","Lalit New Delhi","Hans Hotel New Delhi",
-  "The Manor New Delhi","Hotel Bristol New Delhi","Jaypee Siddharth New Delhi","Vivanta New Delhi Dwarka",
-  "Lemon Tree Premier New Delhi","The Westin Gurgaon","Trident Gurgaon","Hyatt Place Gurgaon",
-  "Courtyard by Marriott Gurgaon","ITC Grand Bharat Gurgaon","Hilton Garden Inn Gurgaon",
-  "Four Points by Sheraton Gurgaon","DoubleTree by Hilton Gurgaon","Le Meridien Gurgaon",
-  "Park Hyatt Gurgaon","Radisson Blu MBD Hotel Noida","Crowne Plaza Greater Noida",
-  "Jaypee Greens Golf Resort Noida","The Westin Sohna Resort","Fairmont Jaipur","Vivanta Surajkund",
-  "Country Inn Sahibabad","Sheraton Saket New Delhi","Fortune Select Excalibur Gurgaon"
-].map(function(n){return{id:makeId(),name:n};});
-var categories=["Sound Engineer","Lighting Tech","AV Tech","Stage Manager","Camera Operator","Video Tech","Crew Lead","Setup Specialist","Live Stream Tech","Projection Tech","DJ Operator","Truss Rigger"];
-var assignments={};
-var onLeave={};
-var inOffice={};
-var activeVenueId=null;
-var activeRoleFilter="All";
-var leaveShowTab="avail";
-var officeShowTab="avail";
-var manageShowTab="staff";
-var CAT_COLORS=["#1565c0","#6a1b9a","#0277bd","#1b5e20","#b71c1c","#880e4f","#e65100","#00695c","#33691e","#4527a0","#c62828","#4e342e","#00796b","#ad1457","#283593","#558b2f","#0288d1","#7b1fa2","#2e7d32"];
-var TIME_SLOTS=["6:00 AM","7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","8:00 PM","9:00 PM","10:00 PM","11:00 PM"];
+// ── Data ──────────────────────────────────────────────────────────────────────
+var VENUES_INIT = [
+  "The Leela Palace New Delhi","The Oberoi New Delhi","ITC Maurya New Delhi",
+  "Taj Mahal Hotel New Delhi","The Imperial New Delhi","Hyatt Regency Delhi",
+  "Radisson Blu Plaza Delhi Airport","Le Meridien New Delhi","The Ashok New Delhi",
+  "Sheraton New Delhi Hotel","Eros Hotel New Delhi","The Suryaa New Delhi",
+  "Crowne Plaza Today Okhla","JW Marriott New Delhi Aerocity","Pullman New Delhi Aerocity",
+  "Novotel New Delhi Aerocity","Andaz Delhi","Aloft New Delhi Aerocity",
+  "Ibis New Delhi Aerocity","Pride Plaza Hotel Aerocity","Holiday Inn New Delhi Aerocity",
+  "Roseate House New Delhi","The Grand New Delhi","Shangri-La Eros New Delhi",
+  "Lalit New Delhi","Hans Hotel New Delhi","The Manor New Delhi",
+  "Hotel Bristol New Delhi","Jaypee Siddharth New Delhi","Vivanta New Delhi Dwarka",
+  "Lemon Tree Premier New Delhi","The Westin Gurgaon","Trident Gurgaon",
+  "Hyatt Place Gurgaon","Courtyard by Marriott Gurgaon","ITC Grand Bharat Gurgaon",
+  "Hilton Garden Inn Gurgaon","Four Points by Sheraton Gurgaon","DoubleTree Hilton Gurgaon",
+  "Le Meridien Gurgaon","Park Hyatt Gurgaon","Radisson Blu MBD Noida",
+  "Crowne Plaza Greater Noida","Jaypee Greens Golf Resort Noida","The Westin Sohna Resort",
+  "Vivanta Surajkund","Sheraton Saket New Delhi","Fortune Select Excalibur Gurgaon",
+  "Country Inn Sahibabad","Maidens Hotel Delhi"
+];
 
-function makeId(){return Math.random().toString(36).slice(2,9);}
-function catColor(cat){var i=categories.indexOf(cat);return CAT_COLORS[i>=0?i%CAT_COLORS.length:0]||"#1565c0";}
-function initials(name){var p=name.trim().split(" ");return p[0][0]+(p[1]?p[1][0]:"");}
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
-function nextDay(d){var dt=new Date(d);dt.setDate(dt.getDate()+1);return dt.toISOString().slice(0,10);}
-function fmtDate(d){var dt=new Date(d);return dt.toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});}
-function getDate(){return document.getElementById("date-input").value||new Date().toISOString().slice(0,10);}
+var COLORS = ["#1565c0","#6a1b9a","#0277bd","#1b5e20","#b71c1c","#880e4f","#e65100","#00695c","#33691e","#4527a0","#c62828","#4e342e","#00796b","#ad1457","#283593","#558b2f","#0288d1","#7b1fa2"];
+var TIMES = ["6:00 AM","7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","8:00 PM","9:00 PM","10:00 PM","11:00 PM"];
 
-var today=new Date().toISOString().slice(0,10);
-document.getElementById("date-input").value=today;
-document.getElementById("date-input").addEventListener("change",function(){renderPDF&&renderPDF();});
+var staff = [];
+var venues = VENUES_INIT.map(function(n){ return {id:uid(),name:n}; });
+var roles = ["Sound Engineer","Lighting Tech","AV Tech","Stage Manager","Camera Operator","Video Tech","Crew Lead","Setup Specialist","Live Stream Tech","Projection Tech","DJ Operator","Truss Rigger"];
+var assigned = {};   // venueId -> {empId -> {emp,duty}}
+var leave = {};      // empId -> {emp,duty}
+var office = {};     // empId -> {emp,duty}
+var curVenue = null;
+var curRole = "All";
+var lTab = "a";
+var oTab = "a";
+var mTab = "staff";
 
-var toastTimer;
-function showToast(msg,type){
+function uid(){ return "_"+Math.random().toString(36).slice(2,9); }
+function cc(r){ var i=roles.indexOf(r); return COLORS[i>=0?i%COLORS.length:0]||"#1565c0"; }
+function ini(n){ var p=n.trim().split(" "); return (p[0]||"?")[0].toUpperCase()+((p[1]||"")[0]||"").toUpperCase(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function nd(d){ var x=new Date(d); x.setDate(x.getDate()+1); return x.toISOString().slice(0,10); }
+function fd(d){ return new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"}); }
+function getD(){ return document.getElementById("datepicker").value||new Date().toISOString().slice(0,10); }
+function team(vid){ return Object.values(assigned[vid]||{}); }
+function aids(){ var r=[]; Object.values(assigned).forEach(function(m){ Object.keys(m).forEach(function(i){ r.push(i); }); }); return r; }
+
+// Init date
+document.getElementById("datepicker").value = new Date().toISOString().slice(0,10);
+
+// ── Toast ──────────────────────────────────────────────────────────────────────
+var tt;
+function toast(msg,t){
   var el=document.getElementById("toast");
   el.textContent=msg;
-  el.style.background=type==="err"?"#c62828":type==="warn"?"#e65100":"#1b5e20";
+  el.style.background=t==="e"?"#c62828":t==="w"?"#e65100":"#1b5e20";
   el.style.display="block";
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(function(){el.style.display="none";},2500);
+  clearTimeout(tt);
+  tt=setTimeout(function(){el.style.display="none";},2500);
 }
 
-function goScreen(name){
-  document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});
-  document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.remove("active");});
-  var s=document.getElementById("screen-"+name);if(s)s.classList.add("active");
-  var nid="nav-"+(name==="venueDetail"?"venues":name);
-  var nb=document.getElementById(nid);if(nb)nb.classList.add("active");
-  if(name==="venues")renderVenues();
-  if(name==="venueDetail")renderVenueDetail();
-  if(name==="manage")renderManage();
-  if(name==="leave")renderLeave();
-  if(name==="office")renderOffice();
-  if(name==="pdf")renderPDF();
-  renderStats();
+// ── Navigation ─────────────────────────────────────────────────────────────────
+function gotoScreen(s){
+  document.querySelectorAll(".screen").forEach(function(x){x.classList.remove("active");});
+  document.querySelectorAll(".nav-btn").forEach(function(x){x.classList.remove("active");});
+  document.getElementById("screen-"+s).classList.add("active");
+  var nb=document.getElementById("nav-"+(s==="detail"?"venues":s));
+  if(nb)nb.classList.add("active");
+  if(s==="venues")drawVenues();
+  if(s==="detail")drawDetail();
+  if(s==="manage")drawManage();
+  if(s==="leave")drawLeave();
+  if(s==="office")drawOffice();
+  if(s==="pdf")drawPDF();
+  drawStats();
 }
 
-function getAssignedIds(){var ids=[];Object.values(assignments).forEach(function(vm){Object.keys(vm).forEach(function(id){ids.push(id);});});return ids;}
-function getVenueTeam(vid){return Object.values(assignments[vid]||{});}
-
-function renderStats(){
-  var aIds=getAssignedIds();var lIds=Object.keys(onLeave);var oIds=Object.keys(inOffice);
-  var free=staff.length-aIds.length-lIds.length-oIds.length;
-  document.getElementById("stats-bar").innerHTML=
-    chip("Staff",staff.length,"#1565c0")+chip("Deployed",aIds.length,"#1b5e20")+
-    chip("Leave",lIds.length,"#c62828")+chip("Office",oIds.length,"#e65100")+
-    chip("Free",free<0?0:free,"#4527a0");
+// ── Stats ──────────────────────────────────────────────────────────────────────
+function drawStats(){
+  var a=aids().length,l=Object.keys(leave).length,o=Object.keys(office).length;
+  var f=Math.max(0,staff.length-a-l-o);
+  var sb=document.getElementById("statsbar");
+  sb.innerHTML=
+    sc("Staff",staff.length,"#1565c0")+sc("Deployed",a,"#1b5e20")+
+    sc("Leave",l,"#c62828")+sc("Office",o,"#e65100")+sc("Free",f,"#4527a0");
 }
-function chip(l,v,c){return '<div class="stat-chip" style="border:1.5px solid '+c+'44;"><div class="stat-val" style="color:'+c+'">'+v+'</div><div class="stat-label">'+l+'</div></div>';}
+function sc(l,v,c){
+  return '<div class="stat-chip" style="border:1.5px solid '+c+'44;">'+
+    '<div class="stat-val" style="color:'+c+'">'+v+'</div>'+
+    '<div class="stat-label">'+l+'</div></div>';
+}
 
-function renderVenues(){
-  var search=(document.getElementById("venue-search")||{}).value||"";
-  var list=document.getElementById("venues-list");
-  var filtered=venues.filter(function(v){return v.name.toLowerCase().includes(search.toLowerCase());});
-  if(venues.length===0){list.innerHTML='<div class="empty-state"><div class="ei">🏨</div><div class="et">No Venues Yet</div><div class="es">Go to Manage tab to add venues</div></div>';return;}
-  list.innerHTML=filtered.map(function(venue,i){
-    var team=getVenueTeam(venue.id);
-    var preview=team.slice(0,5).map(function(a){var c=catColor(a.emp.role);return'<span class="preview-chip" style="color:'+c+';background:'+c+'18;border:1px solid '+c+'33">'+esc(a.emp.name.split(" ")[0])+'</span>';}).join("");
-    if(team.length>5)preview+='<span style="font-size:11px;color:#888">+'+(team.length-5)+' more</span>';
-    return '<div class="vcard" onclick="openVenue(\''+venue.id+'\')">'+
+// ── Venues ─────────────────────────────────────────────────────────────────────
+function drawVenues(){
+  var q=(document.getElementById("vsearch")||{}).value||"";
+  var el=document.getElementById("vlist");
+  var fv=venues.filter(function(v){return v.name.toLowerCase().includes(q.toLowerCase());});
+  if(!fv.length){el.innerHTML='<div class="empty">No venues found.</div>';return;}
+  el.innerHTML=fv.map(function(v,i){
+    var t=team(v.id);
+    var prev=t.slice(0,4).map(function(a){
+      var c=cc(a.emp.role);
+      return '<span style="font-size:11px;color:'+c+';background:'+c+'18;border:1px solid '+c+'33;border-radius:5px;padding:2px 7px;">'+esc(a.emp.name.split(" ")[0])+'</span>';
+    }).join("");
+    if(t.length>4)prev+='<span style="font-size:11px;color:#888">+'+(t.length-4)+' more</span>';
+    return '<div class="vcard" onclick="openVenue(\''+v.id+'\')">'+
       '<div class="vcard-top">'+
-        '<div class="vnum">V'+(i+1)+'</div>'+
-        '<div style="flex:1;min-width:0"><div class="vname">'+esc(venue.name)+'</div>'+
-        '<div class="vmeta"><span style="color:#1565c0;font-weight:700">'+team.length+'</span> staff assigned</div></div>'+
-        '<div style="display:flex;align-items:center;gap:6px">'+(team.length>0?'<div class="assigned-dot">'+team.length+'</div>':'')+
-        '<span style="font-size:20px;color:#bbb">›</span></div>'+
-      '</div>'+(preview?'<div class="preview-row">'+preview+'</div>':'')+
+        '<div class="vnum">V'+(venues.indexOf(v)+1)+'</div>'+
+        '<div style="flex:1;min-width:0;"><div class="vname">'+esc(v.name)+'</div>'+
+        '<div class="vmeta"><span style="color:#1565c0;font-weight:700">'+t.length+'</span> staff assigned</div></div>'+
+        (t.length>0?'<div style="background:#1565c0;color:#fff;border-radius:12px;padding:2px 9px;font-size:11px;font-weight:700;">'+t.length+'</div>':'')+
+        '<span style="font-size:20px;color:#bbb;margin-left:4px;">›</span>'+
+      '</div>'+
+      (prev?'<div style="display:flex;flex-wrap:wrap;gap:5px;padding:4px 14px 12px;">'+prev+'</div>':'')+
     '</div>';
   }).join("");
 }
 
-function openVenue(id){activeVenueId=id;activeRoleFilter="All";document.getElementById("add-staff-search").value="";goScreen("venueDetail");}
+function openVenue(id){
+  curVenue=id; curRole="All";
+  var el=document.getElementById("asearch"); if(el)el.value="";
+  gotoScreen("detail");
+}
 
-function renderVenueDetail(){
-  var venue=venues.find(function(v){return v.id===activeVenueId;});if(!venue)return;
-  var team=getVenueTeam(activeVenueId);
-  document.getElementById("detail-title").textContent=venue.name;
-  document.getElementById("detail-meta").textContent=team.length+" staff assigned";
-  document.getElementById("clear-venue-btn").style.display=team.length>0?"block":"none";
-  var aHtml="";
-  if(team.length>0){
-    aHtml='<div class="section"><div class="section-title">ASSIGNED TEAM — '+team.length+' STAFF</div>';
-    team.forEach(function(a){
-      var c=catColor(a.emp.role);var ini=initials(a.emp.name);
-      aHtml+='<div class="assigned-card">'+
-        '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-        '<div style="flex:1;min-width:0">'+
-          '<div class="emp-name">'+esc(a.emp.name)+'</div>'+
-          '<div class="emp-role" style="color:'+c+'">'+esc(a.emp.role)+'</div>'+
-          '<div class="duty-row"><span class="duty-label">⏰ Duty Time:</span>'+
-          mkTimeSelect("vt",a.emp.id,a.dutyTime,"updateVenueDuty('"+a.emp.id+"','"+activeVenueId+"',this.value)")+
-          '</div>'+
+// ── Detail ─────────────────────────────────────────────────────────────────────
+function drawDetail(){
+  var v=venues.find(function(x){return x.id===curVenue;}); if(!v)return;
+  var t=team(curVenue);
+  document.getElementById("dtitle").textContent=v.name;
+  document.getElementById("dmeta").textContent=t.length+" staff assigned";
+  document.getElementById("clearbtn").style.display=t.length?"block":"none";
+
+  // Assigned
+  var ah="";
+  if(t.length){
+    ah='<div class="section"><div class="sec-title">ASSIGNED TEAM — '+t.length+' STAFF</div>';
+    t.forEach(function(a){
+      var c=cc(a.emp.role); var av=ini(a.emp.name);
+      ah+='<div class="acard">'+
+        '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+av+'</div>'+
+        '<div style="flex:1;min-width:0;">'+
+          '<div class="ename">'+esc(a.emp.name)+'</div>'+
+          '<div class="erole" style="color:'+c+';">'+esc(a.emp.role)+'</div>'+
+          '<div class="drow"><span class="dlabel">⏰ Duty:</span>'+tsel(a.dutyTime,"ud('"+a.emp.id+"','"+curVenue+"',this.value)")+'</div>'+
         '</div>'+
-        '<button class="rm-btn" onclick="removeFromVenue(\''+a.emp.id+'\',\''+activeVenueId+'\')">✕</button>'+
+        '<button class="rmbtn" onclick="remFromVenue(\''+a.emp.id+'\',\''+curVenue+'\')">✕</button>'+
       '</div>';
     });
-    aHtml+='</div>';
+    ah+='</div>';
   }
-  document.getElementById("assigned-section").innerHTML=aHtml;
-  var rfHtml='<button class="role-pill" style="'+(activeRoleFilter==="All"?"background:#1565c0;color:#fff;border:none;":"")+'" onclick="setRoleFilter(\'All\')">All</button>';
-  categories.forEach(function(r){var c=catColor(r);var on=activeRoleFilter===r;rfHtml+='<button class="role-pill" style="'+(on?"background:"+c+";color:#fff;border:none;":"")+'" onclick="setRoleFilter(\''+esc(r)+'\')">'+esc(r)+'</button>';});
-  document.getElementById("role-filters").innerHTML=rfHtml;
-  renderAddStaff();
+  document.getElementById("asection").innerHTML=ah;
+
+  // Role filters
+  var rf='<button class="rpill" style="'+(curRole==="All"?"background:#1565c0;color:#fff;border:none;":"")+'" onclick="setRole(\'All\')">All</button>';
+  roles.forEach(function(r){
+    var c=cc(r); var on=curRole===r;
+    rf+='<button class="rpill" style="'+(on?"background:"+c+";color:#fff;border:none;":"")+'" onclick="setRole(\''+esc(r)+'\')">'+esc(r)+'</button>';
+  });
+  document.getElementById("rfilters").innerHTML=rf;
+  drawAddStaff();
 }
 
-function mkTimeSelect(prefix,empId,current,onchange){
-  var opts=TIME_SLOTS.map(function(t){return'<option'+(t===current?' selected':'')+'>'+t+'</option>';}).join("");
-  return '<select class="time-select" onchange="'+onchange+'">'+opts+'</select>';
+function tsel(cur,onch){
+  return '<select class="tsel" onchange="'+onch+'">'+
+    TIMES.map(function(t){return'<option'+(t===cur?' selected':'')+'>'+t+'</option>';}).join("")+
+  '</select>';
 }
 
-function renderAddStaff(){
-  var search=(document.getElementById("add-staff-search")||{}).value||"";
-  var aIds=getAssignedIds();var lIds=Object.keys(onLeave);var oIds=Object.keys(inOffice);
-  var avail=staff.filter(function(e){return !aIds.includes(e.id)&&!lIds.includes(e.id)&&!oIds.includes(e.id)&&e.name.toLowerCase().includes(search.toLowerCase())&&(activeRoleFilter==="All"||e.role===activeRoleFilter);});
-  var html="";
-  if(staff.length===0)html='<div class="empty">No staff added yet. Go to Manage tab.</div>';
-  else if(avail.length===0)html='<div class="empty">No available staff matching filters.</div>';
-  else avail.forEach(function(emp){
-    var c=catColor(emp.role);var ini=initials(emp.name);
-    html+='<div class="staff-row" ontouchstart="touchStart(event,\''+emp.id+'\')" onclick="assignEmp(\''+emp.id+'\')">'+
-      '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-      '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(emp.role)+'</div></div>'+
-      '<button class="add-btn" onclick="event.stopPropagation();assignEmp(\''+emp.id+'\')">+ Add</button>'+
+function drawAddStaff(){
+  var q=(document.getElementById("asearch")||{}).value||"";
+  var aids_=aids(); var lids=Object.keys(leave); var oids=Object.keys(office);
+  var avail=staff.filter(function(e){
+    return !aids_.includes(e.id)&&!lids.includes(e.id)&&!oids.includes(e.id)&&
+      e.name.toLowerCase().includes(q.toLowerCase())&&
+      (curRole==="All"||e.role===curRole);
+  });
+  var el=document.getElementById("alist");
+  if(!staff.length){el.innerHTML='<div class="empty">No staff yet. Go to Manage tab.</div>';return;}
+  if(!avail.length){el.innerHTML='<div class="empty">No available staff matching filter.</div>';return;}
+  el.innerHTML=avail.map(function(e){
+    var c=cc(e.role); var av=ini(e.name);
+    return '<div class="srow" ontouchstart="tStart(event,\''+e.id+'\')" onclick="addEmp(\''+e.id+'\')">'+
+      '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+av+'</div>'+
+      '<div style="flex:1;min-width:0;"><div class="ename">'+esc(e.name)+'</div><div class="erole" style="color:'+c+';">'+esc(e.role)+'</div></div>'+
+      '<button class="addbtn" onclick="event.stopPropagation();addEmp(\''+e.id+'\')">+ Add</button>'+
     '</div>';
+  }).join("");
+}
+
+function setRole(r){curRole=r;drawDetail();}
+function ud(eid,vid,val){if(assigned[vid]&&assigned[vid][eid])assigned[vid][eid].dutyTime=val;}
+
+function addEmp(eid){
+  var e=staff.find(function(x){return x.id===eid;}); if(!e||!curVenue)return;
+  if(!assigned[curVenue])assigned[curVenue]={};
+  Object.keys(assigned).forEach(function(vid){if(assigned[vid][eid])delete assigned[vid][eid];});
+  delete leave[eid]; delete office[eid];
+  assigned[curVenue][eid]={emp:e,dutyTime:"6:00 AM"};
+  var v=venues.find(function(x){return x.id===curVenue;});
+  toast(e.name+" → "+(v?v.name:"venue"));
+  drawDetail(); drawStats();
+}
+
+function remFromVenue(eid,vid){
+  if(assigned[vid])delete assigned[vid][eid];
+  drawDetail(); drawStats();
+}
+
+function clearVenue(){
+  if(curVenue)assigned[curVenue]={};
+  toast("Venue cleared","w"); drawDetail(); drawStats();
+}
+
+// ── Manage ─────────────────────────────────────────────────────────────────────
+function mtab(t){
+  mTab=t;
+  ["staff","venues","roles"].forEach(function(x){
+    document.getElementById("mp-"+x).classList.toggle("hidden",x!==t);
+    document.getElementById("mt-"+x).classList.toggle("active",x===t);
   });
-  document.getElementById("add-staff-list").innerHTML=html;
+  drawManage();
 }
 
-function setRoleFilter(r){activeRoleFilter=r;renderVenueDetail();}
-function updateVenueDuty(empId,venueId,val){if(assignments[venueId]&&assignments[venueId][empId])assignments[venueId][empId].dutyTime=val;}
-
-function assignEmp(empId){
-  var emp=staff.find(function(e){return e.id===empId;});if(!emp||!activeVenueId)return;
-  if(!assignments[activeVenueId])assignments[activeVenueId]={};
-  Object.keys(assignments).forEach(function(vid){if(assignments[vid][empId])delete assignments[vid][empId];});
-  delete onLeave[empId];delete inOffice[empId];
-  assignments[activeVenueId][empId]={emp:emp,dutyTime:"6:00 AM"};
-  var venue=venues.find(function(v){return v.id===activeVenueId;});
-  showToast(emp.name+" → "+(venue?venue.name:"venue"));
-  renderVenueDetail();renderStats();
+function drawManage(){
+  fillRoleDD();
+  if(mTab==="staff")drawManageStaff();
+  if(mTab==="venues")drawManageVenues();
+  if(mTab==="roles")drawManageRoles();
 }
 
-function removeFromVenue(empId,venueId){if(assignments[venueId])delete assignments[venueId][empId];renderVenueDetail();renderStats();}
-function clearActiveVenue(){if(activeVenueId)assignments[activeVenueId]={};showToast("Venue cleared","warn");renderVenueDetail();renderStats();}
-
-function manageTab(t){
-  manageShowTab=t;
-  ["staff","venues","cats"].forEach(function(x){
-    document.getElementById("manage-"+x+"-panel").classList.toggle("hidden",x!==t);
-    document.getElementById("mtab-"+x).classList.toggle("active",x===t);
-  });
-  renderManage();
+function fillRoleDD(){
+  var el=document.getElementById("ns-role"); if(!el)return;
+  var cur=el.value;
+  el.innerHTML=roles.map(function(r){return'<option'+(r===cur?' selected':'')+'>'+esc(r)+'</option>';}).join("");
 }
 
-function renderManage(){
-  updateCatDropdown();
-  if(manageShowTab==="staff")renderManageStaff();
-  if(manageShowTab==="venues")renderManageVenues();
-  if(manageShowTab==="cats")renderManageCats();
+function doAddStaff(){
+  var n=(document.getElementById("ns-name").value||"").trim();
+  var r=document.getElementById("ns-role").value||roles[0];
+  if(!n){toast("Enter a name","w");return;}
+  staff.push({id:uid(),name:n,role:r});
+  document.getElementById("ns-name").value="";
+  toast(n+" added!"); drawManageStaff(); drawStats();
 }
 
-function updateCatDropdown(){
-  var sel=document.getElementById("new-staff-role");if(!sel)return;
-  var cur=sel.value;
-  sel.innerHTML=categories.map(function(c){return'<option'+(c===cur?' selected':'')+'>'+esc(c)+'</option>';}).join("");
+function delStaff(eid){
+  staff=staff.filter(function(e){return e.id!==eid;});
+  delete leave[eid]; delete office[eid];
+  Object.keys(assigned).forEach(function(v){delete assigned[v][eid];});
+  toast("Removed","w"); drawManageStaff(); drawStats();
 }
 
-function addStaff(){
-  var name=document.getElementById("new-staff-name").value.trim();
-  var role=document.getElementById("new-staff-role").value||categories[0]||"Staff";
-  if(!name){showToast("Enter a name","warn");return;}
-  staff.push({id:makeId(),name:name,role:role});
-  document.getElementById("new-staff-name").value="";
-  showToast(name+" added!");renderManageStaff();renderStats();
-}
-
-function deleteStaff(empId){
-  staff=staff.filter(function(e){return e.id!==empId;});
-  delete onLeave[empId];delete inOffice[empId];
-  Object.keys(assignments).forEach(function(vid){delete assignments[vid][empId];});
-  showToast("Staff removed","warn");renderManageStaff();renderStats();
-}
-
-function renderManageStaff(){
-  var search=(document.getElementById("manage-staff-search")||{}).value||"";
-  var filtered=staff.filter(function(e){return e.name.toLowerCase().includes(search.toLowerCase());});
-  var list=document.getElementById("manage-staff-list");
-  if(staff.length===0){list.innerHTML='<div class="empty-state"><div class="ei">👤</div><div class="et">No Staff Added Yet</div><div class="es">Add your team members above</div></div>';return;}
-  list.innerHTML=filtered.map(function(emp){
-    var c=catColor(emp.role);var ini=initials(emp.name);
-    return '<div class="manage-row">'+
-      '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-      '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(emp.role)+'</div></div>'+
-      '<button class="delete-btn" onclick="deleteStaff(\''+emp.id+'\')">🗑️</button></div>';
+function drawManageStaff(){
+  var q=(document.getElementById("ms-search")||{}).value||"";
+  var el=document.getElementById("ms-list");
+  var f=staff.filter(function(e){return e.name.toLowerCase().includes(q.toLowerCase());});
+  if(!staff.length){el.innerHTML='<div class="empty">No staff yet. Add above.</div>';return;}
+  el.innerHTML=f.map(function(e){
+    var c=cc(e.role);
+    return '<div class="mrow">'+
+      '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div>'+
+      '<div style="flex:1;min-width:0;"><div class="ename">'+esc(e.name)+'</div><div class="erole" style="color:'+c+';">'+esc(e.role)+'</div></div>'+
+      '<button class="delbtn" onclick="delStaff(\''+e.id+'\')">🗑️</button></div>';
   }).join("");
 }
 
-function addVenue(){
-  var name=document.getElementById("new-venue-name").value.trim();
-  if(!name){showToast("Enter venue name","warn");return;}
-  venues.push({id:makeId(),name:name});
-  document.getElementById("new-venue-name").value="";
-  showToast(name+" added!");renderManageVenues();renderVenues();
+function doAddVenue(){
+  var n=(document.getElementById("nv-name").value||"").trim();
+  if(!n){toast("Enter venue name","w");return;}
+  venues.push({id:uid(),name:n});
+  document.getElementById("nv-name").value="";
+  toast(n+" added!"); drawManageVenues(); drawVenues();
 }
 
-function deleteVenue(venueId){
-  venues=venues.filter(function(v){return v.id!==venueId;});
-  delete assignments[venueId];
-  showToast("Venue removed","warn");renderManageVenues();renderVenues();
+function delVenue(vid){
+  venues=venues.filter(function(v){return v.id!==vid;});
+  delete assigned[vid];
+  toast("Removed","w"); drawManageVenues(); drawVenues();
 }
 
-function renderManageVenues(){
-  var search=(document.getElementById("manage-venue-search")||{}).value||"";
-  var filtered=venues.filter(function(v){return v.name.toLowerCase().includes(search.toLowerCase());});
-  var list=document.getElementById("manage-venues-list");
-  if(venues.length===0){list.innerHTML='<div class="empty-state"><div class="ei">🏨</div><div class="et">No Venues</div></div>';return;}
-  list.innerHTML=filtered.map(function(venue,i){
-    return '<div class="manage-row">'+
-      '<div class="emp-avatar" style="background:#e3eaff;color:#1565c0;font-size:11px">V'+(venues.indexOf(venue)+1)+'</div>'+
-      '<div style="flex:1;min-width:0"><div class="emp-name" style="font-size:13px">'+esc(venue.name)+'</div></div>'+
-      '<button class="delete-btn" onclick="deleteVenue(\''+venue.id+'\')">🗑️</button></div>';
+function drawManageVenues(){
+  var q=(document.getElementById("mv-search")||{}).value||"";
+  var el=document.getElementById("mv-list");
+  var f=venues.filter(function(v){return v.name.toLowerCase().includes(q.toLowerCase());});
+  if(!venues.length){el.innerHTML='<div class="empty">No venues. Add above.</div>';return;}
+  el.innerHTML=f.map(function(v){
+    return '<div class="mrow">'+
+      '<div class="avatar" style="background:#e3eaff;color:#1565c0;font-size:10px;">V'+(venues.indexOf(v)+1)+'</div>'+
+      '<div style="flex:1;min-width:0;"><div class="ename" style="font-size:13px;">'+esc(v.name)+'</div></div>'+
+      '<button class="delbtn" onclick="delVenue(\''+v.id+'\')">🗑️</button></div>';
   }).join("");
 }
 
-function addCategory(){
-  var name=document.getElementById("new-cat-name").value.trim();
-  if(!name){showToast("Enter category","warn");return;}
-  if(categories.includes(name)){showToast("Already exists","warn");return;}
-  categories.push(name);document.getElementById("new-cat-name").value="";
-  showToast(name+" added!");renderManageCats();updateCatDropdown();
+function doAddRole(){
+  var n=(document.getElementById("nr-name").value||"").trim();
+  if(!n){toast("Enter role name","w");return;}
+  if(roles.includes(n)){toast("Already exists","w");return;}
+  roles.push(n); document.getElementById("nr-name").value="";
+  toast(n+" added!"); drawManageRoles(); fillRoleDD();
 }
 
-function deleteCategory(cat){
-  categories=categories.filter(function(c){return c!==cat;});
-  showToast(cat+" removed","warn");renderManageCats();updateCatDropdown();
+function delRole(r){
+  roles=roles.filter(function(x){return x!==r;});
+  toast(r+" removed","w"); drawManageRoles(); fillRoleDD();
 }
 
-function renderManageCats(){
-  var list=document.getElementById("manage-cats-list");
-  if(categories.length===0){list.innerHTML='<div class="empty-state"><div class="ei">🏷️</div><div class="et">No Categories</div></div>';return;}
-  list.innerHTML=categories.map(function(cat,i){
-    var c=catColor(cat);
-    return '<div class="manage-row">'+
-      '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;font-size:11px">'+(i+1)+'</div>'+
-      '<div style="flex:1;min-width:0"><div class="emp-name" style="color:'+c+'">'+esc(cat)+'</div></div>'+
-      '<button class="delete-btn" onclick="deleteCategory(\''+esc(cat)+'\')">🗑️</button></div>';
+function drawManageRoles(){
+  var el=document.getElementById("mr-list");
+  if(!roles.length){el.innerHTML='<div class="empty">No roles.</div>';return;}
+  el.innerHTML=roles.map(function(r,i){
+    var c=cc(r);
+    return '<div class="mrow">'+
+      '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;font-size:11px;">'+(i+1)+'</div>'+
+      '<div style="flex:1;min-width:0;"><div class="ename" style="color:'+c+';">'+esc(r)+'</div></div>'+
+      '<button class="delbtn" onclick="delRole(\''+esc(r)+'\')">🗑️</button></div>';
   }).join("");
 }
 
-function leaveTab(t){
-  leaveShowTab=t;
-  document.getElementById("ltab-avail").style.background=t==="avail"?"#c62828":"transparent";
-  document.getElementById("ltab-avail").style.color=t==="avail"?"#fff":"#c62828";
-  document.getElementById("ltab-marked").style.background=t==="marked"?"#c62828":"transparent";
-  document.getElementById("ltab-marked").style.color=t==="marked"?"#fff":"#c62828";
-  renderLeave();
+// ── Leave ──────────────────────────────────────────────────────────────────────
+function ltab(t){
+  lTab=t;
+  var a=document.getElementById("ltab-a"), m=document.getElementById("ltab-m");
+  a.style.background=t==="a"?"#c62828":"transparent"; a.style.color=t==="a"?"#fff":"#c62828";
+  m.style.background=t==="m"?"#c62828":"transparent"; m.style.color=t==="m"?"#fff":"#c62828";
+  drawLeave();
 }
 
-function markLeave(empId){
-  var emp=staff.find(function(e){return e.id===empId;});if(!emp)return;
-  Object.keys(assignments).forEach(function(vid){delete assignments[vid][empId];});
-  delete inOffice[empId];
-  onLeave[empId]={emp:emp,dutyTime:"6:00 AM"};
-  showToast(emp.name+" on leave");renderLeave();renderStats();
+function markLeave(eid){
+  var e=staff.find(function(x){return x.id===eid;}); if(!e)return;
+  Object.keys(assigned).forEach(function(v){delete assigned[v][eid];});
+  delete office[eid];
+  leave[eid]={emp:e,dutyTime:"6:00 AM"};
+  toast(e.name+" on leave"); drawLeave(); drawStats();
 }
-function removeLeave(empId){delete onLeave[empId];showToast("Leave removed","warn");renderLeave();renderStats();}
-function updateLeaveDuty(empId,val){if(onLeave[empId])onLeave[empId].dutyTime=val;}
+function unLeave(eid){delete leave[eid]; toast("Leave removed","w"); drawLeave(); drawStats();}
+function ldut(eid,val){if(leave[eid])leave[eid].dutyTime=val;}
 
-function renderLeave(){
-  var search=(document.getElementById("leave-search")||{}).value||"";
-  var lIds=Object.keys(onLeave);
-  document.getElementById("leave-count").textContent=lIds.length+" staff marked";
-  var list=document.getElementById("leave-list");
-  if(leaveShowTab==="avail"){
-    var avail=staff.filter(function(e){return !onLeave[e.id]&&e.name.toLowerCase().includes(search.toLowerCase());});
-    if(!avail.length){list.innerHTML='<div class="empty">No available staff.</div>';return;}
-    list.innerHTML=avail.map(function(emp){
-      var c=catColor(emp.role);var ini=initials(emp.name);
-      return '<div class="manage-row">'+
-        '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-        '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(emp.role)+'</div></div>'+
-        '<button class="toggle-btn" style="color:#c62828;border-color:#c62828;" onclick="markLeave(\''+emp.id+'\')">Mark</button></div>';
+function drawLeave(){
+  var q=(document.getElementById("lsearch")||{}).value||"";
+  document.getElementById("lcount").textContent=Object.keys(leave).length+" staff marked";
+  var el=document.getElementById("llist");
+  if(lTab==="a"){
+    var av=staff.filter(function(e){return !leave[e.id]&&e.name.toLowerCase().includes(q.toLowerCase());});
+    if(!av.length){el.innerHTML='<div class="empty">No available staff.</div>';return;}
+    el.innerHTML=av.map(function(e){
+      var c=cc(e.role);
+      return '<div class="mrow">'+
+        '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div>'+
+        '<div style="flex:1;min-width:0;"><div class="ename">'+esc(e.name)+'</div><div class="erole" style="color:'+c+';">'+esc(e.role)+'</div></div>'+
+        '<button class="togbtn" style="color:#c62828;border-color:#c62828;background:transparent;" onclick="markLeave(\''+e.id+'\')">Mark</button></div>';
     }).join("");
   } else {
-    var marked=Object.values(onLeave).filter(function(a){return a.emp.name.toLowerCase().includes(search.toLowerCase());});
-    if(!marked.length){list.innerHTML='<div class="empty">No staff on leave.</div>';return;}
-    list.innerHTML=marked.map(function(a){
-      var c=catColor(a.emp.role);var ini=initials(a.emp.name);
-      return '<div class="assigned-card" style="background:#fff5f5;border:1.5px solid #ffcdd2;margin-bottom:8px;">'+
-        '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-        '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(a.emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(a.emp.role)+'</div>'+
-        '<div class="duty-row"><span class="duty-label">⏰ Duty:</span>'+
-        mkTimeSelect("lt",a.emp.id,a.dutyTime,"updateLeaveDuty('"+a.emp.id+"',this.value)")+
-        '</div></div>'+
-        '<button class="rm-btn" onclick="removeLeave(\''+a.emp.id+'\')">✕</button></div>';
+    var mk=Object.values(leave).filter(function(a){return a.emp.name.toLowerCase().includes(q.toLowerCase());});
+    if(!mk.length){el.innerHTML='<div class="empty">No staff on leave.</div>';return;}
+    el.innerHTML=mk.map(function(a){
+      var c=cc(a.emp.role);
+      return '<div class="acard" style="background:#fff5f5;border:1.5px solid #ffcdd2;margin-bottom:8px;">'+
+        '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(a.emp.name)+'</div>'+
+        '<div style="flex:1;min-width:0;"><div class="ename">'+esc(a.emp.name)+'</div><div class="erole" style="color:'+c+';">'+esc(a.emp.role)+'</div>'+
+        '<div class="drow"><span class="dlabel">⏰ Duty:</span>'+tsel(a.dutyTime,"ldut('"+a.emp.id+"',this.value)")+'</div></div>'+
+        '<button class="rmbtn" onclick="unLeave(\''+a.emp.id+'\')">✕</button></div>';
     }).join("");
   }
 }
 
-function officeTab(t){
-  officeShowTab=t;
-  document.getElementById("otab-avail").style.background=t==="avail"?"#e65100":"transparent";
-  document.getElementById("otab-avail").style.color=t==="avail"?"#fff":"#e65100";
-  document.getElementById("otab-marked").style.background=t==="marked"?"#e65100":"transparent";
-  document.getElementById("otab-marked").style.color=t==="marked"?"#fff":"#e65100";
-  renderOffice();
+// ── Office ─────────────────────────────────────────────────────────────────────
+function otab(t){
+  oTab=t;
+  var a=document.getElementById("otab-a"), m=document.getElementById("otab-m");
+  a.style.background=t==="a"?"#e65100":"transparent"; a.style.color=t==="a"?"#fff":"#e65100";
+  m.style.background=t==="m"?"#e65100":"transparent"; m.style.color=t==="m"?"#fff":"#e65100";
+  drawOffice();
 }
 
-function markOffice(empId){
-  var emp=staff.find(function(e){return e.id===empId;});if(!emp)return;
-  Object.keys(assignments).forEach(function(vid){delete assignments[vid][empId];});
-  delete onLeave[empId];
-  inOffice[empId]={emp:emp,dutyTime:"6:00 AM"};
-  showToast(emp.name+" in office");renderOffice();renderStats();
+function markOffice(eid){
+  var e=staff.find(function(x){return x.id===eid;}); if(!e)return;
+  Object.keys(assigned).forEach(function(v){delete assigned[v][eid];});
+  delete leave[eid];
+  office[eid]={emp:e,dutyTime:"6:00 AM"};
+  toast(e.name+" in office"); drawOffice(); drawStats();
 }
-function removeOffice(empId){delete inOffice[empId];showToast("Removed","warn");renderOffice();renderStats();}
-function updateOfficeDuty(empId,val){if(inOffice[empId])inOffice[empId].dutyTime=val;}
+function unOffice(eid){delete office[eid]; toast("Removed","w"); drawOffice(); drawStats();}
+function odut(eid,val){if(office[eid])office[eid].dutyTime=val;}
 
-function renderOffice(){
-  var search=(document.getElementById("office-search")||{}).value||"";
-  var oIds=Object.keys(inOffice);
-  document.getElementById("office-count").textContent=oIds.length+" staff marked";
-  var list=document.getElementById("office-list");
-  if(officeShowTab==="avail"){
-    var avail=staff.filter(function(e){return !inOffice[e.id]&&e.name.toLowerCase().includes(search.toLowerCase());});
-    if(!avail.length){list.innerHTML='<div class="empty">No available staff.</div>';return;}
-    list.innerHTML=avail.map(function(emp){
-      var c=catColor(emp.role);var ini=initials(emp.name);
-      return '<div class="manage-row">'+
-        '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-        '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(emp.role)+'</div></div>'+
-        '<button class="toggle-btn" style="color:#e65100;border-color:#e65100;" onclick="markOffice(\''+emp.id+'\')">Mark</button></div>';
+function drawOffice(){
+  var q=(document.getElementById("osearch")||{}).value||"";
+  document.getElementById("ocount").textContent=Object.keys(office).length+" staff marked";
+  var el=document.getElementById("olist");
+  if(oTab==="a"){
+    var av=staff.filter(function(e){return !office[e.id]&&e.name.toLowerCase().includes(q.toLowerCase());});
+    if(!av.length){el.innerHTML='<div class="empty">No available staff.</div>';return;}
+    el.innerHTML=av.map(function(e){
+      var c=cc(e.role);
+      return '<div class="mrow">'+
+        '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div>'+
+        '<div style="flex:1;min-width:0;"><div class="ename">'+esc(e.name)+'</div><div class="erole" style="color:'+c+';">'+esc(e.role)+'</div></div>'+
+        '<button class="togbtn" style="color:#e65100;border-color:#e65100;background:transparent;" onclick="markOffice(\''+e.id+'\')">Mark</button></div>';
     }).join("");
   } else {
-    var marked=Object.values(inOffice).filter(function(a){return a.emp.name.toLowerCase().includes(search.toLowerCase());});
-    if(!marked.length){list.innerHTML='<div class="empty">No staff in office.</div>';return;}
-    list.innerHTML=marked.map(function(a){
-      var c=catColor(a.emp.role);var ini=initials(a.emp.name);
-      return '<div class="assigned-card" style="background:#fff8f0;border:1.5px solid #ffe0b2;margin-bottom:8px;">'+
-        '<div class="emp-avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33">'+ini+'</div>'+
-        '<div style="flex:1;min-width:0"><div class="emp-name">'+esc(a.emp.name)+'</div><div class="emp-role" style="color:'+c+'">'+esc(a.emp.role)+'</div>'+
-        '<div class="duty-row"><span class="duty-label">⏰ Duty:</span>'+
-        mkTimeSelect("ot",a.emp.id,a.dutyTime,"updateOfficeDuty('"+a.emp.id+"',this.value)")+
-        '</div></div>'+
-        '<button class="rm-btn" onclick="removeOffice(\''+a.emp.id+'\')">✕</button></div>';
+    var mk=Object.values(office).filter(function(a){return a.emp.name.toLowerCase().includes(q.toLowerCase());});
+    if(!mk.length){el.innerHTML='<div class="empty">No staff in office.</div>';return;}
+    el.innerHTML=mk.map(function(a){
+      var c=cc(a.emp.role);
+      return '<div class="acard" style="background:#fff8f0;border:1.5px solid #ffe0b2;margin-bottom:8px;">'+
+        '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(a.emp.name)+'</div>'+
+        '<div style="flex:1;min-width:0;"><div class="ename">'+esc(a.emp.name)+'</div><div class="erole" style="color:'+c+';">'+esc(a.emp.role)+'</div>'+
+        '<div class="drow"><span class="dlabel">⏰ Duty:</span>'+tsel(a.dutyTime,"odut('"+a.emp.id+"',this.value)")+'</div></div>'+
+        '<button class="rmbtn" onclick="unOffice(\''+a.emp.id+'\')">✕</button></div>';
     }).join("");
   }
 }
 
-function renderPDF(){
-  var d=getDate();var nd=nextDay(d);
-  document.getElementById("pdf-duty-date").textContent="Duty Date: "+fmtDate(nd);
-  document.getElementById("pdf-prep-date").textContent="Prepared: "+fmtDate(d);
-  var aIds=getAssignedIds();var lList=Object.values(onLeave);var oList=Object.values(inOffice);
-  var activeV=venues.filter(function(v){return getVenueTeam(v.id).length>0;});
+// ── PDF Preview ────────────────────────────────────────────────────────────────
+function drawPDF(){
+  var d=getD(); var ndd=nd(d);
+  document.getElementById("pdf-duty").textContent="Duty Date: "+fd(ndd);
+  document.getElementById("pdf-prep").textContent="Prepared: "+fd(d);
+  var a=aids().length, lv=Object.values(leave), ov=Object.values(office);
+  var av=venues.filter(function(v){return team(v.id).length>0;});
   document.getElementById("pdf-summary").innerHTML=
-    '<div class="summary-row"><span>Total Deployed</span><strong style="color:#1b5e20;font-size:16px">'+aIds.length+'</strong></div>'+
-    '<div class="summary-row"><span>Active Venues</span><strong style="color:#1565c0">'+activeV.length+'</strong></div>'+
-    '<div class="summary-row"><span>On Leave</span><strong style="color:#c62828">'+lList.length+'</strong></div>'+
-    '<div class="summary-row"><span>In Office</span><strong style="color:#e65100">'+oList.length+'</strong></div>';
-  var html="";
-  venues.forEach(function(venue){
-    var team=getVenueTeam(venue.id);if(!team.length)return;
-    html+='<div class="pdf-venue-card"><div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;"><span style="font-size:20px;flex-shrink:0">🏨</span><div><div class="pdf-venue-name">'+esc(venue.name)+'</div><div style="font-size:12px;color:#1565c0;font-weight:600">'+team.length+' staff assigned</div></div></div>';
-    team.forEach(function(a,i){
-      var c=catColor(a.emp.role);
-      html+='<div class="pdf-row"><span class="pdf-serial">'+(i+1)+'</span>'+
-        '<div style="flex:1;min-width:0"><div style="font-weight:700;color:#111;font-size:13px">'+esc(a.emp.name)+'</div>'+
-        '<span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;border:1px solid '+c+'33">'+esc(a.emp.role)+'</span></div>'+
-        '<div style="font-size:12px;font-weight:700;color:#0d47a1;flex-shrink:0">⏰ '+esc(a.dutyTime)+'</div></div>';
+    '<div class="srow2"><span>Total Deployed</span><strong style="color:#1b5e20;font-size:16px;">'+a+'</strong></div>'+
+    '<div class="srow2"><span>Active Venues</span><strong style="color:#1565c0;">'+av.length+'</strong></div>'+
+    '<div class="srow2"><span>On Leave</span><strong style="color:#c62828;">'+lv.length+'</strong></div>'+
+    '<div class="srow2"><span>In Office</span><strong style="color:#e65100;">'+ov.length+'</strong></div>';
+  var h="";
+  venues.forEach(function(v){
+    var t=team(v.id); if(!t.length)return;
+    h+='<div class="pvcard"><div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;"><span style="font-size:18px;">🏨</span><div><div class="pvname">'+esc(v.name)+'</div><div style="font-size:12px;color:#1565c0;font-weight:600;">'+t.length+' staff</div></div></div>';
+    t.forEach(function(a,i){
+      var c=cc(a.emp.role);
+      h+='<div class="prow"><span class="pserial">'+(i+1)+'</span>'+
+        '<div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:13px;color:#111;">'+esc(a.emp.name)+'</div>'+
+        '<span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;">'+esc(a.emp.role)+'</span></div>'+
+        '<div style="font-size:12px;font-weight:700;color:#0d47a1;flex-shrink:0;">⏰ '+esc(a.dutyTime)+'</div></div>';
     });
-    html+='</div>';
+    h+='</div>';
   });
-  if(lList.length){
-    html+='<div class="pdf-venue-card" style="border-left:4px solid #c62828;"><div style="display:flex;gap:10px;margin-bottom:10px;"><span style="font-size:20px">🌴</span><div><div class="pdf-venue-name" style="color:#c62828;">On Leave</div><div style="font-size:12px;color:#c62828;">'+lList.length+' staff</div></div></div>';
-    lList.forEach(function(a,i){var c=catColor(a.emp.role);html+='<div class="pdf-row"><span class="pdf-serial">'+(i+1)+'</span><div style="flex:1;min-width:0"><div style="font-weight:700;color:#111;font-size:13px">'+esc(a.emp.name)+'</div><span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;">'+esc(a.emp.role)+'</span></div><div style="font-size:12px;font-weight:700;color:#c62828;flex-shrink:0">⏰ '+esc(a.dutyTime)+'</div></div>';});
-    html+='</div>';
+  if(lv.length){
+    h+='<div class="pvcard" style="border-left:4px solid #c62828;"><div style="display:flex;gap:10px;margin-bottom:10px;"><span style="font-size:18px;">🌴</span><div><div class="pvname" style="color:#c62828;">On Leave</div><div style="font-size:12px;color:#c62828;">'+lv.length+' staff</div></div></div>';
+    lv.forEach(function(a,i){var c=cc(a.emp.role);h+='<div class="prow"><span class="pserial">'+(i+1)+'</span><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:13px;color:#111;">'+esc(a.emp.name)+'</div><span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;">'+esc(a.emp.role)+'</span></div><div style="font-size:12px;font-weight:700;color:#c62828;flex-shrink:0;">⏰ '+esc(a.dutyTime)+'</div></div>';});
+    h+='</div>';
   }
-  if(oList.length){
-    html+='<div class="pdf-venue-card" style="border-left:4px solid #e65100;"><div style="display:flex;gap:10px;margin-bottom:10px;"><span style="font-size:20px">🏢</span><div><div class="pdf-venue-name" style="color:#e65100;">In Office</div><div style="font-size:12px;color:#e65100;">'+oList.length+' staff</div></div></div>';
-    oList.forEach(function(a,i){var c=catColor(a.emp.role);html+='<div class="pdf-row"><span class="pdf-serial">'+(i+1)+'</span><div style="flex:1;min-width:0"><div style="font-weight:700;color:#111;font-size:13px">'+esc(a.emp.name)+'</div><span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;">'+esc(a.emp.role)+'</span></div><div style="font-size:12px;font-weight:700;color:#e65100;flex-shrink:0">⏰ '+esc(a.dutyTime)+'</div></div>';});
-    html+='</div>';
+  if(ov.length){
+    h+='<div class="pvcard" style="border-left:4px solid #e65100;"><div style="display:flex;gap:10px;margin-bottom:10px;"><span style="font-size:18px;">🏢</span><div><div class="pvname" style="color:#e65100;">In Office</div><div style="font-size:12px;color:#e65100;">'+ov.length+' staff</div></div></div>';
+    ov.forEach(function(a,i){var c=cc(a.emp.role);h+='<div class="prow"><span class="pserial">'+(i+1)+'</span><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:13px;color:#111;">'+esc(a.emp.name)+'</div><span style="font-size:11px;color:'+c+';background:'+c+'18;border-radius:4px;padding:1px 6px;">'+esc(a.emp.role)+'</span></div><div style="font-size:12px;font-weight:700;color:#e65100;flex-shrink:0;">⏰ '+esc(a.dutyTime)+'</div></div>';});
+    h+='</div>';
   }
-  if(!activeV.length&&!lList.length&&!oList.length)html='<div class="empty">No staff deployed yet.</div>';
-  document.getElementById("pdf-venue-list").innerHTML=html;
+  if(!h)h='<div class="empty">No staff deployed yet.</div>';
+  document.getElementById("pdf-body").innerHTML=h;
 }
 
-function downloadPDF(){
-  var d=getDate();var nd=nextDay(d);
-  var aIds=getAssignedIds();
-  var lList=Object.values(onLeave);var oList=Object.values(inOffice);
-  var activeV=venues.filter(function(v){return getVenueTeam(v.id).length>0;});
+// ── Make PDF ───────────────────────────────────────────────────────────────────
+function makePDF(){
+  var d=getD(); var ndd=nd(d);
+  var lv=Object.values(leave), ov=Object.values(office);
+  var activeV=venues.filter(function(v){return team(v.id).length>0;});
+  if(typeof window.jspdf==="undefined"){toast("PDF library loading, try again","w");return;}
+  var doc=new window.jspdf.jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+  var pw=210, mg=14, y=mg;
+  function cp(n){if(y+n>285){doc.addPage();y=mg;}}
 
-  try{
-    var doc=new window.jspdf.jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
-    var pageW=210;var margin=14;var y=margin;var lineH=7;
+  // Header bar
+  doc.setFillColor(21,101,192); doc.rect(0,0,pw,28,"F");
+  doc.setTextColor(255,255,255); doc.setFontSize(18); doc.setFont("helvetica","bold");
+  doc.text("GROVER AUDIO SERVICES",pw/2,11,{align:"center"});
+  doc.setFontSize(10); doc.setFont("helvetica","normal");
+  doc.text("Staff Duty Deployment Report",pw/2,19,{align:"center"});
+  y=34;
 
-    function checkPage(needed){if(y+needed>285){doc.addPage();y=margin;}}
+  // Duty date
+  doc.setTextColor(13,71,161); doc.setFontSize(11); doc.setFont("helvetica","bold");
+  doc.text("Duty Date: "+fd(ndd),mg,y);
+  doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(120,120,120);
+  doc.text("Prepared: "+fd(d),mg,y+6); y+=16;
 
-    // Header
-    doc.setFillColor(21,101,192);doc.rect(0,0,pageW,28,\"F\");
-    doc.setTextColor(255,255,255);doc.setFontSize(18);doc.setFont(\"helvetica\",\"bold\");
-    doc.text(\"GROVER AUDIO SERVICES\",pageW/2,12,{align:\"center\"});
-    doc.setFontSize(10);doc.setFont(\"helvetica\",\"normal\");
-    doc.text(\"Staff Duty Deployment Report\",pageW/2,20,{align:\"center\"});
-    y=36;
+  // Summary
+  var aids_=aids();
+  doc.setFillColor(240,244,255); doc.roundedRect(mg,y,pw-mg*2,22,3,3,"F");
+  doc.setDrawColor(187,222,251); doc.roundedRect(mg,y,pw-mg*2,22,3,3,"S");
+  var cols=[mg+4,62,105,148];
+  var lbls=["Total Deployed","Active Venues","On Leave","In Office"];
+  var vals=[aids_.length,activeV.length,lv.length,ov.length];
+  var vc2=[[27,94,32],[21,101,192],[198,40,40],[230,81,0]];
+  lbls.forEach(function(l,i){
+    doc.setTextColor(120,120,120); doc.setFontSize(7); doc.setFont("helvetica","normal");
+    doc.text(l,cols[i],y+8);
+    doc.setFontSize(13); doc.setFont("helvetica","bold");
+    doc.setTextColor(vc2[i][0],vc2[i][1],vc2[i][2]);
+    doc.text(String(vals[i]),cols[i],y+18);
+  });
+  y+=30;
 
-    // Dates
-    doc.setTextColor(13,71,161);doc.setFontSize(11);doc.setFont(\"helvetica\",\"bold\");
-    doc.text(\"Duty Date: \"+fmtDate(nd),margin,y);
-    doc.setFont(\"helvetica\",\"normal\");doc.setFontSize(9);doc.setTextColor(100,100,100);
-    doc.text(\"Prepared: \"+fmtDate(d),margin,y+6);
-    y+=16;
-
-    // Summary box
-    doc.setFillColor(240,244,255);doc.roundedRect(margin,y,pageW-margin*2,22,3,3,\"F\");
-    doc.setDrawColor(187,222,251);doc.roundedRect(margin,y,pageW-margin*2,22,3,3,\"S\");
-    doc.setFontSize(9);doc.setTextColor(50,50,50);doc.setFont(\"helvetica\",\"normal\");
-    var cols=[margin+4,62,105,148];
-    var lbls=[\"Total Deployed\",\"Active Venues\",\"On Leave\",\"In Office\"];
-    var vals=[aIds.length,activeV.length,lList.length,oList.length];
-    var vcolors=[[27,94,32],[21,101,192],[198,40,40],[230,81,0]];
-    lbls.forEach(function(l,i){
-      doc.setTextColor(100,100,100);doc.setFontSize(7);doc.text(l,cols[i],y+8);
-      doc.setFontSize(13);doc.setFont(\"helvetica\",\"bold\");
-      doc.setTextColor(vcolors[i][0],vcolors[i][1],vcolors[i][2]);
-      doc.text(String(vals[i]),cols[i],y+18);
+  // Venues
+  var vcount=0;
+  venues.forEach(function(v){
+    var t=team(v.id); if(!t.length)return; vcount++;
+    cp(22);
+    doc.setFillColor(21,101,192); doc.roundedRect(mg,y,pw-mg*2,10,2,2,"F");
+    doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont("helvetica","bold");
+    doc.text("V"+vcount+"  "+v.name,mg+3,y+7);
+    doc.text(t.length+" staff",pw-mg-3,y+7,{align:"right"});
+    y+=11;
+    // table header
+    doc.setFillColor(227,234,255); doc.rect(mg,y,pw-mg*2,6,"F");
+    doc.setTextColor(13,71,161); doc.setFontSize(7); doc.setFont("helvetica","bold");
+    doc.text("#",mg+2,y+4.2); doc.text("Name",mg+10,y+4.2);
+    doc.text("Role",mg+80,y+4.2); doc.text("Duty Time",pw-mg-3,y+4.2,{align:"right"});
+    y+=7;
+    t.forEach(function(a,i){
+      cp(7);
+      if(i%2===0){doc.setFillColor(248,250,255);doc.rect(mg,y,pw-mg*2,6.5,"F");}
+      doc.setTextColor(50,50,50); doc.setFontSize(8); doc.setFont("helvetica","normal");
+      doc.text(String(i+1),mg+2,y+4.5);
+      doc.setFont("helvetica","bold"); doc.text(a.emp.name,mg+10,y+4.5);
+      doc.setFont("helvetica","normal"); doc.setFontSize(7); doc.setTextColor(100,100,100);
+      var roleText=a.emp.role.length>25?a.emp.role.slice(0,24)+"…":a.emp.role;
+      doc.text(roleText,mg+80,y+4.5);
+      doc.setTextColor(13,71,161); doc.setFont("helvetica","bold"); doc.setFontSize(8);
+      doc.text(a.dutyTime,pw-mg-3,y+4.5,{align:"right"});
+      y+=6.5;
     });
-    y+=30;
+    y+=4;
+  });
 
-    // Venues
-    var vc=0;
-    venues.forEach(function(venue){
-      var team=getVenueTeam(venue.id);if(!team.length)return;vc++;
-      checkPage(24);
-      doc.setFillColor(21,101,192);doc.roundedRect(margin,y,pageW-margin*2,10,2,2,\"F\");
-      doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont(\"helvetica\",\"bold\");
-      doc.text(\"V\"+vc+\"  \"+venue.name,margin+3,y+7);
-      doc.text(team.length+\" staff\",pageW-margin-3,y+7,{align:\"right\"});
-      y+=12;
-      // Table header
-      doc.setFillColor(227,234,255);doc.rect(margin,y,pageW-margin*2,6,\"F\");
-      doc.setTextColor(13,71,161);doc.setFontSize(7);doc.setFont(\"helvetica\",\"bold\");
-      doc.text(\"#\",margin+2,y+4.5);doc.text(\"Name\",margin+10,y+4.5);
-      doc.text(\"Role\",margin+80,y+4.5);doc.text(\"Duty Time\",pageW-margin-3,y+4.5,{align:\"right\"});
-      y+=7;
-      team.forEach(function(a,i){
-        checkPage(7);
-        if(i%2===0){doc.setFillColor(248,250,255);doc.rect(margin,y,pageW-margin*2,6.5,\"F\");}
-        doc.setTextColor(50,50,50);doc.setFontSize(8);doc.setFont(\"helvetica\",\"normal\");
-        doc.text(String(i+1),margin+2,y+4.5);
-        doc.setFont(\"helvetica\",\"bold\");doc.text(a.emp.name,margin+10,y+4.5);
-        doc.setFont(\"helvetica\",\"normal\");doc.setFontSize(7);doc.setTextColor(100,100,100);
-        doc.text(a.emp.role,margin+80,y+4.5);
-        doc.setTextColor(13,71,161);doc.setFont(\"helvetica\",\"bold\");doc.setFontSize(8);
-        doc.text(a.dutyTime,pageW-margin-3,y+4.5,{align:\"right\"});
-        y+=6.5;
-      });
-      y+=4;
-    });
-
-    // Leave
-    if(lList.length){
-      checkPage(20);
-      doc.setFillColor(198,40,40);doc.roundedRect(margin,y,pageW-margin*2,10,2,2,\"F\");
-      doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont(\"helvetica\",\"bold\");
-      doc.text(\"ON LEAVE — \"+lList.length+\" staff\",margin+3,y+7);y+=12;
-      lList.forEach(function(a,i){
-        checkPage(7);
-        if(i%2===0){doc.setFillColor(255,245,245);doc.rect(margin,y,pageW-margin*2,6.5,\"F\");}
-        doc.setTextColor(50,50,50);doc.setFontSize(8);doc.setFont(\"helvetica\",\"normal\");
-        doc.text(String(i+1),margin+2,y+4.5);
-        doc.setFont(\"helvetica\",\"bold\");doc.text(a.emp.name,margin+10,y+4.5);
-        doc.setFont(\"helvetica\",\"normal\");doc.setFontSize(7);doc.setTextColor(100,100,100);doc.text(a.emp.role,margin+80,y+4.5);
-        doc.setTextColor(198,40,40);doc.setFont(\"helvetica\",\"bold\");doc.setFontSize(8);
-        doc.text(a.dutyTime,pageW-margin-3,y+4.5,{align:\"right\"});y+=6.5;
-      });y+=4;
-    }
-
-    // Office
-    if(oList.length){
-      checkPage(20);
-      doc.setFillColor(230,81,0);doc.roundedRect(margin,y,pageW-margin*2,10,2,2,\"F\");
-      doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont(\"helvetica\",\"bold\");
-      doc.text(\"IN OFFICE — \"+oList.length+\" staff\",margin+3,y+7);y+=12;
-      oList.forEach(function(a,i){
-        checkPage(7);
-        if(i%2===0){doc.setFillColor(255,248,240);doc.rect(margin,y,pageW-margin*2,6.5,\"F\");}
-        doc.setTextColor(50,50,50);doc.setFontSize(8);doc.setFont(\"helvetica\",\"normal\");
-        doc.text(String(i+1),margin+2,y+4.5);
-        doc.setFont(\"helvetica\",\"bold\");doc.text(a.emp.name,margin+10,y+4.5);
-        doc.setFont(\"helvetica\",\"normal\");doc.setFontSize(7);doc.setTextColor(100,100,100);doc.text(a.emp.role,margin+80,y+4.5);
-        doc.setTextColor(230,81,0);doc.setFont(\"helvetica\",\"bold\");doc.setFontSize(8);
-        doc.text(a.dutyTime,pageW-margin-3,y+4.5,{align:\"right\"});y+=6.5;
-      });y+=4;
-    }
-
-    // Footer
-    var pageCount=doc.internal.getNumberOfPages();
-    for(var p=1;p<=pageCount;p++){
-      doc.setPage(p);
-      doc.setFillColor(240,244,255);doc.rect(0,287,pageW,10,\"F\");
-      doc.setFontSize(7);doc.setTextColor(100,100,100);doc.setFont(\"helvetica\",\"normal\");
-      doc.text(\"Grover Audio Services | Generated: \"+fmtDate(d),margin,293);
-      doc.text(\"Page \"+p+\" of \"+pageCount,pageW-margin,293,{align:\"right\"});
-    }
-
-    doc.save(\"GAS_Duty_\"+nd+\".pdf\");
-    showToast(\"PDF downloaded!\");
-  } catch(err){
-    showToast(\"PDF error: \"+err.message,\"err\");
-    console.error(err);
+  // Leave section
+  if(lv.length){
+    cp(22);
+    doc.setFillColor(198,40,40); doc.roundedRect(mg,y,pw-mg*2,10,2,2,"F");
+    doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont("helvetica","bold");
+    doc.text("ON LEAVE — "+lv.length+" staff",mg+3,y+7); y+=11;
+    doc.setFillColor(227,234,255); doc.rect(mg,y,pw-mg*2,6,"F");
+    doc.setTextColor(13,71,161); doc.setFontSize(7); doc.setFont("helvetica","bold");
+    doc.text("#",mg+2,y+4.2); doc.text("Name",mg+10,y+4.2); doc.text("Role",mg+80,y+4.2); doc.text("Duty Time",pw-mg-3,y+4.2,{align:"right"}); y+=7;
+    lv.forEach(function(a,i){
+      cp(7);
+      if(i%2===0){doc.setFillColor(255,245,245);doc.rect(mg,y,pw-mg*2,6.5,"F");}
+      doc.setTextColor(50,50,50); doc.setFontSize(8); doc.setFont("helvetica","normal");
+      doc.text(String(i+1),mg+2,y+4.5);
+      doc.setFont("helvetica","bold"); doc.text(a.emp.name,mg+10,y+4.5);
+      doc.setFont("helvetica","normal"); doc.setFontSize(7); doc.setTextColor(100,100,100); doc.text(a.emp.role,mg+80,y+4.5);
+      doc.setTextColor(198,40,40); doc.setFont("helvetica","bold"); doc.setFontSize(8); doc.text(a.dutyTime,pw-mg-3,y+4.5,{align:"right"}); y+=6.5;
+    }); y+=4;
   }
+
+  // Office section
+  if(ov.length){
+    cp(22);
+    doc.setFillColor(230,81,0); doc.roundedRect(mg,y,pw-mg*2,10,2,2,"F");
+    doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont("helvetica","bold");
+    doc.text("IN OFFICE — "+ov.length+" staff",mg+3,y+7); y+=11;
+    doc.setFillColor(227,234,255); doc.rect(mg,y,pw-mg*2,6,"F");
+    doc.setTextColor(13,71,161); doc.setFontSize(7); doc.setFont("helvetica","bold");
+    doc.text("#",mg+2,y+4.2); doc.text("Name",mg+10,y+4.2); doc.text("Role",mg+80,y+4.2); doc.text("Duty Time",pw-mg-3,y+4.2,{align:"right"}); y+=7;
+    ov.forEach(function(a,i){
+      cp(7);
+      if(i%2===0){doc.setFillColor(255,248,240);doc.rect(mg,y,pw-mg*2,6.5,"F");}
+      doc.setTextColor(50,50,50); doc.setFontSize(8); doc.setFont("helvetica","normal");
+      doc.text(String(i+1),mg+2,y+4.5);
+      doc.setFont("helvetica","bold"); doc.text(a.emp.name,mg+10,y+4.5);
+      doc.setFont("helvetica","normal"); doc.setFontSize(7); doc.setTextColor(100,100,100); doc.text(a.emp.role,mg+80,y+4.5);
+      doc.setTextColor(230,81,0); doc.setFont("helvetica","bold"); doc.setFontSize(8); doc.text(a.dutyTime,pw-mg-3,y+4.5,{align:"right"}); y+=6.5;
+    }); y+=4;
+  }
+
+  // Footer on every page
+  var pc=doc.internal.getNumberOfPages();
+  for(var p=1;p<=pc;p++){
+    doc.setPage(p);
+    doc.setFillColor(240,244,255); doc.rect(0,287,pw,10,"F");
+    doc.setFontSize(7); doc.setTextColor(120,120,120); doc.setFont("helvetica","normal");
+    doc.text("Grover Audio Services  |  "+fd(d),mg,293);
+    doc.text("Page "+p+" of "+pc,pw-mg,293,{align:"right"});
+  }
+  doc.save("GAS_Duty_"+ndd+".pdf");
+  toast("PDF downloaded!");
 }
 
-// Touch drag
-var dragEmpId=null,ghostEl=null;
-function touchStart(e,empId){
-  dragEmpId=empId;var t=e.touches[0];
-  var emp=staff.find(function(x){return x.id===empId;});if(!emp)return;
-  var c=catColor(emp.role);var ini=initials(emp.name);
-  ghostEl=document.createElement("div");ghostEl.className="ghost";
-  ghostEl.style.left=(t.clientX-110)+"px";ghostEl.style.top=(t.clientY-30)+"px";
-  ghostEl.innerHTML='<div style="background:#fff;border:2px solid '+c+';border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px rgba(0,0,0,0.18);font-family:sans-serif">'+
-    '<div style="width:32px;height:32px;border-radius:7px;background:'+c+'22;color:'+c+';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px">'+ini+'</div>'+
-    '<div><div style="font-size:13px;font-weight:700;color:#111">'+esc(emp.name)+'</div><div style="font-size:10px;color:'+c+'">'+esc(emp.role)+'</div></div></div>';
-  document.body.appendChild(ghostEl);
-  if(navigator.vibrate)navigator.vibrate(30);e.stopPropagation();
+// ── Touch drag ─────────────────────────────────────────────────────────────────
+var dragId=null, ghost=null;
+function tStart(ev,eid){
+  dragId=eid; var t=ev.touches[0];
+  var e=staff.find(function(x){return x.id===eid;}); if(!e)return;
+  var c=cc(e.role);
+  ghost=document.createElement("div"); ghost.className="ghost";
+  ghost.style.left=(t.clientX-110)+"px"; ghost.style.top=(t.clientY-30)+"px";
+  ghost.innerHTML='<div style="background:#fff;border:2px solid '+c+';border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px rgba(0,0,0,0.2);font-family:sans-serif;">'+
+    '<div style="width:32px;height:32px;border-radius:7px;background:'+c+'22;color:'+c+';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;">'+ini(e.name)+'</div>'+
+    '<div><div style="font-size:13px;font-weight:700;color:#111;">'+esc(e.name)+'</div><div style="font-size:10px;color:'+c+';">'+esc(e.role)+'</div></div></div>';
+  document.body.appendChild(ghost);
+  if(navigator.vibrate)navigator.vibrate(30);
+  ev.stopPropagation();
 }
-document.addEventListener("touchmove",function(e){
-  if(!dragEmpId||!ghostEl)return;e.preventDefault();
-  var t=e.touches[0];
-  ghostEl.style.left=(t.clientX-110)+"px";ghostEl.style.top=(t.clientY-30)+"px";
-  var dz=document.getElementById("main-drop-zone");
-  if(dz){var r=dz.getBoundingClientRect();dz.classList.toggle("over",t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom);}
+document.addEventListener("touchmove",function(ev){
+  if(!dragId||!ghost)return; ev.preventDefault();
+  var t=ev.touches[0];
+  ghost.style.left=(t.clientX-110)+"px"; ghost.style.top=(t.clientY-30)+"px";
+  var dz=document.getElementById("dropzone");
+  if(dz){var r=dz.getBoundingClientRect(); dz.style.background=(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)?"#c8e6c9":"#e8f5e9";}
 },{passive:false});
-document.addEventListener("touchend",function(e){
-  if(!dragEmpId){if(ghostEl){try{document.body.removeChild(ghostEl);}catch(x){}ghostEl=null;}return;}
-  var t=e.changedTouches[0];var dz=document.getElementById("main-drop-zone");var dropped=false;
-  if(dz){var r=dz.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom){assignEmp(dragEmpId);dropped=true;}}
-  if(dz)dz.classList.remove("over");
-  if(ghostEl){try{document.body.removeChild(ghostEl);}catch(x){}ghostEl=null;}
+document.addEventListener("touchend",function(ev){
+  if(!dragId){if(ghost){try{document.body.removeChild(ghost);}catch(x){}ghost=null;}return;}
+  var t=ev.changedTouches[0]; var dz=document.getElementById("dropzone"); var dropped=false;
+  if(dz){var r=dz.getBoundingClientRect(); if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom){addEmp(dragId);dropped=true;} dz.style.background="#e8f5e9";}
+  if(ghost){try{document.body.removeChild(ghost);}catch(x){}ghost=null;}
   if(dropped&&navigator.vibrate)navigator.vibrate([20,10,20]);
-  dragEmpId=null;
+  dragId=null;
 });
 
-renderStats();renderVenues();
+// ── Init ───────────────────────────────────────────────────────────────────────
+drawStats();
+drawVenues();
 </script>
 </body>
 </html>
