@@ -13,9 +13,9 @@
     .screen{display:none;padding:12px 14px 80px;}
     .screen.active{display:block;}
     .header{background:#fff;border-bottom:2px solid #bbdefb;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(21,101,192,0.09);}
-    .header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px;}
-    .logo-name{font-size:14px;font-weight:800;color:#0d47a1;}
-    .logo-sub{font-size:8px;color:#1565c0;letter-spacing:0.1em;text-transform:uppercase;}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px;background:#1565c0;border-radius:0;}
+    .logo-name{font-size:14px;font-weight:800;color:#fff;}
+    .logo-sub{font-size:8px;color:#bbdefb;letter-spacing:0.1em;text-transform:uppercase;}
     .stats-bar{display:flex;gap:5px;padding:0 10px 8px;overflow-x:auto;}
     .sc{background:#fff;border-radius:9px;padding:4px 9px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:46px;}
     .sv{font-size:15px;font-weight:800;line-height:1;}
@@ -118,9 +118,10 @@
 <div class="header">
   <div class="header-inner">
     <div class="logo">
-      <div><div class="logo-name">🎵 Grover Audio Visual Services</div><div class="logo-sub">Staff Deployment System</div></div>
+      <img src="gavs_logo.png" alt="GAVS" style="height:40px;width:auto;flex-shrink:0;" onerror="this.style.display='none'"/>
+      <div><div class="logo-name">Grover Audio Visual Services</div><div class="logo-sub">Staff Deployment System</div></div>
     </div>
-    <input type="date" id="datepicker" style="background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:7px;color:#0d47a1;padding:6px 8px;font-size:11px;outline:none;font-weight:600;"/>
+    <input type="date" id="datepicker" style="background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);border-radius:7px;color:#fff;padding:6px 8px;font-size:11px;outline:none;font-weight:600;"/>
   </div>
   <div class="stats-bar" id="statsbar"></div>
   <div class="nav-tabs">
@@ -316,8 +317,8 @@ function gotoScreen(s){
   if(s==="venues")drawVenues();
   if(s==="detail")drawDetail();
   if(s==="manage")drawManage();
-  if(s==="leave")drawLeave();
-  if(s==="office")drawOffice();
+  if(s==="leave"){lTab="a";document.getElementById("ltab-a").style.background="#c62828";document.getElementById("ltab-a").style.color="#fff";document.getElementById("ltab-m").style.background="transparent";document.getElementById("ltab-m").style.color="#c62828";drawLeave();}
+  if(s==="office"){oTab="a";document.getElementById("otab-a").style.background="#e65100";document.getElementById("otab-a").style.color="#fff";document.getElementById("otab-m").style.background="transparent";document.getElementById("otab-m").style.color="#e65100";drawOffice();}
   if(s==="pdf")drawPDF();
   if(s==="staffrep")drawStaffRepSelectors();
   drawStats();
@@ -597,10 +598,20 @@ function doAddStaff(){
 }
 
 function delStaff(eid){
+  var emp=staff.find(function(e){return e.id===eid;});
+  if(!emp)return;
+  showModal(
+    '<div class="modal-title" style="color:#c62828;">Delete Staff Member?</div>'+
+    '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:16px;">Are you sure you want to delete<br><strong>'+esc(emp.name)+'</strong>?<br><span style="font-size:12px;color:#888;">This cannot be undone.</span></div>'+
+    '<button class="modal-btn danger" onclick="confirmDelStaff(''+eid+'');closeModal();">Yes, Delete</button>'+
+    '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
+  );
+}
+function confirmDelStaff(eid){
   staff=staff.filter(function(e){return e.id!==eid;});
   delete leave[eid];delete office[eid];
   Object.keys(assigned).forEach(function(v){delete assigned[v][eid];});
-  toast("Removed","w");drawManageStaff();drawStats();fillRepEmpDD();
+  toast("Staff removed","w");drawManageStaff();drawStats();fillRepEmpDD();
 }
 
 function drawManageStaff(){
@@ -630,10 +641,22 @@ function doAddVenue(){
 }
 
 function delVenue(vid){
+  var venue=venues.find(function(v){return v.id===vid;});
+  if(!venue)return;
+  var tcount=team(vid).length;
+  showModal(
+    '<div class="modal-title" style="color:#c62828;">Delete Venue?</div>'+
+    '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:8px;">Are you sure you want to delete<br><strong>'+esc(venue.name)+'</strong>?</div>'+
+    (tcount>0?'<div style="text-align:center;font-size:12px;color:#e65100;background:#fff8f0;border-radius:8px;padding:8px;margin-bottom:12px;">⚠️ '+tcount+' staff assigned here will be unassigned.</div>':'')+
+    '<button class="modal-btn danger" onclick="confirmDelVenue(''+vid+'');closeModal();">Yes, Delete</button>'+
+    '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
+  );
+}
+function confirmDelVenue(vid){
   venues=venues.filter(function(v){return v.id!==vid;});
   delete assigned[vid];
   staff.forEach(function(e){if(e.pinnedVenue===vid)e.pinnedVenue="";});
-  toast("Removed","w");drawManageVenues();drawVenues();
+  toast("Venue removed","w");drawManageVenues();drawVenues();fillPinDD();
 }
 
 function drawManageVenues(){
@@ -659,6 +682,14 @@ function doAddRole(){
 
 function delRole(r){
   if(r==="Manager"){toast("Cannot delete Manager role","e");return;}
+  showModal(
+    '<div class="modal-title" style="color:#c62828;">Delete Role?</div>'+
+    '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:16px;">Delete role <strong>'+esc(r)+'</strong>?<br><span style="font-size:12px;color:#888;">Staff with this role will keep it until changed.</span></div>'+
+    '<button class="modal-btn danger" onclick="confirmDelRole(''+esc(r)+'');closeModal();">Yes, Delete</button>'+
+    '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
+  );
+}
+function confirmDelRole(r){
   roles=roles.filter(function(x){return x!==r;});
   toast(r+" removed","w");drawManageRoles();fillRoleDD();
 }
@@ -697,8 +728,9 @@ function drawLeave(){
   document.getElementById("lcount").textContent=Object.keys(leave).length+" staff marked";
   var el=document.getElementById("llist");
   if(lTab==="a"){
-    var curAids=aids();var av=staff.filter(function(e){return !leave[e.id]&&!curAids.includes(e.id)&&e.name.toLowerCase().includes(q.toLowerCase());});
-    if(!av.length){el.innerHTML='<div class="empty">No staff.</div>';return;}
+    var _aids=aids();var _oids=Object.keys(office);
+    var av=staff.filter(function(e){return !leave[e.id]&&!_aids.includes(e.id)&&!_oids.includes(e.id)&&e.name.toLowerCase().includes(q.toLowerCase());});
+    if(!av.length){el.innerHTML='<div class="empty">No available staff. All are deployed or in office.</div>';return;}
     el.innerHTML=av.map(function(e){var c=cc(e.role);return'<div class="mrow"><div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div><div style="flex:1;min-width:0;"><div class="ename">'+esc(e.name)+'</div><div class="erole" style="color:'+c+';">'+esc(e.role)+'</div></div><button class="togbtn" style="color:#c62828;border-color:#c62828;background:transparent;" onclick="markLeave(\''+e.id+'\')">Mark</button></div>';}).join("");
   }else{
     var mk=Object.values(leave).filter(function(a){return a.emp.name.toLowerCase().includes(q.toLowerCase());});
@@ -728,8 +760,9 @@ function drawOffice(){
   document.getElementById("ocount").textContent=Object.keys(office).length+" staff marked";
   var el=document.getElementById("olist");
   if(oTab==="a"){
-    var curAids2=aids();var av=staff.filter(function(e){return !office[e.id]&&!curAids2.includes(e.id)&&e.name.toLowerCase().includes(q.toLowerCase());});
-    if(!av.length){el.innerHTML='<div class="empty">No staff.</div>';return;}
+    var _aids2=aids();var _lids2=Object.keys(leave);
+    var av=staff.filter(function(e){return !office[e.id]&&!_aids2.includes(e.id)&&!_lids2.includes(e.id)&&e.name.toLowerCase().includes(q.toLowerCase());});
+    if(!av.length){el.innerHTML='<div class="empty">No available staff. All are deployed or on leave.</div>';return;}
     el.innerHTML=av.map(function(e){var c=cc(e.role);return'<div class="mrow"><div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div><div style="flex:1;min-width:0;"><div class="ename">'+esc(e.name)+'</div><div class="erole" style="color:'+c+';">'+esc(e.role)+'</div></div><button class="togbtn" style="color:#e65100;border-color:#e65100;background:transparent;" onclick="markOffice(\''+e.id+'\')">Mark</button></div>';}).join("");
   }else{
     var mk=Object.values(office).filter(function(a){return a.emp.name.toLowerCase().includes(q.toLowerCase());});
@@ -823,12 +856,12 @@ function makePDF(){
     mgrs.concat(rest).forEach(function(a,i){
       cp(7);
       var isMgr=isManager(a.emp);
-      if(isMgr){doc.setFillColor(255,248,225);doc.rect(mg,y,pw-mg*2,8,"F");doc.setDrawColor(245,158,11);doc.rect(mg,y,pw-mg*2,8,"S");}
+      if(isMgr){doc.setFillColor(255,244,180);doc.rect(mg,y,pw-mg*2,8,"F");doc.setDrawColor(230,160,0);doc.setLineWidth(0.5);doc.rect(mg,y,pw-mg*2,8,"S");doc.setLineWidth(0.2);}
       else if(i%2===0){doc.setFillColor(248,250,255);doc.rect(mg,y,pw-mg*2,6.5,"F");}
-      doc.setTextColor(isMgr?120:50,isMgr?60:50,isMgr?0:50);doc.setFontSize(isMgr?8:7);doc.setFont("helvetica",isMgr?"bold":"normal");
+      doc.setTextColor(isMgr?140:50,isMgr?80:50,isMgr?0:50);doc.setFontSize(isMgr?8:7);doc.setFont("helvetica",isMgr?"bold":"normal");
       doc.text(String(i+1),mg+2,y+(isMgr?5.5:4.5));
-      doc.text(a.emp.name+(isMgr?" [MANAGER]":"")+(a.pinned?" *":""),mg+10,y+(isMgr?5.5:4.5));
-      if(isMgr&&a.emp.phone){doc.setFontSize(6);doc.setTextColor(180,90,0);doc.text("Ph: "+a.emp.phone,mg+90,y+5.5);}
+      doc.text(a.emp.name+(isMgr?" [MGR]":"")+(a.pinned?" (Fixed)":""),mg+10,y+(isMgr?5.5:4.5));
+      if(isMgr&&a.emp.phone){doc.setFontSize(6);doc.setTextColor(180,90,0);doc.setFontSize(6);doc.setTextColor(180,90,0);doc.text("Ph: "+a.emp.phone,mg+90,y+5.5);}
       doc.setFont("helvetica","normal");doc.setFontSize(6);doc.setTextColor(100,100,100);
       doc.text(a.emp.role,mg+80,y+(isMgr?5:4.5));
       doc.setTextColor(isMgr?26:13,isMgr?35:71,isMgr?110:161);doc.setFont("helvetica","bold");doc.setFontSize(7);
@@ -841,7 +874,7 @@ function makePDF(){
   if(ov.length){cp(20);doc.setFillColor(230,81,0);doc.roundedRect(mg,y,pw-mg*2,10,2,2,"F");doc.setTextColor(255,255,255);doc.setFontSize(8);doc.setFont("helvetica","bold");doc.text("IN OFFICE — "+ov.length+" staff",mg+3,y+7);y+=11;doc.setFillColor(227,234,255);doc.rect(mg,y,pw-mg*2,6,"F");doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont("helvetica","bold");doc.text("#",mg+2,y+4);doc.text("Name",mg+10,y+4);doc.text("Role",mg+80,y+4);doc.text("Duty",pw-mg-3,y+4,{align:"right"});y+=6.5;ov.forEach(function(a,i){cp(7);if(i%2===0){doc.setFillColor(255,248,240);doc.rect(mg,y,pw-mg*2,6.5,"F");}doc.setTextColor(50,50,50);doc.setFontSize(7);doc.setFont("helvetica","normal");doc.text(String(i+1),mg+2,y+4.5);doc.setFont("helvetica","bold");doc.text(a.emp.name,mg+10,y+4.5);doc.setFont("helvetica","normal");doc.setFontSize(6);doc.setTextColor(100,100,100);doc.text(a.emp.role,mg+80,y+4.5);doc.setTextColor(230,81,0);doc.setFont("helvetica","bold");doc.setFontSize(7);doc.text(a.dutyTime,pw-mg-3,y+4.5,{align:"right"});y+=6.5;});y+=3;}
   var pc=doc.internal.getNumberOfPages();
   for(var p=1;p<=pc;p++){doc.setPage(p);doc.setFillColor(240,244,255);doc.rect(0,287,pw,10,"F");doc.setFontSize(6);doc.setTextColor(120,120,120);doc.setFont("helvetica","normal");doc.text("Grover Audio Visual Services | "+fd(d),mg,293);doc.text("Page "+p+" of "+pc,pw-mg,293,{align:"right"});}
-  doc.save("GAS_Duty_"+ndd+".pdf");
+  doc.save("GAVS_Duty_"+ndd+".pdf");
   toast("PDF downloaded!");
 }
 
@@ -1009,7 +1042,7 @@ function makeStaffPDF(){
   });
   var pc=doc.internal.getNumberOfPages();
   for(var p=1;p<=pc;p++){doc.setPage(p);doc.setFillColor(240,244,255);doc.rect(0,287,pw,10,"F");doc.setFontSize(6);doc.setTextColor(120,120,120);doc.setFont("helvetica","normal");doc.text("Grover Audio Visual Services | "+emp.name+" | "+MONTHS[month]+" "+year,mg,293);doc.text("Page "+p+" of "+pc,pw-mg,293,{align:"right"});}
-  doc.save("GAS_"+emp.name.replace(/ /g,"_")+"_"+MONTHS[month]+"_"+year+".pdf");
+  doc.save("GAVS_"+emp.name.replace(/ /g,"_")+"_"+MONTHS[month]+"_"+year+".pdf");
   toast("Staff PDF downloaded!");
 }
 
