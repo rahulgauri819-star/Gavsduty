@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <title>Grover Audio Visual Services</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+    body{background:#f0f4ff;font-family:'Segoe UI',Arial,sans-serif;overscroll-behavior:none;color:#111;}
+    input,select,button,textarea{font-family:inherit;}
+    .hidden{display:none!important;}
+    .screen{display:none;padding:12px 14px 80px;}
+    .screen.active{display:block;}
+    .header{background:#fff;border-bottom:2px solid #bbdefb;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(21,101,192,0.09);}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px;background:#1565c0;border-radius:0;}
+    .logo-name{font-size:14px;font-weight:800;color:#fff;}
+    .logo-sub{font-size:8px;color:#bbdefb;letter-spacing:0.1em;text-transform:uppercase;}
+    .stats-bar{display:flex;gap:5px;padding:0 10px 8px;overflow-x:auto;}
+    .sc{background:#fff;border-radius:9px;padding:4px 9px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:46px;}
+    .sv{font-size:15px;font-weight:800;line-height:1;}
+    .sl{font-size:8px;color:#888;margin-top:1px;text-align:center;}
+    .nav-tabs{display:flex;border-top:1px solid #e3eaff;overflow-x:auto;}
+    .nb{flex:1;min-width:52px;background:transparent;border:none;color:#555;padding:7px 2px;font-size:9px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;border-bottom:3px solid transparent;white-space:nowrap;}
+    .nb.active{background:#1565c0;color:#fff;border-bottom:3px solid #0d47a1;}
+    .sbar{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:10px;color:#111;padding:9px 13px;font-size:13px;outline:none;display:block;margin-bottom:9px;}
+    /* Venue cards */
+    .vcard{background:#fff;border:1.5px solid #e3eaff;border-radius:13px;margin-bottom:9px;overflow:hidden;cursor:pointer;}
+    .vcard.vip{border:2px solid #f9a825;background:#fffde7;}
+    .vip-banner{background:#f9a825;color:#fff;font-size:10px;font-weight:800;padding:4px 14px;letter-spacing:0.1em;}
+    .vcard-top{display:flex;align-items:center;padding:12px 13px 8px;gap:9px;}
+    .vnum{font-weight:800;font-size:10px;color:#1565c0;background:#e3eaff;border-radius:5px;padding:2px 7px;flex-shrink:0;}
+    .vnum.vip{background:#f9a825;color:#fff;}
+    .vname{font-size:13px;font-weight:700;color:#0d47a1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .vcard.vip .vname{color:#e65100;}
+    /* Manager highlight */
+    .mgr-bar{background:#1a237e;color:#fff;padding:8px 13px;display:flex;align-items:center;gap:8px;}
+    .mgr-name{font-size:13px;font-weight:800;}
+    .mgr-phone{font-size:11px;color:#9fa8da;}
+    /* Section */
+    .section{background:#fff;border-radius:11px;border:1.5px solid #e3eaff;margin-bottom:11px;padding:11px;}
+    .sec-title{font-size:9px;font-weight:800;color:#1565c0;letter-spacing:0.1em;margin-bottom:9px;border-bottom:1px solid #e3eaff;padding-bottom:5px;}
+    .acard{display:flex;align-items:center;gap:9px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:9px;padding:9px;margin-bottom:7px;}
+    .acard.pinned{border-color:#7986cb;background:#f3f4ff;}
+    .acard.mgr{border-color:#1a237e;background:#e8eaf6;}
+    .srow{display:flex;align-items:center;gap:9px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:9px;padding:9px;margin-bottom:7px;cursor:pointer;touch-action:none;}
+    .avatar{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+    .ename{font-size:13px;font-weight:700;color:#111;margin-bottom:1px;}
+    .erole{font-size:10px;font-weight:600;}
+    .drow{display:flex;align-items:center;gap:5px;margin-top:5px;}
+    .dlabel{font-size:9px;color:#888;font-weight:700;}
+    .tsel{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:6px;color:#0d47a1;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;}
+    .rmbtn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .addbtn{background:#e3f2fd;border:1.5px solid #90caf9;color:#1565c0;border-radius:7px;padding:5px 10px;cursor:pointer;font-size:11px;font-weight:700;flex-shrink:0;white-space:nowrap;}
+    .empty{text-align:center;color:#bbb;font-size:12px;padding:25px 15px;}
+    /* Detail header */
+    .dheader{display:flex;align-items:flex-start;gap:9px;background:#fff;padding:11px 13px;border-bottom:1.5px solid #e3eaff;}
+    .bbtn{background:#e3eaff;border:none;color:#1565c0;border-radius:7px;padding:6px 12px;font-size:13px;cursor:pointer;font-weight:600;flex-shrink:0;}
+    .cbtn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:7px;padding:6px 10px;font-size:11px;cursor:pointer;font-weight:600;flex-shrink:0;}
+    .dropz{margin:9px 0;background:#e8f5e9;border:2px dashed #66bb6a;border-radius:11px;padding:10px 14px;color:#1b5e20;font-size:12px;font-weight:600;text-align:center;}
+    .rfilters{display:flex;gap:5px;overflow-x:auto;padding-bottom:7px;margin-bottom:3px;}
+    .rpill{background:#f0f4ff;color:#1565c0;border:1px solid #bbdefb;border-radius:18px;padding:5px 11px;font-size:10px;font-weight:600;white-space:nowrap;flex-shrink:0;cursor:pointer;}
+    /* Manage */
+    .addbox{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:11px;padding:13px;margin-bottom:13px;}
+    .abtitle{font-size:11px;font-weight:800;color:#1565c0;margin-bottom:9px;}
+    .ifield{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:7px;color:#111;padding:9px 11px;font-size:13px;outline:none;margin-bottom:7px;display:block;}
+    .sfield{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:7px;color:#0d47a1;padding:9px 11px;font-size:13px;outline:none;margin-bottom:7px;display:block;}
+    .abigbtn{width:100%;background:#1565c0;border:none;color:#fff;border-radius:8px;padding:11px 0;font-size:13px;font-weight:700;cursor:pointer;}
+    .mrow{display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid #e3eaff;border-radius:9px;padding:9px;margin-bottom:7px;}
+    .delbtn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:14px;flex-shrink:0;}
+    .stabs{display:flex;border-bottom:2px solid #e3eaff;margin-bottom:13px;overflow-x:auto;}
+    .stab{flex:1;min-width:60px;background:transparent;border:none;color:#555;padding:9px 4px;font-size:10px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;}
+    .stab.active{color:#fff;background:#1565c0;border-bottom:2px solid #0d47a1;}
+    /* Leave/Office */
+    .lhdr{display:flex;align-items:center;gap:13px;border-radius:11px;padding:13px;margin-bottom:13px;border:1.5px solid;}
+    .ltitle{font-size:17px;font-weight:800;}
+    .togbtn{border-radius:7px;padding:6px 12px;cursor:pointer;font-size:11px;font-weight:700;border:1.5px solid;flex-shrink:0;}
+    /* PDF */
+    .phdr{background:#fff;border:1.5px solid #e3eaff;border-radius:13px;padding:14px;margin-bottom:13px;display:flex;align-items:center;gap:13px;border-left:5px solid #1565c0;}
+    .ptitle{font-size:17px;font-weight:800;color:#0d47a1;}
+    .sbox{background:#fff;border:1.5px solid #e3eaff;border-radius:11px;padding:13px;margin-bottom:13px;}
+    .srow2{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:6px 0;border-bottom:1px solid #f0f4ff;}
+    .pvcard{background:#fff;border:1.5px solid #e3eaff;border-left:4px solid #1565c0;border-radius:11px;padding:13px;margin-bottom:11px;}
+    .pvname{font-size:14px;font-weight:800;color:#0d47a1;}
+    .prow{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid #f0f0f0;}
+    .pserial{color:#bbb;font-size:10px;width:18px;flex-shrink:0;font-weight:700;}
+    .pdfbtn{display:block;width:100%;background:#1565c0;border:none;color:#fff;border-radius:11px;padding:14px 0;font-size:15px;font-weight:800;cursor:pointer;margin-top:14px;margin-bottom:14px;}
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;display:flex;align-items:flex-end;justify-content:center;}
+    .modal{background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 30px;width:100%;max-width:540px;}
+    .modal-title{font-size:15px;font-weight:800;color:#0d47a1;margin-bottom:14px;text-align:center;}
+    .modal-btn{display:block;width:100%;padding:13px;border-radius:9px;border:1.5px solid #bbdefb;background:#f0f4ff;color:#0d47a1;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:9px;text-align:left;}
+    .modal-btn.danger{background:#ffebee;border-color:#ffcdd2;color:#c62828;}
+    .modal-btn.warn{background:#fff8f0;border-color:#ffe0b2;color:#e65100;}
+    .modal-btn.green{background:#e8f5e9;border-color:#c8e6c9;color:#1b5e20;}
+    .modal-cancel{display:block;width:100%;padding:12px;border-radius:9px;border:none;background:#f5f5f5;color:#888;font-size:13px;font-weight:600;cursor:pointer;margin-top:4px;}
+    /* Staff report */
+    .rep-card{background:#fff;border:1.5px solid #e3eaff;border-radius:11px;padding:11px;margin-bottom:9px;}
+    .rep-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0f4ff;font-size:12px;}
+    .day-num{font-weight:800;color:#1565c0;width:28px;flex-shrink:0;}
+    .day-status{flex:1;}
+    .badge{border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;}
+    .toast{position:fixed;top:12px;left:50%;transform:translateX(-50%);padding:9px 20px;border-radius:22px;color:#fff;font-weight:700;font-size:12px;z-index:9999;white-space:nowrap;box-shadow:0 4px 18px rgba(0,0,0,0.2);display:none;}
+    .ghost{position:fixed;z-index:9999;pointer-events:none;}
+    .pin-badge{background:#7986cb;color:#fff;font-size:9px;font-weight:800;border-radius:4px;padding:1px 5px;margin-left:4px;}
+    .vip-badge{background:#f9a825;color:#fff;font-size:9px;font-weight:800;border-radius:4px;padding:1px 5px;margin-left:4px;}
+    .mgr-badge{background:#1a237e;color:#fff;font-size:9px;font-weight:800;border-radius:4px;padding:1px 5px;margin-left:4px;}
+  </style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay hidden" id="modal-overlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation();" id="modal-body"></div>
+</div>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <img src="gavs_logo.png" alt="GAVS" class="header-logo-img" style="height:40px;width:auto;flex-shrink:0;" onerror="this.style.display='none'"/>
+      <div><div class="logo-name">Grover Audio Visual Services</div><div class="logo-sub">Staff Deployment System</div></div>
+    </div>
+    <input type="date" id="datepicker" style="background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);border-radius:7px;color:#fff;padding:6px 8px;font-size:11px;outline:none;font-weight:600;"/>
+  </div>
+  <div class="stats-bar" id="statsbar"></div>
+  <div class="nav-tabs">
+    <button class="nb active" id="nav-venues" onclick="gotoScreen('venues')"><span>🏨</span><span>Venues</span></button>
+    <button class="nb" id="nav-manage" onclick="gotoScreen('manage')"><span>⚙️</span><span>Manage</span></button>
+    <button class="nb" id="nav-leave" onclick="gotoScreen('leave')"><span>🌴</span><span>Leave</span></button>
+    <button class="nb" id="nav-office" onclick="gotoScreen('office')"><span>🏢</span><span>Office</span></button>
+    <button class="nb" id="nav-pdf" onclick="gotoScreen('pdf')"><span>📄</span><span>Report</span></button>
+    <button class="nb" id="nav-staffrep" onclick="gotoScreen('staffrep')"><span>📊</span><span>Staff Rep</span></button>
+  </div>
+</div>
+
+<!-- VENUES -->
+<div class="screen active" id="screen-venues">
+  <input class="sbar" id="vsearch" placeholder="Search venues..." oninput="drawVenues()"/>
+  <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:8px;padding:6px 11px;font-size:11px;color:#1565c0;margin-bottom:11px;">☝️ Tap venue to manage staff. VIP venues shown at top.</div>
+  <div id="vlist"></div>
+</div>
+
+<!-- DETAIL -->
+<div class="screen" id="screen-detail">
+  <div class="dheader">
+    <button class="bbtn" onclick="gotoScreen('venues')">‹ Back</button>
+    <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:800;color:#0d47a1;line-height:1.3;" id="dtitle"></div><div style="font-size:10px;color:#1565c0;margin-top:1px;" id="dmeta"></div></div>
+    <button id="vipbtn" onclick="toggleVIP()" style="background:#fff8e1;border:1px solid #f9a825;color:#e65100;border-radius:7px;padding:5px 9px;font-size:10px;font-weight:700;cursor:pointer;flex-shrink:0;margin-right:4px;">⭐ VIP</button>
+    <button class="cbtn" id="clearbtn" onclick="clearVenue()">Clear</button>
+  </div>
+  <div style="padding:0;">
+    <div class="dropz" id="dropzone">⬇ Drop staff here or use + Add</div>
+    <div id="asection"></div>
+    <div class="section">
+      <div class="sec-title">ADD STAFF</div>
+      <input class="sbar" id="asearch" placeholder="Search staff..." oninput="drawAddStaff()"/>
+      <div class="rfilters" id="rfilters"></div>
+      <div id="alist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MANAGE -->
+<div class="screen" id="screen-manage">
+  <div class="stabs">
+    <button class="stab active" id="mt-staff" onclick="mtab('staff')">👥 Staff</button>
+    <button class="stab" id="mt-venues" onclick="mtab('venues')">🏨 Venues</button>
+    <button class="stab" id="mt-roles" onclick="mtab('roles')">🏷️ Roles</button>
+  </div>
+  <div id="mp-staff">
+    <div class="addbox"><div class="abtitle">➕ Add New Staff</div>
+      <input class="ifield" id="ns-name" placeholder="Full Name"/>
+      <input class="ifield" id="ns-phone" placeholder="Phone Number (Managers only)" style="display:none;"/>
+      <select class="sfield" id="ns-role" onchange="togglePhoneField()"></select>
+      <select class="sfield" id="ns-pin"><option value="">No Fixed Venue (Flexible)</option></select>
+      <button class="abigbtn" onclick="doAddStaff()">+ Add Staff Member</button>
+    </div>
+    <input class="sbar" id="ms-search" placeholder="Search staff..." oninput="drawManageStaff()"/>
+    <div id="ms-list"></div>
+  </div>
+  <div id="mp-venues" class="hidden">
+    <div class="addbox"><div class="abtitle">➕ Add New Venue</div>
+      <input class="ifield" id="nv-name" placeholder="Venue Name"/>
+      <button class="abigbtn" onclick="doAddVenue()">+ Add Venue</button>
+    </div>
+    <input class="sbar" id="mv-search" placeholder="Search venues..." oninput="drawManageVenues()"/>
+    <div id="mv-list"></div>
+  </div>
+  <div id="mp-roles" class="hidden">
+    <div class="addbox"><div class="abtitle">➕ Add New Role</div>
+      <input class="ifield" id="nr-name" placeholder="e.g. Sound Technician"/>
+      <button class="abigbtn" onclick="doAddRole()">+ Add Role</button>
+    </div>
+    <div id="mr-list"></div>
+  </div>
+</div>
+
+<!-- LEAVE -->
+<div class="screen" id="screen-leave">
+  <div class="lhdr" style="background:#fff5f5;border-color:#ffcdd2;"><span style="font-size:26px">🌴</span><div><div class="ltitle" style="color:#c62828;">On Leave</div><div style="font-size:12px;color:#666;" id="lcount">0 staff</div></div></div>
+  <div style="display:flex;gap:7px;margin-bottom:9px;">
+    <button id="ltab-a" onclick="ltab('a')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #c62828;background:#c62828;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">Available</button>
+    <button id="ltab-m" onclick="ltab('m')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #c62828;background:transparent;color:#c62828;font-size:11px;font-weight:700;cursor:pointer;">Marked</button>
+  </div>
+  <input class="sbar" id="lsearch" placeholder="Search..." oninput="drawLeave()"/>
+  <div id="llist"></div>
+</div>
+
+<!-- OFFICE -->
+<div class="screen" id="screen-office">
+  <div class="lhdr" style="background:#fff8f0;border-color:#ffe0b2;"><span style="font-size:26px">🏢</span><div><div class="ltitle" style="color:#e65100;">In Office</div><div style="font-size:12px;color:#666;" id="ocount">0 staff</div></div></div>
+  <div style="display:flex;gap:7px;margin-bottom:9px;">
+    <button id="otab-a" onclick="otab('a')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #e65100;background:#e65100;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">Available</button>
+    <button id="otab-m" onclick="otab('m')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #e65100;background:transparent;color:#e65100;font-size:11px;font-weight:700;cursor:pointer;">Marked</button>
+  </div>
+  <input class="sbar" id="osearch" placeholder="Search..." oninput="drawOffice()"/>
+  <div id="olist"></div>
+</div>
+
+<!-- REPORT -->
+<div class="screen" id="screen-pdf">
+  <div class="phdr"><span style="font-size:28px">📋</span><div><div class="ptitle">Duty Report</div><div style="font-size:12px;color:#1565c0;font-weight:600;margin-top:1px;" id="pdf-duty"></div><div style="font-size:10px;color:#888;" id="pdf-prep"></div></div></div>
+  <div class="sbox" id="pdf-summary"></div>
+  <div id="pdf-body"></div>
+  <button class="pdfbtn" onclick="makePDF()">⬇ Download PDF</button>
+</div>
+
+<!-- STAFF REPORT -->
+<div class="screen" id="screen-staffrep">
+  <div class="phdr"><span style="font-size:28px">📊</span><div><div class="ptitle">Staff Monthly Report</div><div style="font-size:11px;color:#888;margin-top:2px;">Select employee & month</div></div></div>
+  <div class="section">
+    <div class="sec-title">SELECT EMPLOYEE & MONTH</div>
+    <select class="sfield" id="rep-emp" onchange="drawStaffReport()"><option value="">-- Select Employee --</option></select>
+    <div style="display:flex;gap:8px;">
+      <select class="sfield" id="rep-month" onchange="drawStaffReport()" style="flex:1;"></select>
+      <select class="sfield" id="rep-year" onchange="drawStaffReport()" style="flex:1;"></select>
+    </div>
+  </div>
+  <div id="rep-summary"></div>
+  <div id="rep-body"></div>
+  <button class="pdfbtn hidden" id="rep-pdf-btn" onclick="makeStaffPDF()">⬇ Download Staff PDF</button>
+</div>
+
+<script>
+var LOGO_B64 = "gavs_logo.png";
+// ── Core Data ─────────────────────────────────────────────────────────────────
+var VENUES_INIT=["The Leela Palace New Delhi","The Oberoi New Delhi","ITC Maurya New Delhi","Taj Mahal Hotel New Delhi","The Imperial New Delhi","Hyatt Regency Delhi","Radisson Blu Plaza Delhi Airport","Le Meridien New Delhi","The Ashok New Delhi","Sheraton New Delhi Hotel","Eros Hotel New Delhi","The Suryaa New Delhi","Crowne Plaza Today Okhla","JW Marriott New Delhi Aerocity","Pullman New Delhi Aerocity","Novotel New Delhi Aerocity","Andaz Delhi","Aloft New Delhi Aerocity","Ibis New Delhi Aerocity","Pride Plaza Hotel Aerocity","Holiday Inn New Delhi Aerocity","Roseate House New Delhi","The Grand New Delhi","Shangri-La Eros New Delhi","Lalit New Delhi","Hans Hotel New Delhi","The Manor New Delhi","Hotel Bristol New Delhi","Jaypee Siddharth New Delhi","Vivanta New Delhi Dwarka","Lemon Tree Premier New Delhi","The Westin Gurgaon","Trident Gurgaon","Hyatt Place Gurgaon","Courtyard by Marriott Gurgaon","ITC Grand Bharat Gurgaon","Hilton Garden Inn Gurgaon","Four Points by Sheraton Gurgaon","DoubleTree Hilton Gurgaon","Le Meridien Gurgaon","Park Hyatt Gurgaon","Radisson Blu MBD Noida","Crowne Plaza Greater Noida","Jaypee Greens Golf Resort Noida","The Westin Sohna Resort","Vivanta Surajkund","Sheraton Saket New Delhi","Fortune Select Excalibur Gurgaon","Country Inn Sahibabad","Maidens Hotel Delhi"];
+var COLORS=["#1565c0","#6a1b9a","#0277bd","#1b5e20","#b71c1c","#880e4f","#e65100","#00695c","#33691e","#4527a0","#c62828","#4e342e","#00796b","#ad1457","#283593","#558b2f","#0288d1","#7b1fa2"];
+var TIMES=["6:00 AM","7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","8:00 PM","9:00 PM","10:00 PM","11:00 PM"];
+var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+var staff=[];
+var venues=VENUES_INIT.map(function(n){return{id:uid(),name:n,vip:false};});
+var roles=["Manager","Sound Engineer","Lighting Tech","AV Tech","Stage Manager","Camera Operator","Video Tech","Crew Lead","Setup Specialist","Live Stream Tech","Projection Tech","DJ Operator","Truss Rigger"];
+var assigned={};   // venueId -> {empId->{emp,dutyTime}}
+var leave={};      // empId->{emp,dutyTime}
+var office={};     // empId->{emp,dutyTime}
+// dailyLog: {dateStr -> {venueId:{empId:dutyTime}, leave:[empId], office:[empId]}}
+var dailyLog={};
+var curVenue=null;
+var curRole="All";
+var lTab="a", oTab="a", mTab="staff";
+var modalCB=null;
+
+function uid(){return"_"+Math.random().toString(36).slice(2,9);}
+function cc(r){if(r==="Manager")return"#1a237e";var i=roles.indexOf(r);return COLORS[i>=0?i%COLORS.length:0]||"#1565c0";}
+function ini(n){var p=n.trim().split(" ");return(p[0]||"?")[0].toUpperCase()+((p[1]||"")[0]||"").toUpperCase();}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function nd(d){var x=new Date(d);x.setDate(x.getDate()+1);return x.toISOString().slice(0,10);}
+function fd(d){return new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});}
+function getD(){return document.getElementById("datepicker").value||new Date().toISOString().slice(0,10);}
+function team(vid){return Object.values(assigned[vid]||{});}
+function aids(){var r=[];Object.values(assigned).forEach(function(m){Object.keys(m).forEach(function(i){r.push(i);});});return r;}
+function isManager(emp){return emp&&emp.role==="Manager";}
+
+// ── Init Date & Dropdowns ─────────────────────────────────────────────────────
+document.getElementById("datepicker").value=new Date().toISOString().slice(0,10);
+document.getElementById("datepicker").addEventListener("change",function(){applyPinnedStaff();drawStats();});
+
+// Month/Year for staff report
+(function(){
+  var ms=document.getElementById("rep-month");
+  var ys=document.getElementById("rep-year");
+  MONTHS.forEach(function(m,i){ms.innerHTML+='<option value="'+i+'">'+m+'</option>';});
+  var cy=new Date().getFullYear();
+  for(var y=cy;y>=cy-2;y--){ys.innerHTML+='<option value="'+y+'">'+y+'</option>';}
+  ms.value=new Date().getMonth();
+  ys.value=cy;
+})();
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+var tt;
+function toast(msg,t){
+  var el=document.getElementById("toast");
+  el.textContent=msg;
+  el.style.background=t==="e"?"#c62828":t==="w"?"#e65100":"#1b5e20";
+  el.style.display="block";
+  clearTimeout(tt);
+  tt=setTimeout(function(){el.style.display="none";},2500);
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+function showModal(html){
+  document.getElementById("modal-body").innerHTML=html;
+  document.getElementById("modal-overlay").classList.remove("hidden");
+}
+function closeModal(){document.getElementById("modal-overlay").classList.add("hidden");}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function gotoScreen(s){
+  document.querySelectorAll(".screen").forEach(function(x){x.classList.remove("active");});
+  document.querySelectorAll(".nb").forEach(function(x){x.classList.remove("active");});
+  document.getElementById("screen-"+s).classList.add("active");
+  var nb=document.getElementById("nav-"+(s==="detail"?"venues":s));
+  if(nb)nb.classList.add("active");
+  if(s==="venues")drawVenues();
+  if(s==="detail")drawDetail();
+  if(s==="manage")drawManage();
+  if(s==="leave"){lTab="a";document.getElementById("ltab-a").style.background="#c62828";document.getElementById("ltab-a").style.color="#fff";document.getElementById("ltab-m").style.background="transparent";document.getElementById("ltab-m").style.color="#c62828";drawLeave();}
+  if(s==="office"){oTab="a";document.getElementById("otab-a").style.background="#e65100";document.getElementById("otab-a").style.color="#fff";document.getElementById("otab-m").style.background="transparent";document.getElementById("otab-m").style.color="#e65100";drawOffice();}
+  if(s==="pdf")drawPDF();
+  if(s==="staffrep")drawStaffRepSelectors();
+  drawStats();
+}
+
+// ── Pinned Staff Logic ────────────────────────────────────────────────────────
+function applyPinnedStaff(){
+  // For each pinned staff not on leave/office/already assigned elsewhere, assign to their venue
+  var lids=Object.keys(leave);
+  var oids=Object.keys(office);
+  staff.forEach(function(e){
+    if(!e.pinnedVenue)return;
+    if(lids.includes(e.id)||oids.includes(e.id))return;
+    // check if venue exists
+    var v=venues.find(function(v){return v.id===e.pinnedVenue;});
+    if(!v)return;
+    // remove from any other venue first
+    Object.keys(assigned).forEach(function(vid){if(vid!==e.pinnedVenue&&assigned[vid][e.id])delete assigned[vid][e.id];});
+    // assign to pinned venue if not already there
+    if(!assigned[e.pinnedVenue])assigned[e.pinnedVenue]={};
+    if(!assigned[e.pinnedVenue][e.id]){
+      assigned[e.pinnedVenue][e.id]={emp:e,dutyTime:"6:00 AM",pinned:true};
+    }
+  });
+}
+
+// ── Stats ─────────────────────────────────────────────────────────────────────
+function drawStats(){
+  var a=aids().length,l=Object.keys(leave).length,o=Object.keys(office).length;
+  var f=Math.max(0,staff.length-a-l-o);
+  document.getElementById("statsbar").innerHTML=
+    sc("Staff",staff.length,"#1565c0")+sc("Deployed",a,"#1b5e20")+
+    sc("Leave",l,"#c62828")+sc("Office",o,"#e65100")+sc("Free",f,"#4527a0");
+}
+function sc(l,v,c){return'<div class="sc" style="border:1.5px solid '+c+'44;"><div class="sv" style="color:'+c+'">'+v+'</div><div class="sl">'+l+'</div></div>';}
+
+// ── Venues Screen ─────────────────────────────────────────────────────────────
+function drawVenues(){
+  var q=(document.getElementById("vsearch")||{}).value||"";
+  var el=document.getElementById("vlist");
+  // VIP venues first
+  var fv=venues.filter(function(v){return v.name.toLowerCase().includes(q.toLowerCase());});
+  var vips=fv.filter(function(v){return v.vip;});
+  var rest=fv.filter(function(v){return !v.vip;});
+  var sorted=vips.concat(rest);
+  if(!sorted.length){el.innerHTML='<div class="empty">No venues.</div>';return;}
+  el.innerHTML=sorted.map(function(v,i){
+    var t=team(v.id);
+    var isVip=v.vip;
+    // Find managers in team
+    var mgrs=t.filter(function(a){return isManager(a.emp);});
+    var mgrHtml="";
+    mgrs.forEach(function(a){
+      mgrHtml+='<div class="mgr-bar"><span style="font-size:14px;">👔</span><div><div class="mgr-name">'+esc(a.emp.name)+'</div>'+(a.emp.phone?'<div class="mgr-phone">📞 '+esc(a.emp.phone)+'</div>':'')+' </div></div>';
+    });
+    var prev=t.filter(function(a){return!isManager(a.emp);}).slice(0,4).map(function(a){
+      var c=cc(a.emp.role);
+      return'<span style="font-size:10px;color:'+c+';background:'+c+'18;border:1px solid '+c+'33;border-radius:4px;padding:2px 6px;">'+(a.pinned?"📌 ":"")+esc(a.emp.name.split(" ")[0])+'</span>';
+    }).join("");
+    if(t.filter(function(a){return!isManager(a.emp);}).length>4)prev+='<span style="font-size:10px;color:#888">+more</span>';
+    return(isVip?'<div style="font-size:10px;font-weight:800;color:#fff;background:#f9a825;padding:3px 13px;letter-spacing:0.08em;">⭐ VIP EVENT</div>':'')+
+      '<div class="vcard'+(isVip?" vip":"")+'" onclick="openVenue(\''+v.id+'\')">'+(mgrHtml)+
+      '<div class="vcard-top">'+
+        '<div class="vnum'+(isVip?" vip":"")+'">'+(isVip?"⭐":"V")+(venues.indexOf(v)+1)+'</div>'+
+        '<div style="flex:1;min-width:0;"><div class="vname">'+esc(v.name)+'</div>'+
+        '<div style="font-size:10px;color:#555;margin-top:1px;"><span style="color:#1565c0;font-weight:700">'+t.length+'</span> staff</div></div>'+
+        (t.length>0?'<div style="background:#1565c0;color:#fff;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;">'+t.length+'</div>':'')+
+        '<span style="font-size:18px;color:#bbb;margin-left:3px;">›</span>'+
+      '</div>'+
+      (prev?'<div style="display:flex;flex-wrap:wrap;gap:4px;padding:3px 13px 10px;">'+prev+'</div>':'')+
+    '</div>';
+  }).join("");
+}
+
+function openVenue(id){curVenue=id;curRole="All";var el=document.getElementById("asearch");if(el)el.value="";gotoScreen("detail");}
+
+function toggleVIP(){
+  var v=venues.find(function(x){return x.id===curVenue;});if(!v)return;
+  v.vip=!v.vip;
+  var btn=document.getElementById("vipbtn");
+  btn.style.background=v.vip?"#f9a825":"#fff8e1";
+  btn.style.color=v.vip?"#fff":"#e65100";
+  toast(v.vip?"⭐ VIP Event set!":"VIP removed","w");
+  drawVenues();
+}
+
+// ── Detail ────────────────────────────────────────────────────────────────────
+function drawDetail(){
+  var v=venues.find(function(x){return x.id===curVenue;});if(!v)return;
+  var t=team(curVenue);
+  document.getElementById("dtitle").textContent=v.name;
+  document.getElementById("dmeta").textContent=t.length+" staff assigned"+(v.vip?" · ⭐ VIP EVENT":"");
+  document.getElementById("clearbtn").style.display=t.length?"block":"none";
+  var vipbtn=document.getElementById("vipbtn");
+  vipbtn.style.background=v.vip?"#f9a825":"#fff8e1";
+  vipbtn.style.color=v.vip?"#fff":"#e65100";
+
+  // Sort: managers first, then pinned, then rest
+  var mgrs=t.filter(function(a){return isManager(a.emp);});
+  var pinned=t.filter(function(a){return a.pinned&&!isManager(a.emp);});
+  var rest=t.filter(function(a){return !a.pinned&&!isManager(a.emp);});
+  var sorted=mgrs.concat(pinned).concat(rest);
+
+  var ah="";
+  if(sorted.length){
+    ah='<div class="section"><div class="sec-title">ASSIGNED TEAM — '+sorted.length+' STAFF</div>';
+    sorted.forEach(function(a){
+      var c=cc(a.emp.role);var av=ini(a.emp.name);
+      var isMgr=isManager(a.emp);
+      ah+='<div class="acard'+(a.pinned?" pinned":"")+(isMgr?" mgr":"")+'">'+(isMgr?'<div style="width:36px;height:36px;border-radius:8px;background:#1a237e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">'+av+'</div>':'<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+av+'</div>')+
+        '<div style="flex:1;min-width:0;">'+(isMgr?'<div style="font-size:14px;font-weight:800;color:#1a237e;">'+esc(a.emp.name)+'<span class="mgr-badge">MGR</span></div>'+(a.emp.phone?'<div style="font-size:11px;color:#3949ab;margin-top:1px;">📞 '+esc(a.emp.phone)+'</div>':''):'<div class="ename">'+esc(a.emp.name)+(a.pinned?'<span class="pin-badge">📌 FIXED</span>':'')+'</div>')+
+        '<div class="erole" style="color:'+c+';">'+esc(a.emp.role)+'</div>'+
+        '<div class="drow"><span class="dlabel">⏰ Duty:</span>'+tsel(a.dutyTime,"ud('"+a.emp.id+"','"+curVenue+"',this.value)")+'</div>'+
+        '</div>'+
+        '<button class="rmbtn" onclick="'+(a.pinned||isMgr?'pinnedOptions(\''+a.emp.id+'\')':'remFromVenue(\''+a.emp.id+'\',\''+curVenue+'\')')+'">'+
+        (a.pinned||isMgr?'⚙️':'✕')+'</button>'+
+      '</div>';
+    });
+    ah+='</div>';
+  }
+  document.getElementById("asection").innerHTML=ah;
+
+  var rf='<button class="rpill" style="'+(curRole==="All"?"background:#1565c0;color:#fff;border:none;":"")+'" onclick="setRole(\'All\')">All</button>';
+  roles.forEach(function(r){var c=cc(r);var on=curRole===r;rf+='<button class="rpill" style="'+(on?"background:"+c+";color:#fff;border:none;":"")+'" onclick="setRole(\''+esc(r)+'\')">'+esc(r)+'</button>';});
+  document.getElementById("rfilters").innerHTML=rf;
+  drawAddStaff();
+}
+
+function pinnedOptions(empId){
+  var emp=staff.find(function(e){return e.id===empId;});
+  if(!emp)return;
+  var vOpts=venues.filter(function(v){return v.id!==curVenue;}).map(function(v){
+    return'<button class="modal-btn green" onclick="movePinnedTo(\''+empId+'\',\''+v.id+'\');closeModal();">🏨 Move to: '+esc(v.name)+'</button>';
+  }).join("");
+  showModal(
+    '<div class="modal-title">'+esc(emp.name)+(emp.phone?' <span style="font-size:11px;color:#888;">📞'+esc(emp.phone)+'</span>':'')+'</div>'+
+    '<div style="font-size:11px;color:#888;text-align:center;margin-bottom:12px;">'+esc(emp.role)+(emp.pinnedVenue?' · 📌 Fixed Staff':'')+'</div>'+
+    '<button class="modal-btn warn" onclick="movePinnedToLeave(\''+empId+'\');closeModal();">🌴 Give Leave Today</button>'+
+    '<button class="modal-btn warn" onclick="movePinnedToOffice(\''+empId+'\');closeModal();">🏢 Give Office Duty Today</button>'+
+    '<div style="font-size:10px;color:#888;margin:10px 0 6px;font-weight:700;">MOVE TO ANOTHER VENUE:</div>'+
+    '<div style="max-height:200px;overflow-y:auto;">'+vOpts+'</div>'+
+    '<button class="modal-btn danger" onclick="remFromVenue(\''+empId+'\',\''+curVenue+'\');closeModal();">✕ Remove from this Venue</button>'+
+    '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
+  );
+}
+
+function movePinnedTo(empId,venueId){
+  var a=assigned[curVenue]&&assigned[curVenue][empId];
+  if(!a)return;
+  if(!assigned[venueId])assigned[venueId]={};
+  assigned[venueId][empId]=Object.assign({},a);
+  delete assigned[curVenue][empId];
+  var v=venues.find(function(x){return x.id===venueId;});
+  toast((a.emp.name)+" moved to "+(v?v.name:"venue"));
+  drawDetail();drawStats();
+}
+
+function movePinnedToLeave(empId){
+  var a=assigned[curVenue]&&assigned[curVenue][empId];if(!a)return;
+  leave[empId]={emp:a.emp,dutyTime:a.dutyTime};
+  delete assigned[curVenue][empId];
+  toast(a.emp.name+" on leave today","w");drawDetail();drawStats();
+}
+
+function movePinnedToOffice(empId){
+  var a=assigned[curVenue]&&assigned[curVenue][empId];if(!a)return;
+  office[empId]={emp:a.emp,dutyTime:a.dutyTime};
+  delete assigned[curVenue][empId];
+  toast(a.emp.name+" in office today","w");drawDetail();drawStats();
+}
+
+function tsel(cur,onch){
+  return'<select class="tsel" onchange="'+onch+'">'+TIMES.map(function(t){return'<option'+(t===cur?' selected':'')+'>'+t+'</option>';}).join("")+'</select>';
+}
+
+function drawAddStaff(){
+  var q=(document.getElementById("asearch")||{}).value||"";
+  var aids_=aids();var lids=Object.keys(leave);var oids=Object.keys(office);
+  var avail=staff.filter(function(e){
+    return !aids_.includes(e.id)&&!lids.includes(e.id)&&!oids.includes(e.id)&&
+      e.name.toLowerCase().includes(q.toLowerCase())&&(curRole==="All"||e.role===curRole);
+  });
+  var el=document.getElementById("alist");
+  if(!staff.length){el.innerHTML='<div class="empty">No staff yet. Go to Manage.</div>';return;}
+  if(!avail.length){el.innerHTML='<div class="empty">No available staff.</div>';return;}
+  el.innerHTML=avail.map(function(e){
+    var c=cc(e.role);var av=ini(e.name);
+    return'<div class="srow" ontouchstart="tStart(event,\''+e.id+'\')" onclick="addEmp(\''+e.id+'\')">'+
+      '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+av+'</div>'+
+      '<div style="flex:1;min-width:0;"><div class="ename">'+esc(e.name)+(e.pinnedVenue&&e.pinnedVenue===curVenue?'<span class="pin-badge">📌</span>':'')+(isManager(e)?'<span class="mgr-badge">MGR</span>':'')+'</div>'+
+      '<div class="erole" style="color:'+c+';">'+esc(e.role)+'</div>'+(e.phone?'<div style="font-size:10px;color:#888;">📞 '+esc(e.phone)+'</div>':'')+'</div>'+
+      '<button class="addbtn" onclick="event.stopPropagation();addEmp(\''+e.id+'\')">+ Add</button></div>';
+  }).join("");
+}
+
+function setRole(r){curRole=r;drawDetail();}
+function ud(eid,vid,val){if(assigned[vid]&&assigned[vid][eid])assigned[vid][eid].dutyTime=val;}
+
+function addEmp(eid){
+  var e=staff.find(function(x){return x.id===eid;});if(!e||!curVenue)return;
+  if(!assigned[curVenue])assigned[curVenue]={};
+  Object.keys(assigned).forEach(function(vid){if(assigned[vid][eid])delete assigned[vid][eid];});
+  delete leave[eid];delete office[eid];
+  var isPinned=e.pinnedVenue===curVenue;
+  assigned[curVenue][eid]={emp:e,dutyTime:"6:00 AM",pinned:isPinned};
+  var v=venues.find(function(x){return x.id===curVenue;});
+  toast(e.name+" → "+(v?v.name:"venue"));
+  drawDetail();drawStats();
+}
+
+function remFromVenue(eid,vid){if(assigned[vid])delete assigned[vid][eid];drawDetail();drawStats();}
+function clearVenue(){if(curVenue)assigned[curVenue]={};toast("Venue cleared","w");drawDetail();drawStats();}
+
+// ── Save Daily Log ────────────────────────────────────────────────────────────
+function saveDailyLog(){
+  var d=getD();
+  var log={venues:{},leave:[],office:[]};
+  Object.keys(assigned).forEach(function(vid){
+    log.venues[vid]={};
+    Object.keys(assigned[vid]).forEach(function(eid){
+      log.venues[vid][eid]=assigned[vid][eid].dutyTime;
+    });
+  });
+  Object.keys(leave).forEach(function(eid){log.leave.push({id:eid,duty:leave[eid].dutyTime});});
+  Object.keys(office).forEach(function(eid){log.office.push({id:eid,duty:office[eid].dutyTime});});
+  dailyLog[d]=log;
+  toast("Daily log saved for "+fd(d));
+}
+
+// ── Manage ────────────────────────────────────────────────────────────────────
+function mtab(t){
+  mTab=t;
+  ["staff","venues","roles"].forEach(function(x){
+    document.getElementById("mp-"+x).classList.toggle("hidden",x!==t);
+    document.getElementById("mt-"+x).classList.toggle("active",x===t);
+  });
+  drawManage();
+}
+
+function drawManage(){fillRoleDD();fillPinDD();if(mTab==="staff")drawManageStaff();if(mTab==="venues")drawManageVenues();if(mTab==="roles")drawManageRoles();}
+
+function fillRoleDD(){
+  var el=document.getElementById("ns-role");if(!el)return;
+  var cur=el.value;
+  el.innerHTML=roles.map(function(r){return'<option'+(r===cur?' selected':'')+'>'+esc(r)+'</option>';}).join("");
+  togglePhoneField();
+}
+
+function togglePhoneField(){
+  var r=document.getElementById("ns-role").value;
+  document.getElementById("ns-phone").style.display=r==="Manager"?"block":"none";
+}
+
+function fillPinDD(){
+  var el=document.getElementById("ns-pin");if(!el)return;
+  var cur=el.value;
+  el.innerHTML='<option value="">No Fixed Venue (Flexible)</option>'+
+    venues.map(function(v){return'<option value="'+v.id+'"'+(v.id===cur?' selected':'')+'>'+esc(v.name)+'</option>';}).join("");
+}
+
+function doAddStaff(){
+  var n=(document.getElementById("ns-name").value||"").trim();
+  var r=document.getElementById("ns-role").value||roles[0];
+  var ph=(document.getElementById("ns-phone").value||"").trim();
+  var pin=document.getElementById("ns-pin").value||"";
+  if(!n){toast("Enter a name","w");return;}
+  var e={id:uid(),name:n,role:r,phone:ph,pinnedVenue:pin};
+  staff.push(e);
+  document.getElementById("ns-name").value="";
+  document.getElementById("ns-phone").value="";
+  // If pinned, auto assign
+  if(pin){
+    if(!assigned[pin])assigned[pin]={};
+    assigned[pin][e.id]={emp:e,dutyTime:"6:00 AM",pinned:true};
+  }
+  toast(n+" added!");drawManageStaff();drawStats();fillRepEmpDD();
+}
+
+function delStaff(eid){
+  var emp=staff.find(function(e){return e.id===eid;});
+  if(!emp)return;
+  pendingDelete={type:"staff",id:eid,name:emp.name};
+  showModal(
+    '<div class="modal-title" style="color:#c62828;">Delete Staff Member?</div>'+
+    '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:16px;">Are you sure you want to delete<br><strong>'+esc(emp.name)+'</strong>?<br><span style="font-size:12px;color:#888;">This cannot be undone.</span></div>'+
+    '<button class="modal-btn danger" onclick="runPendingDelete()">Yes, Delete</button>'+
+    '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
+  );
+}
+function confirmDelStaff(eid){
+  staff=staff.filter(function(e){return e.id!==eid;});
+  delete leave[eid];delete office[eid];
+  Object.keys(assigned).forEach(function(v){delete assigned[v][eid];});
+  toast("Staff removed","w");drawManageStaff();drawStats();fillRepEmpDD();
+}
+
+function drawManageStaff(){
+  var q=(document.getElementById("ms-search")||{}).value||"";
+  var el=document.getElementById("ms-list");
+  var f=staff.filter(function(e){return e.name.toLowerCase().includes(q.toLowerCase());});
+  if(!staff.length){el.innerHTML='<div class="empty">No staff yet.</div>';return;}
+  el.innerHTML=f.map(function(e){
+    var c=cc(e.role);
+    var pv=e.pinnedVenue?venues.find(function(v){return v.id===e.pinnedVenue;}):null;
+    return '<div class="mrow">'+
+      '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div>'+
+      '<div style="flex:1;min-width:0;">'+
+        '<div class="ename">'+esc(e.name)+(isManager(e)?'<span class="mgr-badge">MGR</span>':'')+'</div>'+
+        '<div class="erole" style="color:'+c+';">'+esc(e.role)+'</div>'+
+        (e.phone?'<div style="font-size:10px;color:#888;">Ph: '+esc(e.phone)+'</div>':'')+
+        (pv?'<div style="font-size:10px;color:#7986cb;margin-top:1px;">Fixed: '+esc(pv.name)+'</div>':'')+
+      '</div>'+
+      '<button onclick="editStaff(''+e.id+'')" style="background:#e3f2fd;border:1.5px solid #90caf9;color:#1565c0;border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:14px;flex-shrink:0;margin-right:4px;" title="Edit">✏️</button>'+
+      '<button class="delbtn" onclick="delStaff(''+e.id+'')" title="Delete">🗑️</button>'+
+    '</div>';
+  }).join("");
+}
+
+function doAddVenue(){
+  var n=(document.getElementById("nv-name").value||"").trim();
+  if(!n){toast("Enter venue name","w");return;}
+  venues.push({id:uid(),name:n,vip:false});
+  document.getElementById("nv-name").value="";
+  toast(n+" added!");drawManageVenues();drawVenues();fillPinDD();
+}
+
+function delVenue(vid){
+  var venue=venues.find(function(v){return v.id===vid;});
+  if(!venue)return;
+  var tcount=team(vid).length;
+  pendingDelete={type:"venue",id:vid,name:venue.name};
+  showModal(
+    '<div class="modal-title" style="color:#c62828;">Delete Venue?</div>'+
+    '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:8px;">Are you sure you want to delete<br><strong>'+esc(venue.name)+'</strong>?</div>'+
+    (tcount>0?'<div style="text-align:center;font-size:12px;color:#e65100;background:#fff8f0;border-radius:8px;padding:8px;margin-bottom:12px;">⚠️ '+tcount+' staff assigned here will be unassigned.</div>':'')+
+    '<button class="modal-btn danger" onclick="runPendingDelete()">Yes, Delete</button>'+
+    '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
+  );
+}
+function confirmDelVenue(vid){
+  venues=venues.filter(function(v){return v.id!==vid;});
+  delete assigned[vid];
+  staff.forEach(function(e){if(e.pinnedVenue===vid)e.pinnedVenue="";});
+  toast("Venue removed","w");drawManageVenues();drawVenues();fillPinDD();
+}
+
+function drawManageVenues(){
+  var q=(document.getElementById("mv-search")||{}).value||"";
+  var el=document.getElementById("mv-list");
+  var f=venues.filter(function(v){return v.name.toLowerCase().includes(q.toLowerCase());});
+  if(!venues.length){el.innerHTML='<div class="empty">No venues.</div>';return;}
+  el.innerHTML=f.map(function(v){
+    var idx=venues.indexOf(v);
+    return '<div class="mrow">'+
+      '<div class="avatar" style="background:#e3eaff;color:#1565c0;font-size:9px;flex-shrink:0;">V'+(idx+1)+'</div>'+
+      '<div style="flex:1;min-width:0;">'+
+        '<div class="ename" style="font-size:12px;">'+esc(v.name)+'</div>'+
+        (v.vip?'<span style="font-size:9px;background:#f9a825;color:#fff;border-radius:4px;padding:1px 6px;font-weight:700;">VIP</span>':'')+
+      '</div>'+
+      '<button onclick="editVenue(''+v.id+'')" style="background:#e3f2fd;border:1.5px solid #90caf9;color:#1565c0;border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:14px;flex-shrink:0;margin-right:4px;" title="Edit">✏️</button>'+
+      '<button class="delbtn" onclick="delVenue(''+v.id+'')" title="Delete">🗑️</button>'+
+    '</div>';
+  }).join("");
+}
+
+function doAddRole(){
+  var n=(document.getElementById("nr-name").value||"").trim();
+  if(!n){toast("Enter role","w");return;}
+  if(roles.includes(n)){toast("Exists","w");return;}
+  roles.push(n);document.getElementById("nr-name").value="";
+  toast(n+" added!");drawManageRoles();fillRoleDD();
+}
+
+function delRole(r){
+  if(r==="Manager"){toast("Cannot delete Manager role","e");return;}
+  pendingDelete={type:"role",id:r,name:r};
+  showModal(
+    '<div class="modal-title" style="color:#c62828;">Delete Role?</div>'+
+    '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:16px;">Delete role <strong>'+esc(r)+'</strong>?<br><span style="font-size:12px;color:#888;">Staff with this role will keep it until changed.</span></div>'+
+    '<button class="modal-btn danger" onclick="runPendingDelete()">Yes, Delete</button>'+
+    '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
+  );
+}
+function confirmDelRole(r){
+  roles=roles.filter(function(x){return x!==r;});
+  toast(r+" removed","w");drawManageRoles();fillRoleDD();
+}
+
+function drawManageRoles(){
+  var el=document.getElementById("mr-list");
+  if(!roles.length){el.innerHTML='<div class="empty">No roles.</div>';return;}
+  el.innerHTML=roles.map(function(r,i){
+    var c=cc(r);
+    return'<div class="mrow">'+
+      '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;font-size:10px;">'+(i+1)+'</div>'+
+      '<div style="flex:1;min-width:0;"><div class="ename" style="color:'+c+';">'+esc(r)+'</div></div>'+
+      (r!=="Manager"?'<button class="delbtn" onclick="delRole(\''+esc(r)+'\')">🗑️</button>':'<span style="font-size:10px;color:#1a237e;padding-right:4px;">🔒</span>')+
+    '</div>';
+  }).join("");
+}
+
+// ── Leave ─────────────────────────────────────────────────────────────────────
+function ltab(t){
+  lTab=t;
+  var a=document.getElementById("ltab-a"),m=document.getElementById("ltab-m");
+  a.style.background=t==="a"?"#c62828":"transparent";a.style.color=t==="a"?"#fff":"#c62828";
+  m.style.background=t==="m"?"#c62828":"transparent";m.style.color=t==="m"?"#fff":"#c62828";
+  drawLeave();
+}
+function markLeave(eid){
+  var e=staff.find(function(x){return x.id===eid;});if(!e)return;
+  Object.keys(assigned).forEach(function(v){delete assigned[v][eid];});delete office[eid];
+  leave[eid]={emp:e,dutyTime:"6:00 AM"};
+  toast(e.name+" on leave");drawLeave();drawStats();
+}
+function unLeave(eid){delete leave[eid];toast("Leave removed","w");drawLeave();drawStats();}
+function ldut(eid,val){if(leave[eid])leave[eid].dutyTime=val;}
+function drawLeave(){
+  var q=(document.getElementById("lsearch")||{}).value||"";
+  document.getElementById("lcount").textContent=Object.keys(leave).length+" staff marked";
+  var el=document.getElementById("llist");
+  if(lTab==="a"){
+    var _aids=aids();var _oids=Object.keys(office);
+    var av=staff.filter(function(e){return !leave[e.id]&&!_aids.includes(e.id)&&!_oids.includes(e.id)&&e.name.toLowerCase().includes(q.toLowerCase());});
+    if(!av.length){el.innerHTML='<div class="empty">No available staff. All are deployed or in office.</div>';return;}
+    el.innerHTML=av.map(function(e){var c=cc(e.role);return'<div class="mrow"><div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div><div style="flex:1;min-width:0;"><div class="ename">'+esc(e.name)+'</div><div class="erole" style="color:'+c+';">'+esc(e.role)+'</div></div><button class="togbtn" style="color:#c62828;border-color:#c62828;background:transparent;" onclick="markLeave(\''+e.id+'\')">Mark</button></div>';}).join("");
+  }else{
+    var mk=Object.values(leave).filter(function(a){return a.emp.name.toLowerCase().includes(q.toLowerCase());});
+    if(!mk.length){el.innerHTML='<div class="empty">No staff on leave.</div>';return;}
+    el.innerHTML=mk.map(function(a){var c=cc(a.emp.role);return'<div class="acard" style="background:#fff5f5;border:1.5px solid #ffcdd2;margin-bottom:7px;"><div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(a.emp.name)+'</div><div style="flex:1;min-width:0;"><div class="ename">'+esc(a.emp.name)+'</div><div class="erole" style="color:'+c+';">'+esc(a.emp.role)+'</div><div class="drow"><span class="dlabel">⏰</span>'+tsel(a.dutyTime,"ldut('"+a.emp.id+"',this.value)")+'</div></div><button class="rmbtn" onclick="unLeave(\''+a.emp.id+'\')">✕</button></div>';}).join("");
+  }
+}
+
+// ── Office ────────────────────────────────────────────────────────────────────
+function otab(t){
+  oTab=t;
+  var a=document.getElementById("otab-a"),m=document.getElementById("otab-m");
+  a.style.background=t==="a"?"#e65100":"transparent";a.style.color=t==="a"?"#fff":"#e65100";
+  m.style.background=t==="m"?"#e65100":"transparent";m.style.color=t==="m"?"#fff":"#e65100";
+  drawOffice();
+}
+function markOffice(eid){
+  var e=staff.find(function(x){return x.id===eid;});if(!e)return;
+  Object.keys(assigned).forEach(function(v){delete assigned[v][eid];});delete leave[eid];
+  office[eid]={emp:e,dutyTime:"6:00 AM"};
+  toast(e.name+" in office");drawOffice();drawStats();
+}
+function unOffice(eid){delete office[eid];toast("Removed","w");drawOffice();drawStats();}
+function odut(eid,val){if(office[eid])office[eid].dutyTime=val;}
+function drawOffice(){
+  var q=(document.getElementById("osearch")||{}).value||"";
+  document.getElementById("ocount").textContent=Object.keys(office).length+" staff marked";
+  var el=document.getElementById("olist");
+  if(oTab==="a"){
+    var _aids2=aids();var _lids2=Object.keys(leave);
+    var av=staff.filter(function(e){return !office[e.id]&&!_aids2.includes(e.id)&&!_lids2.includes(e.id)&&e.name.toLowerCase().includes(q.toLowerCase());});
+    if(!av.length){el.innerHTML='<div class="empty">No available staff. All are deployed or on leave.</div>';return;}
+    el.innerHTML=av.map(function(e){var c=cc(e.role);return'<div class="mrow"><div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div><div style="flex:1;min-width:0;"><div class="ename">'+esc(e.name)+'</div><div class="erole" style="color:'+c+';">'+esc(e.role)+'</div></div><button class="togbtn" style="color:#e65100;border-color:#e65100;background:transparent;" onclick="markOffice(\''+e.id+'\')">Mark</button></div>';}).join("");
+  }else{
+    var mk=Object.values(office).filter(function(a){return a.emp.name.toLowerCase().includes(q.toLowerCase());});
+    if(!mk.length){el.innerHTML='<div class="empty">No staff in office.</div>';return;}
+    el.innerHTML=mk.map(function(a){var c=cc(a.emp.role);return'<div class="acard" style="background:#fff8f0;border:1.5px solid #ffe0b2;margin-bottom:7px;"><div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(a.emp.name)+'</div><div style="flex:1;min-width:0;"><div class="ename">'+esc(a.emp.name)+'</div><div class="erole" style="color:'+c+';">'+esc(a.emp.role)+'</div><div class="drow"><span class="dlabel">⏰</span>'+tsel(a.dutyTime,"odut('"+a.emp.id+"',this.value)")+'</div></div><button class="rmbtn" onclick="unOffice(\''+a.emp.id+'\')">✕</button></div>';}).join("");
+  }
+}
+
+// ── Report ────────────────────────────────────────────────────────────────────
+function drawPDF(){
+  var d=getD();var ndd=nd(d);
+  document.getElementById("pdf-duty").textContent="Duty Date: "+fd(ndd);
+  document.getElementById("pdf-prep").textContent="Prepared: "+fd(d);
+  var a=aids().length,lv=Object.values(leave),ov=Object.values(office);
+  var av=venues.filter(function(v){return team(v.id).length>0;});
+  document.getElementById("pdf-summary").innerHTML=
+    '<div class="srow2"><span>Total Deployed</span><strong style="color:#1b5e20;font-size:15px;">'+a+'</strong></div>'+
+    '<div class="srow2"><span>Active Venues</span><strong style="color:#1565c0;">'+av.length+'</strong></div>'+
+    '<div class="srow2"><span>On Leave</span><strong style="color:#c62828;">'+lv.length+'</strong></div>'+
+    '<div class="srow2"><span>In Office</span><strong style="color:#e65100;">'+ov.length+'</strong></div>';
+  var h="";
+  venues.forEach(function(v){
+    var t=team(v.id);if(!t.length)return;
+    var mgrs=t.filter(function(a){return isManager(a.emp);});
+    var rest=t.filter(function(a){return !isManager(a.emp);});
+    var sorted=mgrs.concat(rest);
+    h+='<div class="pvcard"'+(v.vip?' style="border-left:4px solid #f9a825;"':'')+'>'+(v.vip?'<div style="font-size:10px;font-weight:800;color:#f9a825;margin-bottom:6px;">⭐ VIP EVENT</div>':'')+
+      '<div style="display:flex;gap:9px;margin-bottom:9px;"><span style="font-size:17px;">🏨</span><div><div class="pvname">'+esc(v.name)+'</div><div style="font-size:11px;color:#1565c0;font-weight:600;">'+t.length+' staff</div></div></div>';
+    sorted.forEach(function(a,i){
+      var c=cc(a.emp.role);var isMgr=isManager(a.emp);
+      h+='<div class="prow"'+(isMgr?' style="background:#e8eaf6;border-radius:6px;"':'')+'><span class="pserial">'+(i+1)+'</span>'+
+        '<div style="flex:1;min-width:0;"><div style="font-weight:'+(isMgr?'800':'700')+';font-size:'+(isMgr?'13':'12')+'px;color:'+(isMgr?'#1a237e':'#111')+';">'+esc(a.emp.name)+(isMgr?' 👔':'')+(a.pinned?' 📌':'')+'</div>'+
+        (isMgr&&a.emp.phone?'<div style="font-size:10px;color:#3949ab;">📞 '+esc(a.emp.phone)+'</div>':'')+
+        '<span style="font-size:10px;color:'+c+';background:'+c+'18;border-radius:3px;padding:1px 5px;">'+esc(a.emp.role)+'</span></div>'+
+        '<div style="font-size:11px;font-weight:700;color:#0d47a1;flex-shrink:0;">⏰ '+esc(a.dutyTime)+'</div></div>';
+    });
+    h+='</div>';
+  });
+  if(lv.length){h+='<div class="pvcard" style="border-left:4px solid #c62828;"><div style="display:flex;gap:9px;margin-bottom:9px;"><span style="font-size:17px;">🌴</span><div><div class="pvname" style="color:#c62828;">On Leave</div><div style="font-size:11px;color:#c62828;">'+lv.length+' staff</div></div></div>';lv.forEach(function(a,i){var c=cc(a.emp.role);h+='<div class="prow"><span class="pserial">'+(i+1)+'</span><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:12px;color:#111;">'+esc(a.emp.name)+'</div><span style="font-size:10px;color:'+c+';background:'+c+'18;border-radius:3px;padding:1px 5px;">'+esc(a.emp.role)+'</span></div><div style="font-size:11px;font-weight:700;color:#c62828;flex-shrink:0;">⏰ '+esc(a.dutyTime)+'</div></div>';});h+='</div>';}
+  if(ov.length){h+='<div class="pvcard" style="border-left:4px solid #e65100;"><div style="display:flex;gap:9px;margin-bottom:9px;"><span style="font-size:17px;">🏢</span><div><div class="pvname" style="color:#e65100;">In Office</div><div style="font-size:11px;color:#e65100;">'+ov.length+' staff</div></div></div>';ov.forEach(function(a,i){var c=cc(a.emp.role);h+='<div class="prow"><span class="pserial">'+(i+1)+'</span><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:12px;color:#111;">'+esc(a.emp.name)+'</div><span style="font-size:10px;color:'+c+';background:'+c+'18;border-radius:3px;padding:1px 5px;">'+esc(a.emp.role)+'</span></div><div style="font-size:11px;font-weight:700;color:#e65100;flex-shrink:0;">⏰ '+esc(a.dutyTime)+'</div></div>';});h+='</div>';}
+  if(!h)h='<div class="empty">No staff deployed yet.</div>';
+  document.getElementById("pdf-body").innerHTML=h;
+  // Auto-save log when viewing report
+  saveDailyLog();
+}
+
+// ── PDF Download ──────────────────────────────────────────────────────────────
+function makePDF(){
+  var d=getD();var ndd=nd(d);
+  var lv=Object.values(leave),ov=Object.values(office);
+  if(!window.jspdf){toast("PDF loading...","w");return;}
+  var doc=new window.jspdf.jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+  var pw=210,mg=12,y=mg;
+  function cp(n){if(y+n>283){doc.addPage();y=mg;}}
+
+  // ── Header ──
+  doc.setFillColor(21,101,192);doc.rect(0,0,pw,36,"F");
+  try{
+    var imgEl=document.querySelector('.header-logo-img');
+    if(imgEl && imgEl.complete && imgEl.naturalWidth>0){
+      var canvas=document.createElement('canvas');
+      canvas.width=imgEl.naturalWidth;canvas.height=imgEl.naturalHeight;
+      canvas.getContext('2d').drawImage(imgEl,0,0);
+      var imgData=canvas.toDataURL('image/png');
+      doc.addImage(imgData,"PNG",mg,4,28,28);
+    }
+  }catch(e){}
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(17);doc.setFont("helvetica","bold");
+  doc.text("GROVER AUDIO VISUAL SERVICES",pw/2+10,15,{align:"center"});
+  doc.setFontSize(8);doc.setFont("helvetica","normal");
+  doc.text("Staff Duty Deployment Report",pw/2+10,23,{align:"center"});
+  y=42;
+
+  // ── Dates ──
+  doc.setTextColor(13,71,161);doc.setFontSize(11);doc.setFont("helvetica","bold");
+  doc.text("Duty Date: "+fd(ndd),mg,y);
+  doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(130,130,130);
+  doc.text("Prepared: "+fd(d),mg,y+6);
+  y+=16;
+
+  // ── Venues ──
+  venues.forEach(function(v){
+    var t=team(v.id);if(!t.length)return;
+    cp(24);
+
+    // Venue header bar - always blue, centered name, bigger font
+    doc.setFillColor(21,101,192);
+    doc.roundedRect(mg,y,pw-mg*2,12,2,2,"F");
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(10);doc.setFont("helvetica","bold");
+    // Centered venue name
+    var vname=v.name;
+    doc.text(vname,pw/2,y+8,{align:"center"});
+    // Staff count right
+    doc.setFontSize(8);
+    doc.text(t.length+" staff",pw-mg-3,y+8,{align:"right"});
+    // VIP EVENT in red bold on right (before staff count)
+    if(v.vip){
+      doc.setTextColor(255,60,60);
+      doc.setFontSize(8);doc.setFont("helvetica","bold");
+      doc.text("VIP EVENT",pw-mg-22,y+8);
+      // Rewrite staff count after VIP
+      doc.setTextColor(255,255,255);doc.setFontSize(8);
+      doc.text(t.length+" staff",pw-mg-3,y+8,{align:"right"});
+    }
+    y+=13;
+
+    // Table header
+    doc.setFillColor(220,230,255);doc.rect(mg,y,pw-mg*2,6,"F");
+    doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont("helvetica","bold");
+    doc.text("#",mg+2,y+4.2);
+    doc.text("Name",mg+10,y+4.2);
+    doc.text("Role",mg+100,y+4.2);
+    doc.text("Duty Time",pw-mg-3,y+4.2,{align:"right"});
+    y+=7;
+
+    // Sort managers first
+    var mgrs=t.filter(function(a){return isManager(a.emp);});
+    var rest=t.filter(function(a){return !isManager(a.emp);});
+    mgrs.concat(rest).forEach(function(a,i){
+      var isMgr=isManager(a.emp);
+      var rowH=isMgr?8:6.5;
+      cp(rowH);
+      if(isMgr){
+        doc.setFillColor(255,244,180);
+        doc.rect(mg,y,pw-mg*2,rowH,"F");
+        doc.setDrawColor(220,160,0);doc.setLineWidth(0.4);
+        doc.rect(mg,y,pw-mg*2,rowH,"S");
+        doc.setLineWidth(0.2);
+      } else if(i%2===0){
+        doc.setFillColor(248,250,255);
+        doc.rect(mg,y,pw-mg*2,rowH,"F");
+      }
+      doc.setDrawColor(220,220,220);
+
+      // Serial number
+      doc.setTextColor(150,150,150);doc.setFontSize(7);doc.setFont("helvetica","normal");
+      doc.text(String(i+1),mg+2,y+rowH-2);
+
+      // Name (+ phone same line for manager)
+      if(isMgr){
+        doc.setTextColor(120,70,0);doc.setFontSize(8);doc.setFont("helvetica","bold");
+        var mgrNameText=a.emp.name+" [MGR]"+(a.emp.phone?"  Ph:"+a.emp.phone:"");
+        doc.text(mgrNameText,mg+10,y+rowH-2);
+      } else {
+        doc.setTextColor(30,30,30);doc.setFontSize(7);doc.setFont("helvetica","bold");
+        // No (Fixed) text - just name
+        doc.text(a.emp.name,mg+10,y+rowH-2);
+      }
+
+      // Role
+      doc.setFont("helvetica","normal");doc.setFontSize(6);doc.setTextColor(100,100,100);
+      doc.text(a.emp.role,mg+100,y+rowH-2);
+
+      // Duty time
+      doc.setTextColor(13,71,161);doc.setFont("helvetica","bold");doc.setFontSize(7);
+      doc.text(a.dutyTime,pw-mg-3,y+rowH-2,{align:"right"});
+
+      y+=rowH;
+    });
+    y+=4;
+  });
+
+  // ── On Leave (no duty time) ──
+  if(lv.length){
+    cp(22);
+    doc.setFillColor(198,40,40);doc.roundedRect(mg,y,pw-mg*2,10,2,2,"F");
+    doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont("helvetica","bold");
+    doc.text("ON LEAVE",pw/2,y+7,{align:"center"});
+    doc.text(lv.length+" staff",pw-mg-3,y+7,{align:"right"});
+    y+=11;
+    doc.setFillColor(220,230,255);doc.rect(mg,y,pw-mg*2,6,"F");
+    doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont("helvetica","bold");
+    doc.text("#",mg+2,y+4.2);doc.text("Name",mg+10,y+4.2);doc.text("Role",mg+100,y+4.2);
+    y+=7;
+    lv.forEach(function(a,i){
+      cp(6.5);
+      if(i%2===0){doc.setFillColor(255,245,245);doc.rect(mg,y,pw-mg*2,6.5,"F");}
+      doc.setTextColor(150,150,150);doc.setFontSize(7);doc.setFont("helvetica","normal");
+      doc.text(String(i+1),mg+2,y+4.5);
+      doc.setTextColor(30,30,30);doc.setFont("helvetica","bold");
+      doc.text(a.emp.name,mg+10,y+4.5);
+      doc.setFont("helvetica","normal");doc.setFontSize(6);doc.setTextColor(100,100,100);
+      doc.text(a.emp.role,mg+100,y+4.5);
+      y+=6.5;
+    });
+    y+=4;
+  }
+
+  // ── In Office (no duty time) ──
+  if(ov.length){
+    cp(22);
+    doc.setFillColor(230,81,0);doc.roundedRect(mg,y,pw-mg*2,10,2,2,"F");
+    doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont("helvetica","bold");
+    doc.text("IN OFFICE",pw/2,y+7,{align:"center"});
+    doc.text(ov.length+" staff",pw-mg-3,y+7,{align:"right"});
+    y+=11;
+    doc.setFillColor(220,230,255);doc.rect(mg,y,pw-mg*2,6,"F");
+    doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont("helvetica","bold");
+    doc.text("#",mg+2,y+4.2);doc.text("Name",mg+10,y+4.2);doc.text("Role",mg+100,y+4.2);
+    y+=7;
+    ov.forEach(function(a,i){
+      cp(6.5);
+      if(i%2===0){doc.setFillColor(255,248,240);doc.rect(mg,y,pw-mg*2,6.5,"F");}
+      doc.setTextColor(150,150,150);doc.setFontSize(7);doc.setFont("helvetica","normal");
+      doc.text(String(i+1),mg+2,y+4.5);
+      doc.setTextColor(30,30,30);doc.setFont("helvetica","bold");
+      doc.text(a.emp.name,mg+10,y+4.5);
+      doc.setFont("helvetica","normal");doc.setFontSize(6);doc.setTextColor(100,100,100);
+      doc.text(a.emp.role,mg+100,y+4.5);
+      y+=6.5;
+    });
+    y+=4;
+  }
+
+  // ── Footer ──
+  var pc=doc.internal.getNumberOfPages();
+  for(var p=1;p<=pc;p++){
+    doc.setPage(p);
+    doc.setFillColor(230,236,255);doc.rect(0,287,pw,10,"F");
+    doc.setFontSize(7);doc.setTextColor(120,120,120);doc.setFont("helvetica","normal");
+    doc.text("Grover Audio Visual Services  |  "+fd(d),mg,293);
+    doc.text("Page "+p+" of "+pc,pw-mg,293,{align:"right"});
+  }
+  doc.save("GAVS_Duty_"+ndd+".pdf");
+  toast("PDF downloaded!");
+}
+
+
+// ── Staff Monthly Report ──────────────────────────────────────────────────────
+function fillRepEmpDD(){
+  var el=document.getElementById("rep-emp");if(!el)return;
+  var cur=el.value;
+  el.innerHTML='<option value="">-- Select Employee --</option>'+
+    staff.map(function(e){return'<option value="'+e.id+'"'+(e.id===cur?' selected':'')+'>'+esc(e.name)+' ('+esc(e.role)+')</option>';}).join("");
+}
+
+function drawStaffRepSelectors(){fillRepEmpDD();drawStaffReport();}
+
+function drawStaffReport(){
+  var eid=document.getElementById("rep-emp").value;
+  var month=parseInt(document.getElementById("rep-month").value);
+  var year=parseInt(document.getElementById("rep-year").value);
+  var sumEl=document.getElementById("rep-summary");
+  var bodyEl=document.getElementById("rep-body");
+  var btnEl=document.getElementById("rep-pdf-btn");
+  if(!eid){sumEl.innerHTML="";bodyEl.innerHTML="";btnEl.classList.add("hidden");return;}
+  var emp=staff.find(function(e){return e.id===eid;});
+  if(!emp){sumEl.innerHTML="";bodyEl.innerHTML="";return;}
+  var daysInMonth=new Date(year,month+1,0).getDate();
+  var deployed=0,leaveD=0,officeD=0,freeD=0;
+  var rows="";
+  for(var day=1;day<=daysInMonth;day++){
+    var dateStr=year+"-"+(String(month+1).padStart(2,"0"))+"-"+(String(day).padStart(2,"0"));
+    var log=dailyLog[dateStr];
+    var status="free";var detail="Unassigned";var duty="";var venueName="";
+    if(log){
+      // check leave
+      var inLeave=log.leave&&log.leave.find(function(x){return x.id===eid;});
+      var inOffice=log.office&&log.office.find(function(x){return x.id===eid;});
+      if(inLeave){status="leave";detail="On Leave";duty=inLeave.duty;leaveD++;}
+      else if(inOffice){status="office";detail="In Office";duty=inOffice.duty;officeD++;}
+      else{
+        // check venues
+        var found=false;
+        Object.keys(log.venues||{}).forEach(function(vid){
+          if(log.venues[vid][eid]){
+            var v=venues.find(function(x){return x.id===vid;});
+            venueName=v?v.name:"Unknown Venue";
+            duty=log.venues[vid][eid];
+            status="deployed";detail=venueName;deployed++;found=true;
+          }
+        });
+        if(!found){status="free";detail="Unassigned";freeD++;}
+      }
+    } else {
+      // Check current assignments if it's today
+      var today2=new Date().toISOString().slice(0,10);
+      if(dateStr===today2){
+        var foundToday=false;
+        Object.keys(assigned).forEach(function(vid){if(assigned[vid][eid]){var v=venues.find(function(x){return x.id===vid;});venueName=v?v.name:"Venue";duty=assigned[vid][eid].dutyTime;status="deployed";detail=venueName;deployed++;foundToday=true;}});
+        if(!foundToday&&leave[eid]){status="leave";detail="On Leave";duty=leave[eid].dutyTime;leaveD++;}
+        else if(!foundToday&&office[eid]){status="office";detail="In Office";duty=office[eid].dutyTime;officeD++;}
+        else if(!foundToday){freeD++;}
+      } else {freeD++;}
+    }
+    var dotColor=status==="deployed"?"#1565c0":status==="leave"?"#c62828":status==="office"?"#e65100":"#ccc";
+    var bgColor=status==="deployed"?"#f0f4ff":status==="leave"?"#fff5f5":status==="office"?"#fff8f0":"#fff";
+    var dayName=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(year,month,day).getDay()];
+    rows+='<div class="rep-row" style="background:'+bgColor+';border-radius:7px;margin-bottom:3px;">'+
+      '<div class="day-num">'+day+'</div>'+
+      '<div style="font-size:10px;color:#888;width:28px;flex-shrink:0;">'+dayName+'</div>'+
+      '<div style="flex:1;font-size:12px;font-weight:600;color:'+dotColor+';">'+esc(detail)+'</div>'+
+      (duty?'<div style="font-size:10px;color:#0d47a1;font-weight:700;flex-shrink:0;">⏰ '+esc(duty)+'</div>':'')+
+    '</div>';
+  }
+  var c=cc(emp.role);
+  sumEl.innerHTML='<div class="section">'+
+    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'+
+      '<div class="avatar" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;width:44px;height:44px;border-radius:10px;font-size:13px;">'+ini(emp.name)+'</div>'+
+      '<div><div style="font-size:15px;font-weight:800;color:#0d47a1;">'+esc(emp.name)+'</div>'+
+      '<div style="font-size:11px;color:'+c+';font-weight:600;">'+esc(emp.role)+'</div>'+
+      (emp.phone?'<div style="font-size:10px;color:#888;">📞 '+esc(emp.phone)+'</div>':'')+
+      '</div></div>'+
+    '<div style="font-size:13px;font-weight:800;color:#0d47a1;margin-bottom:8px;">'+MONTHS[month]+' '+year+'</div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;">'+
+      '<div style="background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:9px;padding:7px 12px;text-align:center;flex:1;min-width:60px;"><div style="font-size:16px;font-weight:800;color:#1565c0;">'+deployed+'</div><div style="font-size:9px;color:#888;">Deployed</div></div>'+
+      '<div style="background:#fff5f5;border:1.5px solid #ffcdd2;border-radius:9px;padding:7px 12px;text-align:center;flex:1;min-width:60px;"><div style="font-size:16px;font-weight:800;color:#c62828;">'+leaveD+'</div><div style="font-size:9px;color:#888;">Leave</div></div>'+
+      '<div style="background:#fff8f0;border:1.5px solid #ffe0b2;border-radius:9px;padding:7px 12px;text-align:center;flex:1;min-width:60px;"><div style="font-size:16px;font-weight:800;color:#e65100;">'+officeD+'</div><div style="font-size:9px;color:#888;">Office</div></div>'+
+      '<div style="background:#f5f5f5;border:1.5px solid #ddd;border-radius:9px;padding:7px 12px;text-align:center;flex:1;min-width:60px;"><div style="font-size:16px;font-weight:800;color:#888;">'+freeD+'</div><div style="font-size:9px;color:#888;">Free</div></div>'+
+    '</div></div>';
+  bodyEl.innerHTML='<div class="section"><div class="sec-title">DAY BY DAY</div>'+rows+'</div>';
+  btnEl.classList.remove("hidden");
+}
+
+function makeStaffPDF(){
+  var eid=document.getElementById("rep-emp").value;
+  var month=parseInt(document.getElementById("rep-month").value);
+  var year=parseInt(document.getElementById("rep-year").value);
+  var emp=staff.find(function(e){return e.id===eid;});
+  if(!emp||!window.jspdf){toast("Error","e");return;}
+  var doc=new window.jspdf.jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+  var pw=210,mg=14,y=mg;
+  function cp(n){if(y+n>285){doc.addPage();y=mg;}}
+  doc.setFillColor(21,101,192);doc.rect(0,0,pw,32,"F");
+  try{
+    var imgEl2=document.querySelector('.header-logo-img');
+    if(imgEl2 && imgEl2.complete && imgEl2.naturalWidth>0){
+      var canvas2=document.createElement('canvas');
+      canvas2.width=imgEl2.naturalWidth;canvas2.height=imgEl2.naturalHeight;
+      canvas2.getContext('2d').drawImage(imgEl2,0,0);
+      var imgData2=canvas2.toDataURL('image/png');
+      doc.addImage(imgData2,"PNG",mg,4,22,22);
+    }
+  }catch(e){}
+  doc.setTextColor(255,255,255);doc.setFontSize(16);doc.setFont("helvetica","bold");
+  doc.text("GROVER AUDIO VISUAL SERVICES",pw/2+8,13,{align:"center"});
+  doc.setFontSize(9);doc.setFont("helvetica","normal");
+  doc.text("Employee Monthly Duty Report",pw/2+8,21,{align:"center"});
+  y=34;
+  // Employee info
+  var c_=cc(emp.role);
+  doc.setFillColor(240,244,255);doc.roundedRect(mg,y,pw-mg*2,24,3,3,"F");
+  doc.setTextColor(13,71,161);doc.setFontSize(13);doc.setFont("helvetica","bold");
+  doc.text(emp.name,mg+5,y+10);
+  doc.setFontSize(9);doc.setFont("helvetica","normal");doc.setTextColor(80,80,80);
+  doc.text(emp.role,mg+5,y+17);
+  if(emp.phone)doc.text("📞 "+emp.phone,mg+5,y+23);
+  doc.setTextColor(13,71,161);doc.setFontSize(11);doc.setFont("helvetica","bold");
+  doc.text(MONTHS[month]+" "+year,pw-mg-5,y+13,{align:"right"});
+  y+=30;
+  // Summary
+  var daysInMonth=new Date(year,month+1,0).getDate();
+  var deployed=0,leaveD=0,officeD=0,freeD=0;
+  var dayData=[];
+  for(var day=1;day<=daysInMonth;day++){
+    var dateStr=year+"-"+(String(month+1).padStart(2,"0"))+"-"+(String(day).padStart(2,"0"));
+    var log=dailyLog[dateStr];
+    var status="free";var detail="Unassigned";var duty="";
+    if(log){
+      var inL=log.leave&&log.leave.find(function(x){return x.id===eid;});
+      var inO=log.office&&log.office.find(function(x){return x.id===eid;});
+      if(inL){status="leave";detail="On Leave";duty=inL.duty;leaveD++;}
+      else if(inO){status="office";detail="In Office";duty=inO.duty;officeD++;}
+      else{
+        Object.keys(log.venues||{}).forEach(function(vid){if(log.venues[vid][eid]){var v=venues.find(function(x){return x.id===vid;});detail=v?v.name:"Venue";duty=log.venues[vid][eid];status="deployed";deployed++;}});
+        if(status==="free")freeD++;
+      }
+    }else{freeD++;}
+    var dn=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(year,month,day).getDay()];
+    dayData.push({day:day,dn:dn,status:status,detail:detail,duty:duty});
+  }
+  // Summary boxes
+  doc.setFillColor(240,244,255);doc.roundedRect(mg,y,pw-mg*2,18,3,3,"F");
+  var scols=[mg+4,62,108,155];
+  var slbls=["Deployed","Leave","Office","Free"];
+  var svals=[deployed,leaveD,officeD,freeD];
+  var scols2=[[21,101,192],[198,40,40],[230,81,0],[150,150,150]];
+  slbls.forEach(function(l,i){doc.setTextColor(120,120,120);doc.setFontSize(7);doc.setFont("helvetica","normal");doc.text(l,scols[i],y+7);doc.setFontSize(12);doc.setFont("helvetica","bold");doc.setTextColor(scols2[i][0],scols2[i][1],scols2[i][2]);doc.text(String(svals[i]),scols[i],y+15);});
+  y+=24;
+  // Table header
+  doc.setFillColor(21,101,192);doc.rect(mg,y,pw-mg*2,8,"F");
+  doc.setTextColor(255,255,255);doc.setFontSize(7);doc.setFont("helvetica","bold");
+  doc.text("Day",mg+2,y+5.5);doc.text("Date",mg+12,y+5.5);doc.text("Status / Venue",mg+35,y+5.5);doc.text("Duty Time",pw-mg-3,y+5.5,{align:"right"});
+  y+=9;
+  dayData.forEach(function(row){
+    cp(7);
+    var bgc=row.status==="deployed"?[240,244,255]:row.status==="leave"?[255,245,245]:row.status==="office"?[255,248,240]:[255,255,255];
+    doc.setFillColor(bgc[0],bgc[1],bgc[2]);doc.rect(mg,y,pw-mg*2,6.5,"F");
+    doc.setDrawColor(220,220,220);doc.rect(mg,y,pw-mg*2,6.5,"S");
+    var tc=row.status==="deployed"?[21,101,192]:row.status==="leave"?[198,40,40]:row.status==="office"?[230,81,0]:[150,150,150];
+    doc.setTextColor(80,80,80);doc.setFontSize(7);doc.setFont("helvetica","bold");
+    doc.text(row.dn,mg+2,y+4.5);
+    doc.setFont("helvetica","normal");doc.text(String(row.day).padStart(2,"0")+"/"+String(month+1).padStart(2,"0"),mg+12,y+4.5);
+    doc.setTextColor(tc[0],tc[1],tc[2]);doc.setFont("helvetica",row.status==="deployed"?"bold":"normal");
+    var det=row.detail.length>40?row.detail.slice(0,39)+"…":row.detail;
+    doc.text(det,mg+35,y+4.5);
+    if(row.duty){doc.setTextColor(13,71,161);doc.setFont("helvetica","bold");doc.text(row.duty,pw-mg-3,y+4.5,{align:"right"});}
+    y+=6.5;
+  });
+  var pc=doc.internal.getNumberOfPages();
+  for(var p=1;p<=pc;p++){doc.setPage(p);doc.setFillColor(240,244,255);doc.rect(0,287,pw,10,"F");doc.setFontSize(6);doc.setTextColor(120,120,120);doc.setFont("helvetica","normal");doc.text("Grover Audio Visual Services | "+emp.name+" | "+MONTHS[month]+" "+year,mg,293);doc.text("Page "+p+" of "+pc,pw-mg,293,{align:"right"});}
+  doc.save("GAVS_"+emp.name.replace(/ /g,"_")+"_"+MONTHS[month]+"_"+year+".pdf");
+  toast("Staff PDF downloaded!");
+}
+
+// ── Touch Drag ────────────────────────────────────────────────────────────────
+
+// ── Edit Staff ──────────────────────────────────────────────────────────────
+function editStaff(eid){
+  var emp=staff.find(function(e){return e.id===eid;});
+  if(!emp)return;
+  var pinOpts='<option value="">No Fixed Venue</option>'+
+    venues.map(function(v){return'<option value="'+v.id+'"'+(emp.pinnedVenue===v.id?' selected':'')+'>'+esc(v.name)+'</option>';}).join('');
+  var roleOpts=roles.map(function(r){return'<option value="'+r+'"'+(emp.role===r?' selected':'')+'>'+esc(r)+'</option>';}).join('');
+  showModal(
+    '<div class="modal-title">Edit Staff Member</div>'+
+    '<div style="margin-bottom:8px;"><label style="font-size:11px;color:#555;font-weight:700;">Name</label>'+
+    '<input id="edit-s-name" class="ifield" value="'+esc(emp.name)+'" style="margin-top:3px;margin-bottom:0;"/></div>'+
+    '<div style="margin-bottom:8px;"><label style="font-size:11px;color:#555;font-weight:700;">Role</label>'+
+    '<select id="edit-s-role" class="sfield" style="margin-top:3px;margin-bottom:0;">'+roleOpts+'</select></div>'+
+    '<div style="margin-bottom:8px;"><label style="font-size:11px;color:#555;font-weight:700;">Phone (Managers)</label>'+
+    '<input id="edit-s-phone" class="ifield" value="'+esc(emp.phone||'')+'" placeholder="Phone number" style="margin-top:3px;margin-bottom:0;"/></div>'+
+    '<div style="margin-bottom:14px;"><label style="font-size:11px;color:#555;font-weight:700;">Fixed Venue</label>'+
+    '<select id="edit-s-pin" class="sfield" style="margin-top:3px;margin-bottom:0;">'+pinOpts+'</select></div>'+
+    '<button class="abigbtn" onclick="saveEditStaff(\''+eid+'\')">Save Changes</button>'+
+    '<button class="modal-cancel" onclick="closeModal()" style="margin-top:8px;">Cancel</button>'
+  );
+}
+
+function saveEditStaff(eid){
+  var name=(document.getElementById('edit-s-name').value||'').trim();
+  var role=document.getElementById('edit-s-role').value;
+  var phone=(document.getElementById('edit-s-phone').value||'').trim();
+  var pin=document.getElementById('edit-s-pin').value;
+  if(!name){toast("Enter a name","w");return;}
+  var emp=staff.find(function(e){return e.id===eid;});
+  if(!emp){closeModal();return;}
+  var oldPin=emp.pinnedVenue;
+  emp.name=name;emp.role=role;emp.phone=phone;emp.pinnedVenue=pin;
+  // Update in assignments
+  Object.values(assigned).forEach(function(vm){if(vm[eid])vm[eid].emp=emp;});
+  if(leave[eid])leave[eid].emp=emp;
+  if(office[eid])office[eid].emp=emp;
+  // Handle pin change
+  if(pin && pin!==oldPin){
+    // Remove from old venue assignment if was pinned
+    if(oldPin && assigned[oldPin] && assigned[oldPin][eid])delete assigned[oldPin][eid];
+    // Auto-assign to new pinned venue
+    if(!assigned[pin])assigned[pin]={};
+    if(!assigned[pin][eid])assigned[pin][eid]={emp:emp,dutyTime:"6:00 AM",pinned:true};
+  } else if(!pin && oldPin){
+    // Unpinned - update pinned flag but keep assignment
+    Object.values(assigned).forEach(function(vm){if(vm[eid])vm[eid].pinned=false;});
+  }
+  closeModal();
+  toast(name+" updated!");
+  drawManageStaff();drawStats();fillRepEmpDD();
+  if(curVenue)drawDetail();
+}
+
+// ── Edit Venue ──────────────────────────────────────────────────────────────
+function editVenue(vid){
+  var venue=venues.find(function(v){return v.id===vid;});
+  if(!venue)return;
+  showModal(
+    '<div class="modal-title">Edit Venue</div>'+
+    '<div style="margin-bottom:14px;"><label style="font-size:11px;color:#555;font-weight:700;">Venue Name</label>'+
+    '<input id="edit-v-name" class="ifield" value="'+esc(venue.name)+'" style="margin-top:3px;margin-bottom:0;"/></div>'+
+    '<button class="abigbtn" onclick="saveEditVenue(\''+vid+'\')">Save Changes</button>'+
+    '<button class="modal-cancel" onclick="closeModal()" style="margin-top:8px;">Cancel</button>'
+  );
+}
+
+function saveEditVenue(vid){
+  var name=(document.getElementById('edit-v-name').value||'').trim();
+  if(!name){toast("Enter venue name","w");return;}
+  var venue=venues.find(function(v){return v.id===vid;});
+  if(!venue){closeModal();return;}
+  venue.name=name;
+  closeModal();
+  toast(name+" updated!");
+  drawManageVenues();drawVenues();fillPinDD();
+  if(curVenue===vid)drawDetail();
+}
+
+var pendingDelete=null;
+function runPendingDelete(){
+  if(!pendingDelete){closeModal();return;}
+  var pd=pendingDelete;pendingDelete=null;closeModal();
+  if(pd.type==="staff"){
+    staff=staff.filter(function(e){return e.id!==pd.id;});
+    delete leave[pd.id];delete office[pd.id];
+    Object.keys(assigned).forEach(function(v){delete assigned[v][pd.id];});
+    toast(pd.name+" removed","w");drawManageStaff();drawStats();fillRepEmpDD();
+  } else if(pd.type==="venue"){
+    venues=venues.filter(function(v){return v.id!==pd.id;});
+    delete assigned[pd.id];
+    staff.forEach(function(e){if(e.pinnedVenue===pd.id)e.pinnedVenue="";});
+    toast("Venue removed","w");drawManageVenues();drawVenues();fillPinDD();
+  } else if(pd.type==="role"){
+    roles=roles.filter(function(x){return x!==pd.id;});
+    toast(pd.name+" removed","w");drawManageRoles();fillRoleDD();
+  }
+}
+var dragId=null,ghost=null;
+function tStart(ev,eid){
+  dragId=eid;var t=ev.touches[0];
+  var e=staff.find(function(x){return x.id===eid;});if(!e)return;
+  var c=cc(e.role);
+  ghost=document.createElement("div");ghost.className="ghost";
+  ghost.style.left=(t.clientX-110)+"px";ghost.style.top=(t.clientY-30)+"px";
+  ghost.innerHTML='<div style="background:#fff;border:2px solid '+c+';border-radius:10px;padding:8px 13px;display:flex;align-items:center;gap:9px;box-shadow:0 6px 22px rgba(0,0,0,0.2);font-family:sans-serif;">'+
+    '<div style="width:30px;height:30px;border-radius:7px;background:'+c+'22;color:'+c+';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;">'+ini(e.name)+'</div>'+
+    '<div><div style="font-size:12px;font-weight:700;color:#111;">'+esc(e.name)+'</div><div style="font-size:9px;color:'+c+';">'+esc(e.role)+'</div></div></div>';
+  document.body.appendChild(ghost);if(navigator.vibrate)navigator.vibrate(30);ev.stopPropagation();
+}
+document.addEventListener("touchmove",function(ev){
+  if(!dragId||!ghost)return;ev.preventDefault();
+  var t=ev.touches[0];ghost.style.left=(t.clientX-110)+"px";ghost.style.top=(t.clientY-30)+"px";
+  var dz=document.getElementById("dropzone");
+  if(dz){var r=dz.getBoundingClientRect();dz.style.background=(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)?"#c8e6c9":"#e8f5e9";}
+},{passive:false});
+document.addEventListener("touchend",function(ev){
+  if(!dragId){if(ghost){try{document.body.removeChild(ghost);}catch(x){}ghost=null;}return;}
+  var t=ev.changedTouches[0];var dz=document.getElementById("dropzone");var dropped=false;
+  if(dz){var r=dz.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom){addEmp(dragId);dropped=true;}dz.style.background="#e8f5e9";}
+  if(ghost){try{document.body.removeChild(ghost);}catch(x){}ghost=null;}
+  if(dropped&&navigator.vibrate)navigator.vibrate([20,10,20]);dragId=null;
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+applyPinnedStaff();
+drawStats();
+drawVenues();
+</script>
+</body>
+</html>
