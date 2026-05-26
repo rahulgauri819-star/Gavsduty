@@ -243,6 +243,18 @@
 </div>
 
 <script>
+function uid(){return"_"+Math.random().toString(36).slice(2,9);}
+function cc(r){if(r==="Manager")return"#1a237e";var i=roles.indexOf(r);return COLORS[i>=0?i%COLORS.length:0]||"#1565c0";}
+function ini(n){var p=n.trim().split(" ");return(p[0]||"?")[0].toUpperCase()+((p[1]||"")[0]||"").toUpperCase();}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function nd(d){var x=new Date(d);x.setDate(x.getDate()+1);return x.toISOString().slice(0,10);}
+function fd(d){return new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});}
+function getD(){return document.getElementById("datepicker").value||new Date().toISOString().slice(0,10);}
+function team(vid){return Object.values(assigned[vid]||{});}
+function aids(){var r=[];Object.values(assigned).forEach(function(m){Object.keys(m).forEach(function(i){r.push(i);});});return r;}
+function isManager(emp){return emp&&emp.role==="Manager";}
+
+
 var LOGO_B64 = "gavs_logo.png";
 // ── Core Data ─────────────────────────────────────────────────────────────────
 var VENUES_INIT=["The Leela Palace New Delhi","The Oberoi New Delhi","ITC Maurya New Delhi","Taj Mahal Hotel New Delhi","The Imperial New Delhi","Hyatt Regency Delhi","Radisson Blu Plaza Delhi Airport","Le Meridien New Delhi","The Ashok New Delhi","Sheraton New Delhi Hotel","Eros Hotel New Delhi","The Suryaa New Delhi","Crowne Plaza Today Okhla","JW Marriott New Delhi Aerocity","Pullman New Delhi Aerocity","Novotel New Delhi Aerocity","Andaz Delhi","Aloft New Delhi Aerocity","Ibis New Delhi Aerocity","Pride Plaza Hotel Aerocity","Holiday Inn New Delhi Aerocity","Roseate House New Delhi","The Grand New Delhi","Shangri-La Eros New Delhi","Lalit New Delhi","Hans Hotel New Delhi","The Manor New Delhi","Hotel Bristol New Delhi","Jaypee Siddharth New Delhi","Vivanta New Delhi Dwarka","Lemon Tree Premier New Delhi","The Westin Gurgaon","Trident Gurgaon","Hyatt Place Gurgaon","Courtyard by Marriott Gurgaon","ITC Grand Bharat Gurgaon","Hilton Garden Inn Gurgaon","Four Points by Sheraton Gurgaon","DoubleTree Hilton Gurgaon","Le Meridien Gurgaon","Park Hyatt Gurgaon","Radisson Blu MBD Noida","Crowne Plaza Greater Noida","Jaypee Greens Golf Resort Noida","The Westin Sohna Resort","Vivanta Surajkund","Sheraton Saket New Delhi","Fortune Select Excalibur Gurgaon","Country Inn Sahibabad","Maidens Hotel Delhi"];
@@ -263,31 +275,8 @@ var curRole="All";
 var lTab="a", oTab="a", mTab="staff";
 var modalCB=null;
 
-function uid(){return"_"+Math.random().toString(36).slice(2,9);}
-function cc(r){if(r==="Manager")return"#1a237e";var i=roles.indexOf(r);return COLORS[i>=0?i%COLORS.length:0]||"#1565c0";}
-function ini(n){var p=n.trim().split(" ");return(p[0]||"?")[0].toUpperCase()+((p[1]||"")[0]||"").toUpperCase();}
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-function nd(d){var x=new Date(d);x.setDate(x.getDate()+1);return x.toISOString().slice(0,10);}
-function fd(d){return new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});}
-function getD(){return document.getElementById("datepicker").value||new Date().toISOString().slice(0,10);}
-function team(vid){return Object.values(assigned[vid]||{});}
-function aids(){var r=[];Object.values(assigned).forEach(function(m){Object.keys(m).forEach(function(i){r.push(i);});});return r;}
-function isManager(emp){return emp&&emp.role==="Manager";}
 
-// ── Init Date & Dropdowns ─────────────────────────────────────────────────────
-document.getElementById("datepicker").value=new Date().toISOString().slice(0,10);
-document.getElementById("datepicker").addEventListener("change",function(){applyPinnedStaff();drawStats();});
-
-// Month/Year for staff report
-(function(){
-  var ms=document.getElementById("rep-month");
-  var ys=document.getElementById("rep-year");
-  MONTHS.forEach(function(m,i){ms.innerHTML+='<option value="'+i+'">'+m+'</option>';});
-  var cy=new Date().getFullYear();
-  for(var y=cy;y>=cy-2;y--){ys.innerHTML+='<option value="'+y+'">'+y+'</option>';}
-  ms.value=new Date().getMonth();
-  ys.value=cy;
-})();
+// Init moved to bottom
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
 var tt;
@@ -1309,6 +1298,21 @@ document.addEventListener("touchend",function(ev){
 });
 
 // ── Init ──────────────────────────────────────────────────────────────────────
+// Date picker
+document.getElementById("datepicker").value=new Date().toISOString().slice(0,10);
+document.getElementById("datepicker").addEventListener("change",function(){applyPinnedStaff();drawStats();});
+// Month/Year dropdowns
+(function(){
+  var ms=document.getElementById("rep-month");
+  var ys=document.getElementById("rep-year");
+  if(ms&&ys){
+    MONTHS.forEach(function(m,i){ms.innerHTML+='<option value="'+i+'">'+m+'</option>';});
+    var cy=new Date().getFullYear();
+    for(var y=cy;y>=cy-2;y--){ys.innerHTML+='<option value="'+y+'">'+y+'</option>';}
+    ms.value=new Date().getMonth();
+    ys.value=cy;
+  }
+})();
 applyPinnedStaff();
 drawStats();
 drawVenues();
