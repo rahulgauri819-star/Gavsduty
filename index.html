@@ -600,10 +600,11 @@ function doAddStaff(){
 function delStaff(eid){
   var emp=staff.find(function(e){return e.id===eid;});
   if(!emp)return;
+  pendingDelete={type:"staff",id:eid,name:emp.name};
   showModal(
     '<div class="modal-title" style="color:#c62828;">Delete Staff Member?</div>'+
     '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:16px;">Are you sure you want to delete<br><strong>'+esc(emp.name)+'</strong>?<br><span style="font-size:12px;color:#888;">This cannot be undone.</span></div>'+
-    '<button class="modal-btn danger" onclick="confirmDelStaff(''+eid+'');closeModal();">Yes, Delete</button>'+
+    '<button class="modal-btn danger" onclick="runPendingDelete()">Yes, Delete</button>'+
     '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
   );
 }
@@ -644,11 +645,12 @@ function delVenue(vid){
   var venue=venues.find(function(v){return v.id===vid;});
   if(!venue)return;
   var tcount=team(vid).length;
+  pendingDelete={type:"venue",id:vid,name:venue.name};
   showModal(
     '<div class="modal-title" style="color:#c62828;">Delete Venue?</div>'+
     '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:8px;">Are you sure you want to delete<br><strong>'+esc(venue.name)+'</strong>?</div>'+
     (tcount>0?'<div style="text-align:center;font-size:12px;color:#e65100;background:#fff8f0;border-radius:8px;padding:8px;margin-bottom:12px;">⚠️ '+tcount+' staff assigned here will be unassigned.</div>':'')+
-    '<button class="modal-btn danger" onclick="confirmDelVenue(''+vid+'');closeModal();">Yes, Delete</button>'+
+    '<button class="modal-btn danger" onclick="runPendingDelete()">Yes, Delete</button>'+
     '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
   );
 }
@@ -682,10 +684,11 @@ function doAddRole(){
 
 function delRole(r){
   if(r==="Manager"){toast("Cannot delete Manager role","e");return;}
+  pendingDelete={type:"role",id:r,name:r};
   showModal(
     '<div class="modal-title" style="color:#c62828;">Delete Role?</div>'+
     '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:16px;">Delete role <strong>'+esc(r)+'</strong>?<br><span style="font-size:12px;color:#888;">Staff with this role will keep it until changed.</span></div>'+
-    '<button class="modal-btn danger" onclick="confirmDelRole(''+esc(r)+'');closeModal();">Yes, Delete</button>'+
+    '<button class="modal-btn danger" onclick="runPendingDelete()">Yes, Delete</button>'+
     '<button class="modal-cancel" onclick="closeModal()">Cancel</button>'
   );
 }
@@ -1047,6 +1050,25 @@ function makeStaffPDF(){
 }
 
 // ── Touch Drag ────────────────────────────────────────────────────────────────
+var pendingDelete=null;
+function runPendingDelete(){
+  if(!pendingDelete){closeModal();return;}
+  var pd=pendingDelete;pendingDelete=null;closeModal();
+  if(pd.type==="staff"){
+    staff=staff.filter(function(e){return e.id!==pd.id;});
+    delete leave[pd.id];delete office[pd.id];
+    Object.keys(assigned).forEach(function(v){delete assigned[v][pd.id];});
+    toast(pd.name+" removed","w");drawManageStaff();drawStats();fillRepEmpDD();
+  } else if(pd.type==="venue"){
+    venues=venues.filter(function(v){return v.id!==pd.id;});
+    delete assigned[pd.id];
+    staff.forEach(function(e){if(e.pinnedVenue===pd.id)e.pinnedVenue="";});
+    toast("Venue removed","w");drawManageVenues();drawVenues();fillPinDD();
+  } else if(pd.type==="role"){
+    roles=roles.filter(function(x){return x!==pd.id;});
+    toast(pd.name+" removed","w");drawManageRoles();fillRoleDD();
+  }
+}
 var dragId=null,ghost=null;
 function tStart(ev,eid){
   dragId=eid;var t=ev.touches[0];
