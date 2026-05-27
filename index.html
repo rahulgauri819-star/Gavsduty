@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<title>Grover Audio Visual Services</title>
+<title>Grover Audio Visual Services v11</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -118,6 +121,23 @@ input,select,button{font-family:inherit;}
 </head>
 <body>
 
+<!-- LOGIN SCREEN -->
+<div id="login-screen" style="position:fixed;inset:0;background:#1565c0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;">
+  <img src="gavs_logo.png" alt="GAVS" style="height:80px;width:auto;margin-bottom:20px;" onerror="this.style.display='none'"/>
+  <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;text-align:center;">Grover Audio Visual Services</div>
+  <div style="font-size:11px;color:#bbdefb;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:32px;">Staff Deployment System</div>
+  <div style="background:#fff;border-radius:16px;padding:24px;width:100%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+    <div style="font-size:16px;font-weight:800;color:#0d47a1;margin-bottom:18px;text-align:center;">🔐 Login</div>
+    <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Username</div>
+    <input id="login-user" type="text" placeholder="Enter username" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:12px;box-sizing:border-box;"/>
+    <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Password</div>
+    <input id="login-pass" type="password" placeholder="Enter password" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:18px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <div id="login-err" style="color:#c62828;font-size:12px;text-align:center;margin-bottom:10px;display:none;">Invalid username or password</div>
+    <button onclick="doLogin()" style="width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:13px 0;font-size:15px;font-weight:700;cursor:pointer;">Login</button>
+  </div>
+  <div style="font-size:10px;color:#90caf9;margin-top:20px;text-align:center;">Grover Audio Visual Services © 2026</div>
+</div>
+
 <div class="toast" id="toast"></div>
 <div class="modal-ov hidden" id="modal-ov" onclick="closeModal()">
   <div class="modal-box" onclick="event.stopPropagation()" id="modal-box"></div>
@@ -143,6 +163,7 @@ input,select,button{font-family:inherit;}
     <button class="nav-btn" id="nb-office" onclick="go('office')"><span>🏢</span><span>Office</span></button>
     <button class="nav-btn" id="nb-report" onclick="go('report')"><span>📄</span><span>Report</span></button>
     <button class="nav-btn" id="nb-staffrep" onclick="go('staffrep')"><span>📊</span><span>Staff Rep</span></button>
+    <button class="nav-btn" id="nb-assign" onclick="go('assign')"><span>📋</span><span>Assign</span></button>
   </div>
 </div>
 
@@ -269,7 +290,17 @@ input,select,button{font-family:inherit;}
   <button class="pdfbtn hidden" id="sr-pdf-btn" onclick="makeSRPDF()">⬇ Download Staff PDF</button>
 </div>
 
+<!-- ASSIGN DUTIES SCREEN -->
+<div class="screen" id="screen-assign">
+  <div class="phdr"><span style="font-size:28px;">📋</span>
+    <div><div class="ptitle">Assign Duties</div><div style="font-size:11px;color:#888;">All venues — tap Assign to add staff</div></div>
+  </div>
+  <input class="sbar" id="as-search" placeholder="Search venues..." oninput="drawAssign()"/>
+  <div id="as-list"></div>
+</div>
+
 <script>
+window.onerror=function(msg,src,line,col,err){console.error('JS ERROR:',msg,'line:',line);document.getElementById('v-list').innerHTML='<div style="color:red;padding:20px;">Error: '+msg+' (line '+line+')</div>';return false;};
 // ════════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS (defined first so they can be used anywhere)
 // ════════════════════════════════════════════════════════════════
@@ -347,6 +378,7 @@ function go(s){
   else if(s==='office'){oTab='a';styleOTabs();drawOffice();}
   else if(s==='report')drawReport();
   else if(s==='staffrep')initSR();
+  else if(s==='assign')drawAssign();
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -369,6 +401,8 @@ function sc(l,v,c){
 function drawVenues(){
   var q=(document.getElementById('v-search')||{}).value||'';
   var el=document.getElementById('v-list');
+  if(!el){console.error('v-list not found');return;}
+  console.log('drawVenues called, venues count:',venues.length);
   var fv=venues.filter(function(v){return v.name.toLowerCase().includes(q.toLowerCase());});
   var vips=fv.filter(function(v){return v.vip;});
   var rest=fv.filter(function(v){return !v.vip;});
@@ -1234,6 +1268,61 @@ document.addEventListener('touchend',function(ev){
   if(dropped&&navigator.vibrate)navigator.vibrate([20,10,20]);
   dragId=null;
 });
+
+// ════════════════════════════════════════════════════════════════
+// LOGIN
+// ════════════════════════════════════════════════════════════════
+var CREDENTIALS=[{user:'admin',pass:'gavs2024'},{user:'grover',pass:'audio123'}];
+function doLogin(){
+  var u=(document.getElementById('login-user').value||'').trim().toLowerCase();
+  var p=(document.getElementById('login-pass').value||'').trim();
+  var ok=CREDENTIALS.find(function(c){return c.user===u&&c.pass===p;});
+  if(ok){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('login-err').style.display='none';
+    toast('Welcome, '+u+'!');
+  } else {
+    document.getElementById('login-err').style.display='block';
+    document.getElementById('login-pass').value='';
+    document.getElementById('login-pass').focus();
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// ASSIGN DUTIES SCREEN
+// ════════════════════════════════════════════════════════════════
+function drawAssign(){
+  var q=(document.getElementById('as-search')||{}).value||'';
+  var el=document.getElementById('as-list');if(!el)return;
+  var fv=venues.filter(function(v){return v.name.toLowerCase().includes(q.toLowerCase());});
+  if(!fv.length){el.innerHTML='<div class="empty">No venues found.</div>';return;}
+  var h='';
+  fv.forEach(function(v,i){
+    var t=getTeam(v.id);
+    var mgrs=t.filter(function(a){return isMgr(a.emp);});
+    h+='<div style="background:#fff;border:1.5px solid '+(v.vip?'#f9a825':'#e3eaff')+';border-radius:13px;margin-bottom:9px;overflow:hidden;">';
+    if(v.vip)h+='<div style="font-size:9px;font-weight:800;color:#fff;background:#f9a825;padding:3px 13px;letter-spacing:0.08em;">⭐ VIP EVENT</div>';
+    // Manager bar if any
+    mgrs.forEach(function(a){h+='<div class="mgr-bar"><span style="font-size:13px;">👔</span><div><div class="mgr-nm">'+esc(a.emp.name)+'</div>'+(a.emp.phone?'<div class="mgr-ph">Ph: '+esc(a.emp.phone)+'</div>':'')+'</div></div>';});
+    h+='<div style="display:flex;align-items:center;padding:11px 13px 8px;gap:9px;">';
+    h+='<div style="font-weight:800;font-size:10px;color:'+(v.vip?'#e65100':'#1565c0')+';background:'+(v.vip?'#fff8e1':'#e3eaff')+';border-radius:5px;padding:2px 7px;flex-shrink:0;">V'+(venues.indexOf(v)+1)+'</div>';
+    h+='<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:#0d47a1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(v.name)+'</div>';
+    h+='<div style="font-size:10px;color:#666;margin-top:1px;"><span style="color:#1565c0;font-weight:700;">'+t.length+'</span> staff assigned</div></div>';
+    h+='<button onclick="openV(''+v.id+'')" style="background:#1565c0;border:none;color:#fff;border-radius:8px;padding:7px 13px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;">Assign +</button>';
+    h+='</div>';
+    // Staff chips
+    if(t.length){
+      h+='<div style="display:flex;flex-wrap:wrap;gap:4px;padding:3px 13px 11px;">';
+      t.forEach(function(a){
+        var c=cc(a.emp.role);
+        h+='<span style="font-size:10px;color:'+c+';background:'+c+'18;border:1px solid '+c+'33;border-radius:4px;padding:2px 7px;">'+(isMgr(a.emp)?'👔 ':'')+esc(a.emp.name)+'</span>';
+      });
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+  el.innerHTML=h;
+}
 
 // ════════════════════════════════════════════════════════════════
 // INIT (runs after DOM is ready)
