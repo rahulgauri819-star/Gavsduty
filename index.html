@@ -133,7 +133,7 @@ input,select,button{font-family:inherit;}
     <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Password</div>
     <input id="login-pass" type="password" placeholder="Enter password" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:18px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')doLogin()"/>
     <div id="login-err" style="color:#c62828;font-size:12px;text-align:center;margin-bottom:10px;display:none;">Invalid username or password</div>
-    <button onclick="doLogin()" style="width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:13px 0;font-size:15px;font-weight:700;cursor:pointer;">Login</button>
+    <button id="login-btn" style="width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:13px 0;font-size:15px;font-weight:700;cursor:pointer;">Login</button>
   </div>
   <div style="font-size:10px;color:#90caf9;margin-top:20px;text-align:center;">Grover Audio Visual Services © 2026</div>
 </div>
@@ -164,6 +164,7 @@ input,select,button{font-family:inherit;}
     <button class="nav-btn" id="nb-report" onclick="go('report')"><span>📄</span><span>Report</span></button>
     <button class="nav-btn" id="nb-staffrep" onclick="go('staffrep')"><span>📊</span><span>Staff Rep</span></button>
     <button class="nav-btn" id="nb-assign" onclick="go('assign')"><span>📋</span><span>Assign</span></button>
+    <button class="nav-btn" id="nb-settings" onclick="go('settings')"><span>🔧</span><span>Settings</span></button>
   </div>
 </div>
 
@@ -299,7 +300,34 @@ input,select,button{font-family:inherit;}
   <div id="as-list"></div>
 </div>
 
+<!-- SETTINGS SCREEN -->
+<div class="screen" id="screen-settings">
+  <div class="phdr"><span style="font-size:28px;">🔧</span>
+    <div><div class="ptitle">Settings</div><div style="font-size:11px;color:#888;">Change password & app settings</div></div>
+  </div>
+  <div class="section">
+    <div class="sec-hd">CHANGE PASSWORD</div>
+    <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Current Password</div>
+    <input id="cp-cur" type="password" class="ifield" placeholder="Enter current password"/>
+    <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">New Password</div>
+    <input id="cp-new" type="password" class="ifield" placeholder="Enter new password"/>
+    <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Confirm New Password</div>
+    <input id="cp-con" type="password" class="ifield" placeholder="Confirm new password"/>
+    <div id="cp-msg" style="font-size:12px;text-align:center;margin-bottom:8px;display:none;"></div>
+    <button class="bigbtn" onclick="changePass()">Change Password</button>
+  </div>
+  <div class="section">
+    <div class="sec-hd">APP INFO</div>
+    <div style="font-size:13px;color:#333;padding:6px 0;border-bottom:1px solid #f0f4ff;">App: Grover Audio Visual Services</div>
+    <div style="font-size:13px;color:#333;padding:6px 0;border-bottom:1px solid #f0f4ff;">Version: 12.0</div>
+    <div style="font-size:13px;color:#333;padding:6px 0;">Built for: Staff Deployment Management</div>
+  </div>
+  <button onclick="doLogout()" style="display:block;width:100%;background:#ffebee;border:1.5px solid #ffcdd2;color:#c62828;border-radius:9px;padding:12px 0;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;">🚪 Logout</button>
+</div>
+
 <script>
+var CREDENTIALS=[{user:'admin',pass:'gavs2024'},{user:'grover',pass:'audio123'}];
+var loggedIn=false;
 window.onerror=function(msg,src,line,col,err){console.error('JS ERROR:',msg,'line:',line);document.getElementById('v-list').innerHTML='<div style="color:red;padding:20px;">Error: '+msg+' (line '+line+')</div>';return false;};
 // ════════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS (defined first so they can be used anywhere)
@@ -379,6 +407,7 @@ function go(s){
   else if(s==='report')drawReport();
   else if(s==='staffrep')initSR();
   else if(s==='assign')drawAssign();
+  else if(s==='settings'){};
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -1272,7 +1301,6 @@ document.addEventListener('touchend',function(ev){
 // ════════════════════════════════════════════════════════════════
 // LOGIN
 // ════════════════════════════════════════════════════════════════
-var CREDENTIALS=[{user:'admin',pass:'gavs2024'},{user:'grover',pass:'audio123'}];
 function doLogin(){
   var u=(document.getElementById('login-user').value||'').trim().toLowerCase();
   var p=(document.getElementById('login-pass').value||'').trim();
@@ -1286,6 +1314,42 @@ function doLogin(){
     document.getElementById('login-pass').value='';
     document.getElementById('login-pass').focus();
   }
+}
+
+// ════════════════════════════════════════════════════════════════
+// SETTINGS
+// ════════════════════════════════════════════════════════════════
+function changePass(){
+  var cur=document.getElementById('cp-cur').value;
+  var nw=document.getElementById('cp-new').value;
+  var cn=document.getElementById('cp-con').value;
+  var msg=document.getElementById('cp-msg');
+  var curUser=localStorage.getItem('gavs_user')||'admin';
+  var cred=CREDENTIALS.find(function(c){return c.user===curUser;});
+  if(!cred||cred.pass!==cur){
+    msg.style.color='#c62828';msg.textContent='Current password is incorrect.';msg.style.display='block';return;
+  }
+  if(!nw||nw.length<4){
+    msg.style.color='#c62828';msg.textContent='New password must be at least 4 characters.';msg.style.display='block';return;
+  }
+  if(nw!==cn){
+    msg.style.color='#c62828';msg.textContent='New passwords do not match.';msg.style.display='block';return;
+  }
+  cred.pass=nw;
+  document.getElementById('cp-cur').value='';
+  document.getElementById('cp-new').value='';
+  document.getElementById('cp-con').value='';
+  msg.style.color='#1b5e20';msg.textContent='Password changed successfully!';msg.style.display='block';
+  setTimeout(function(){msg.style.display='none';},3000);
+  toast('Password updated!');
+}
+
+function doLogout(){
+  localStorage.removeItem('gavs_user');
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-pass').value='';
+  document.getElementById('login-user').value='';
+  toast('Logged out','w');
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -1327,6 +1391,14 @@ function drawAssign(){
 // ════════════════════════════════════════════════════════════════
 // INIT (runs after DOM is ready)
 // ════════════════════════════════════════════════════════════════
+// Wire up login button
+var loginBtn=document.getElementById('login-btn');
+if(loginBtn){
+  loginBtn.addEventListener('click',function(){doLogin();});
+}
+// Also wire up enter key on password
+var passField=document.getElementById('login-pass');
+if(passField){passField.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});}
 document.getElementById('datepicker').value=new Date().toISOString().slice(0,10);
 document.getElementById('datepicker').addEventListener('change',function(){applyPinned();drawStats();});
 applyPinned();
