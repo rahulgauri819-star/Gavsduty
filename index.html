@@ -1,82 +1,72 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-<meta http-equiv="Pragma" content="no-cache"/>
-<meta http-equiv="Expires" content="0"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<title>Grover Audio Visual Services v11</title>
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<title>GAVS Staff App</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{background:#f0f4ff;font-family:'Segoe UI',Arial,sans-serif;color:#111;}
+body{background:#f0f4ff;font-family:"Segoe UI",Arial,sans-serif;color:#111;}
 input,select,button{font-family:inherit;}
-.hidden{display:none!important;}
+.hide{display:none!important;}
 .screen{display:none;padding:12px 14px 80px;}
 .screen.active{display:block;}
-/* Header */
 .hdr{background:#1565c0;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
 .hdr-top{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px;}
 .hdr-logo{display:flex;align-items:center;gap:8px;}
-.hdr-logo img{height:38px;width:auto;}
 .hdr-title{font-size:13px;font-weight:800;color:#fff;line-height:1.2;}
 .hdr-sub{font-size:8px;color:#bbdefb;letter-spacing:0.1em;text-transform:uppercase;}
 .hdr-date{background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);border-radius:7px;color:#fff;padding:6px 8px;font-size:11px;outline:none;font-weight:600;}
 .stats{display:flex;gap:5px;padding:0 10px 8px;overflow-x:auto;}
-.stat{background:rgba(255,255,255,0.15);border-radius:8px;padding:4px 10px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:48px;}
-.stat-v{font-size:15px;font-weight:800;color:#fff;line-height:1;}
-.stat-l{font-size:8px;color:#bbdefb;margin-top:1px;text-align:center;}
+.stt{background:rgba(255,255,255,0.15);border-radius:8px;padding:4px 10px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:48px;}
+.stv{font-size:15px;font-weight:800;color:#fff;line-height:1;}
+.stl{font-size:8px;color:#bbdefb;margin-top:1px;text-align:center;}
 .nav{display:flex;border-top:1px solid rgba(255,255,255,0.2);overflow-x:auto;}
-.nav-btn{flex:1;min-width:55px;background:transparent;border:none;color:rgba(255,255,255,0.7);padding:7px 2px;font-size:9px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;border-bottom:3px solid transparent;white-space:nowrap;}
-.nav-btn.on{background:rgba(255,255,255,0.2);color:#fff;border-bottom:3px solid #fff;}
-.nav-btn span:first-child{font-size:15px;}
-/* Common */
+.nb{flex:1;min-width:52px;background:transparent;border:none;color:rgba(255,255,255,0.7);padding:7px 2px;font-size:9px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;border-bottom:3px solid transparent;white-space:nowrap;}
+.nb.on{background:rgba(255,255,255,0.2);color:#fff;border-bottom:3px solid #fff;}
+.nb span:first-child{font-size:14px;}
 .sbar{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:10px;color:#111;padding:9px 13px;font-size:13px;outline:none;display:block;margin-bottom:9px;}
-.section{background:#fff;border-radius:11px;border:1.5px solid #e3eaff;margin-bottom:11px;padding:11px;}
-.sec-hd{font-size:9px;font-weight:800;color:#1565c0;letter-spacing:0.1em;margin-bottom:9px;border-bottom:1px solid #e3eaff;padding-bottom:5px;}
+.sec{background:#fff;border-radius:11px;border:1.5px solid #e3eaff;margin-bottom:11px;padding:11px;}
+.sech{font-size:9px;font-weight:800;color:#1565c0;letter-spacing:0.1em;margin-bottom:9px;border-bottom:1px solid #e3eaff;padding-bottom:5px;}
 .tip{background:#e3f2fd;border:1px solid #90caf9;border-radius:8px;padding:7px 12px;font-size:11px;color:#1565c0;margin-bottom:11px;}
-/* Venue cards */
 .vcard{background:#fff;border:1.5px solid #e3eaff;border-radius:13px;margin-bottom:9px;overflow:hidden;cursor:pointer;}
-.vcard.vip-card{border:2px solid #f9a825;}
-.vcard-row{display:flex;align-items:center;padding:12px 13px 9px;gap:9px;}
+.vcard.vip{border:2px solid #f9a825;}
+.vrow{display:flex;align-items:center;padding:12px 13px 9px;gap:9px;}
 .vnum{font-weight:800;font-size:10px;color:#1565c0;background:#e3eaff;border-radius:5px;padding:2px 7px;flex-shrink:0;}
 .vname{font-size:13px;font-weight:700;color:#0d47a1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .vmeta{font-size:10px;color:#666;margin-top:1px;}
-.vpreview{display:flex;flex-wrap:wrap;gap:4px;padding:3px 13px 10px;}
-.vtag{font-size:10px;border-radius:4px;padding:2px 6px;}
-/* Manager bar */
-.mgr-bar{background:#1a237e;color:#fff;padding:7px 13px;display:flex;align-items:center;gap:7px;}
-.mgr-nm{font-size:12px;font-weight:800;}
-.mgr-ph{font-size:10px;color:#9fa8da;}
-/* Detail */
+.vprev{display:flex;flex-wrap:wrap;gap:4px;padding:3px 13px 10px;}
+.mbar{background:#1a237e;color:#fff;padding:7px 13px;display:flex;align-items:center;gap:7px;}
+.mnm{font-size:12px;font-weight:800;}
+.mph{font-size:10px;color:#9fa8da;}
 .dhdr{display:flex;align-items:flex-start;gap:9px;background:#fff;padding:11px 13px;border-bottom:1.5px solid #e3eaff;}
 .bbtn{background:#e3eaff;border:none;color:#1565c0;border-radius:8px;padding:7px 13px;font-size:13px;cursor:pointer;font-weight:600;flex-shrink:0;}
-.cbtn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:8px;padding:7px 11px;font-size:11px;cursor:pointer;font-weight:600;flex-shrink:0;}
+.cbtn2{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:8px;padding:7px 11px;font-size:11px;cursor:pointer;font-weight:600;flex-shrink:0;}
 .vipbtn{background:rgba(249,168,37,0.15);border:1px solid #f9a825;color:#e65100;border-radius:8px;padding:7px 10px;font-size:10px;cursor:pointer;font-weight:700;flex-shrink:0;margin-right:4px;}
 .vipbtn.on{background:#f9a825;color:#fff;}
 .dropz{margin:9px 0;background:#e8f5e9;border:2px dashed #66bb6a;border-radius:11px;padding:10px 14px;color:#1b5e20;font-size:12px;font-weight:600;text-align:center;}
-.rfilters{display:flex;gap:5px;overflow-x:auto;padding-bottom:7px;margin-bottom:3px;}
+.rfilt{display:flex;gap:5px;overflow-x:auto;padding-bottom:7px;margin-bottom:3px;}
 .rpill{background:#f0f4ff;color:#1565c0;border:1px solid #bbdefb;border-radius:18px;padding:5px 11px;font-size:10px;font-weight:600;white-space:nowrap;flex-shrink:0;cursor:pointer;}
 .rpill.on{color:#fff;border:none;}
-/* Cards */
-.acard{display:flex;align-items:center;gap:9px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:9px;padding:9px;margin-bottom:7px;}
-.acard.mgr-card{border-color:#1a237e;background:#e8eaf6;}
-.acard.pin-card{border-color:#7986cb;background:#f3f4ff;}
-.srow{display:flex;align-items:center;gap:9px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:9px;padding:9px;margin-bottom:7px;cursor:pointer;touch-action:none;-webkit-user-select:none;user-select:none;}
+.ac{display:flex;align-items:center;gap:9px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:9px;padding:9px;margin-bottom:7px;}
+.ac.mgrc{border-color:#1a237e;background:#e8eaf6;}
+.ac.pinc{border-color:#7986cb;background:#f3f4ff;}
+.sr{display:flex;align-items:center;gap:9px;background:#f8faff;border:1.5px solid #e3eaff;border-radius:9px;padding:9px;margin-bottom:7px;cursor:pointer;touch-action:none;-webkit-user-select:none;user-select:none;}
 .av{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
-.enm{font-size:13px;font-weight:700;color:#111;margin-bottom:1px;}
-.erl{font-size:10px;font-weight:600;}
+.en{font-size:13px;font-weight:700;color:#111;margin-bottom:1px;}
+.er{font-size:10px;font-weight:600;}
 .drow{display:flex;align-items:center;gap:5px;margin-top:5px;}
 .dlbl{font-size:9px;color:#888;font-weight:700;}
 .tsel{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:6px;color:#0d47a1;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;}
 .rmbtn{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .addbtn{background:#e3f2fd;border:1.5px solid #90caf9;color:#1565c0;border-radius:7px;padding:5px 10px;cursor:pointer;font-size:11px;font-weight:700;flex-shrink:0;white-space:nowrap;}
 .empty{text-align:center;color:#bbb;font-size:12px;padding:25px 15px;}
-.empty-big{text-align:center;padding:45px 20px;color:#888;}
-.empty-big .ei{font-size:38px;margin-bottom:10px;}
-.empty-big .et{font-size:14px;font-weight:700;color:#1565c0;margin-bottom:5px;}
-/* Manage */
+.ebig{text-align:center;padding:45px 20px;color:#888;}
+.abi{font-size:38px;margin-bottom:10px;}
+.att{font-size:14px;font-weight:700;color:#1565c0;margin-bottom:5px;}
 .addbox{background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:11px;padding:13px;margin-bottom:13px;}
 .abt{font-size:11px;font-weight:800;color:#1565c0;margin-bottom:9px;}
 .ifield{width:100%;background:#fff;border:1.5px solid #bbdefb;border-radius:7px;color:#111;padding:9px 11px;font-size:13px;outline:none;margin-bottom:7px;display:block;}
@@ -88,21 +78,18 @@ input,select,button{font-family:inherit;}
 .stabs{display:flex;border-bottom:2px solid #e3eaff;margin-bottom:13px;overflow-x:auto;}
 .stab{flex:1;min-width:55px;background:transparent;border:none;color:#555;padding:9px 4px;font-size:10px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;}
 .stab.on{color:#fff;background:#1565c0;border-bottom:2px solid #0d47a1;}
-/* Leave/Office */
 .lhdr{display:flex;align-items:center;gap:13px;border-radius:11px;padding:13px;margin-bottom:13px;border:1.5px solid;}
 .ltitle{font-size:17px;font-weight:800;}
 .togbtn{border-radius:8px;padding:7px 13px;cursor:pointer;font-size:11px;font-weight:700;border:1.5px solid;flex-shrink:0;}
-/* Modal */
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:500;display:flex;align-items:flex-end;justify-content:center;}
-.modal-box{background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 30px;width:100%;max-width:540px;max-height:85vh;overflow-y:auto;}
-.modal-title{font-size:15px;font-weight:800;color:#0d47a1;margin-bottom:13px;text-align:center;}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:500;display:flex;align-items:flex-end;justify-content:center;}
+.mbox{background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 30px;width:100%;max-width:540px;max-height:85vh;overflow-y:auto;}
+.mtitle{font-size:15px;font-weight:800;color:#0d47a1;margin-bottom:13px;text-align:center;}
 .mbtn{display:block;width:100%;padding:12px;border-radius:9px;border:1.5px solid #bbdefb;background:#f0f4ff;color:#0d47a1;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:8px;text-align:left;}
 .mbtn.red{background:#ffebee;border-color:#ffcdd2;color:#c62828;}
 .mbtn.warn{background:#fff8f0;border-color:#ffe0b2;color:#e65100;}
-.mbtn.green{background:#e8f5e9;border-color:#c8e6c9;color:#1b5e20;}
+.mbtn.grn{background:#e8f5e9;border-color:#c8e6c9;color:#1b5e20;}
 .mbtn.blue{background:#1565c0;border-color:#1565c0;color:#fff;}
 .mcancel{display:block;width:100%;padding:11px;border-radius:9px;border:none;background:#f5f5f5;color:#888;font-size:13px;font-weight:600;cursor:pointer;margin-top:3px;}
-/* PDF screen */
 .phdr{background:#fff;border:1.5px solid #e3eaff;border-radius:13px;padding:14px;margin-bottom:13px;display:flex;align-items:center;gap:13px;border-left:5px solid #1565c0;}
 .ptitle{font-size:17px;font-weight:800;color:#0d47a1;}
 .pvcard{background:#fff;border:1.5px solid #e3eaff;border-left:4px solid #1565c0;border-radius:11px;padding:13px;margin-bottom:11px;}
@@ -110,90 +97,90 @@ input,select,button{font-family:inherit;}
 .prow{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid #f0f0f0;}
 .pnum{color:#bbb;font-size:10px;width:18px;flex-shrink:0;font-weight:700;}
 .pdfbtn{display:block;width:100%;background:#1565c0;border:none;color:#fff;border-radius:11px;padding:14px 0;font-size:15px;font-weight:800;cursor:pointer;margin:14px 0;}
-/* Staff report */
-.rep-row{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:6px;margin-bottom:3px;font-size:12px;}
+.reprow{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:6px;margin-bottom:3px;font-size:12px;}
 .toast{position:fixed;top:12px;left:50%;transform:translateX(-50%);padding:9px 20px;border-radius:22px;color:#fff;font-weight:700;font-size:12px;z-index:9999;white-space:nowrap;box-shadow:0 4px 18px rgba(0,0,0,0.2);display:none;pointer-events:none;}
 .ghost{position:fixed;z-index:9999;pointer-events:none;}
-.badge{border-radius:4px;padding:1px 5px;font-size:9px;font-weight:800;}
-.pin-badge{background:#7986cb;color:#fff;}
-.mgr-badge{background:#1a237e;color:#fff;}
+.bdg{border-radius:4px;padding:1px 5px;font-size:9px;font-weight:800;}
+.pinb{background:#7986cb;color:#fff;}
+.mgrb{background:#1a237e;color:#fff;}
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="login-screen" style="position:fixed;inset:0;background:#1565c0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;">
-  <img src="gavs_logo.png" alt="GAVS" style="height:80px;width:auto;margin-bottom:20px;" onerror="this.style.display='none'"/>
+<!-- LOGIN -->
+<div id="loginScreen" style="position:fixed;inset:0;background:#1565c0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;">
+  <img src="gavs_logo.png" alt="GAVS" style="height:80px;width:auto;margin-bottom:16px;" onerror="this.style.display='none'"/>
   <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;text-align:center;">Grover Audio Visual Services</div>
-  <div style="font-size:11px;color:#bbdefb;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:32px;">Staff Deployment System</div>
+  <div style="font-size:11px;color:#bbdefb;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:28px;">Staff Deployment System</div>
   <div style="background:#fff;border-radius:16px;padding:24px;width:100%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
-    <div style="font-size:16px;font-weight:800;color:#0d47a1;margin-bottom:18px;text-align:center;">🔐 Login</div>
+    <div style="font-size:16px;font-weight:800;color:#0d47a1;margin-bottom:18px;text-align:center;">Login</div>
     <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Username</div>
-    <input id="login-user" type="text" placeholder="Enter username" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:12px;box-sizing:border-box;"/>
+    <input id="lusr" type="text" placeholder="Enter username" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:12px;box-sizing:border-box;"/>
     <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Password</div>
-    <input id="login-pass" type="password" placeholder="Enter password" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:18px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')doLogin()"/>
-    <div id="login-err" style="color:#c62828;font-size:12px;text-align:center;margin-bottom:10px;display:none;">Invalid username or password</div>
-    <button id="login-btn" style="width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:13px 0;font-size:15px;font-weight:700;cursor:pointer;">Login</button>
+    <input id="lpas" type="password" placeholder="Enter password" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:16px;box-sizing:border-box;"/>
+    <div id="lerr" style="color:#c62828;font-size:12px;text-align:center;margin-bottom:10px;display:none;">Wrong username or password</div>
+    <button id="lbtn" type="button" style="width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:13px 0;font-size:15px;font-weight:700;cursor:pointer;">Login</button>
   </div>
-  <div style="font-size:10px;color:#90caf9;margin-top:20px;text-align:center;">Grover Audio Visual Services © 2026</div>
+  <div style="font-size:10px;color:#90caf9;margin-top:20px;">GAVS &copy; 2026</div>
 </div>
 
 <div class="toast" id="toast"></div>
-<div class="modal-ov hidden" id="modal-ov" onclick="closeModal()">
-  <div class="modal-box" onclick="event.stopPropagation()" id="modal-box"></div>
-</div>
+<div class="hide" id="modal"><div class="ov" onclick="closeModal()"><div class="mbox" onclick="event.stopPropagation()" id="mbox"></div></div></div>
 
-<!-- HEADER -->
-<div class="hdr">
+<!-- APP HEADER -->
+<div class="hdr" id="appHdr" style="display:none;">
   <div class="hdr-top">
     <div class="hdr-logo">
-      <img src="gavs_logo.png" id="logoImg" alt="GAVS" onerror="this.style.display='none'"/>
-      <div>
-        <div class="hdr-title">Grover Audio Visual Services</div>
-        <div class="hdr-sub">Staff Deployment System</div>
-      </div>
+      <img src="gavs_logo.png" id="logoImg" alt="GAVS" style="height:38px;width:auto;" onerror="this.style.display='none'"/>
+      <div><div class="hdr-title">Grover Audio Visual Services</div><div class="hdr-sub">Staff Deployment System</div></div>
     </div>
     <input type="date" id="datepicker" class="hdr-date"/>
   </div>
-  <div class="stats" id="stats-bar"></div>
+  <div class="stats" id="statsBar"></div>
   <div class="nav">
-    <button class="nav-btn on" id="nb-venues" onclick="go('venues')"><span>🏨</span><span>Venues</span></button>
-    <button class="nav-btn" id="nb-manage" onclick="go('manage')"><span>⚙️</span><span>Manage</span></button>
-    <button class="nav-btn" id="nb-leave" onclick="go('leave')"><span>🌴</span><span>Leave</span></button>
-    <button class="nav-btn" id="nb-office" onclick="go('office')"><span>🏢</span><span>Office</span></button>
-    <button class="nav-btn" id="nb-report" onclick="go('report')"><span>📄</span><span>Report</span></button>
-    <button class="nav-btn" id="nb-staffrep" onclick="go('staffrep')"><span>📊</span><span>Staff Rep</span></button>
-    <button class="nav-btn" id="nb-assign" onclick="go('assign')"><span>📋</span><span>Assign</span></button>
-    <button class="nav-btn" id="nb-settings" onclick="go('settings')"><span>🔧</span><span>Settings</span></button>
+    <button class="nb on" id="nb-venues" onclick="go('venues')"><span>🏨</span><span>Venues</span></button>
+    <button class="nb" id="nb-assign" onclick="go('assign')"><span>📋</span><span>Assign</span></button>
+    <button class="nb" id="nb-manage" onclick="go('manage')"><span>⚙️</span><span>Manage</span></button>
+    <button class="nb" id="nb-leave" onclick="go('leave')"><span>🌴</span><span>Leave</span></button>
+    <button class="nb" id="nb-office" onclick="go('office')"><span>🏢</span><span>Office</span></button>
+    <button class="nb" id="nb-report" onclick="go('report')"><span>📄</span><span>Report</span></button>
+    <button class="nb" id="nb-staffrep" onclick="go('staffrep')"><span>📊</span><span>Staff Rep</span></button>
+    <button class="nb" id="nb-settings" onclick="go('settings')"><span>🔧</span><span>Settings</span></button>
   </div>
 </div>
+
+<div id="appBody" style="display:none;">
 
 <!-- VENUES -->
 <div class="screen active" id="screen-venues">
-  <input class="sbar" id="v-search" placeholder="Search venues..." oninput="drawVenues()"/>
-  <div class="tip">☝️ Tap a venue to open and assign staff</div>
-  <div id="v-list"></div>
+  <input class="sbar" id="vsrch" placeholder="Search venues..." oninput="drawVenues()"/>
+  <div class="tip">Tap a venue to open it and assign staff</div>
+  <div id="vlist"></div>
 </div>
 
-<!-- DETAIL -->
+<!-- ASSIGN DUTIES -->
+<div class="screen" id="screen-assign">
+  <div class="phdr"><span style="font-size:26px;">📋</span><div><div class="ptitle">Assign Duties</div><div style="font-size:11px;color:#888;">All venues — tap Assign to add staff</div></div></div>
+  <input class="sbar" id="asrch" placeholder="Search venues..." oninput="drawAssign()"/>
+  <div id="alist2"></div>
+</div>
+
+<!-- VENUE DETAIL -->
 <div class="screen" id="screen-detail">
   <div class="dhdr">
-    <button class="bbtn" onclick="go('venues')">‹ Back</button>
-    <div style="flex:1;min-width:0;">
-      <div style="font-size:13px;font-weight:800;color:#0d47a1;line-height:1.3;" id="d-title"></div>
-      <div style="font-size:10px;color:#1565c0;margin-top:1px;" id="d-meta"></div>
-    </div>
-    <button class="vipbtn" id="vip-btn" onclick="toggleVIP()">⭐ VIP</button>
-    <button class="cbtn" id="clear-btn" onclick="clearVen()">Clear</button>
+    <button class="bbtn" onclick="go('venues')">Back</button>
+    <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:800;color:#0d47a1;line-height:1.3;" id="dtitle"></div><div style="font-size:10px;color:#1565c0;margin-top:1px;" id="dmeta"></div></div>
+    <button class="vipbtn" id="vipbtn" onclick="toggleVIP()">VIP</button>
+    <button class="cbtn2" id="clearbtn" onclick="clearVen()">Clear</button>
   </div>
   <div style="padding:0 14px;">
-    <div class="dropz" id="dropzone">⬇ Drop staff here or tap + Add below</div>
-    <div id="assigned-sec"></div>
-    <div class="section">
-      <div class="sec-hd">ADD STAFF</div>
-      <input class="sbar" id="add-search" placeholder="Search staff..." oninput="drawAddStaff()"/>
-      <div class="rfilters" id="role-filters"></div>
-      <div id="add-list"></div>
+    <div class="dropz" id="dropzone">Drop staff here or tap + Add</div>
+    <div id="asec"></div>
+    <div class="sec">
+      <div class="sech">ADD STAFF</div>
+      <input class="sbar" id="addsrch" placeholder="Search staff..." oninput="drawAddStaff()"/>
+      <div class="rfilt" id="rfilts"></div>
+      <div id="addlist"></div>
     </div>
   </div>
 </div>
@@ -201,1209 +188,752 @@ input,select,button{font-family:inherit;}
 <!-- MANAGE -->
 <div class="screen" id="screen-manage">
   <div class="stabs">
-    <button class="stab on" id="mt-staff" onclick="mtab('staff')">👥 Staff</button>
-    <button class="stab" id="mt-venues" onclick="mtab('venues')">🏨 Venues</button>
-    <button class="stab" id="mt-roles" onclick="mtab('roles')">🏷️ Roles</button>
+    <button class="stab on" id="mt-staff" onclick="mtab('staff')">Staff</button>
+    <button class="stab" id="mt-venues" onclick="mtab('venues')">Venues</button>
+    <button class="stab" id="mt-roles" onclick="mtab('roles')">Roles</button>
   </div>
   <div id="mp-staff">
-    <div class="addbox"><div class="abt">➕ Add New Staff</div>
-      <input class="ifield" id="ns-name" placeholder="Full Name"/>
-      <input class="ifield" id="ns-phone" placeholder="Phone Number" style="display:none;"/>
-      <select class="sfield" id="ns-role" onchange="togglePhone()"></select>
-      <select class="sfield" id="ns-pin"><option value="">No Fixed Venue</option></select>
+    <div class="addbox"><div class="abt">Add New Staff</div>
+      <input class="ifield" id="nsname" placeholder="Full Name"/>
+      <input class="ifield" id="nsphone" placeholder="Phone Number" style="display:none;"/>
+      <select class="sfield" id="nsrole" onchange="togglePh()"></select>
+      <select class="sfield" id="nspin"><option value="">No Fixed Venue</option></select>
       <button class="bigbtn" onclick="addStaff()">+ Add Staff Member</button>
     </div>
-    <input class="sbar" id="ms-search" placeholder="Search staff..." oninput="drawMStaff()"/>
-    <div id="ms-list"></div>
+    <input class="sbar" id="mssrch" placeholder="Search staff..." oninput="drawMStaff()"/>
+    <div id="mslist"></div>
   </div>
-  <div id="mp-venues" class="hidden">
-    <div class="addbox"><div class="abt">➕ Add New Venue</div>
-      <input class="ifield" id="nv-name" placeholder="Venue Name"/>
+  <div id="mp-venues" class="hide">
+    <div class="addbox"><div class="abt">Add New Venue</div>
+      <input class="ifield" id="nvname" placeholder="Venue Name"/>
       <button class="bigbtn" onclick="addVenue()">+ Add Venue</button>
     </div>
-    <input class="sbar" id="mv-search" placeholder="Search venues..." oninput="drawMVenues()"/>
-    <div id="mv-list"></div>
+    <input class="sbar" id="mvsrch" placeholder="Search venues..." oninput="drawMVenues()"/>
+    <div id="mvlist"></div>
   </div>
-  <div id="mp-roles" class="hidden">
-    <div class="addbox"><div class="abt">➕ Add New Role</div>
-      <input class="ifield" id="nr-name" placeholder="e.g. Sound Technician"/>
+  <div id="mp-roles" class="hide">
+    <div class="addbox"><div class="abt">Add New Role</div>
+      <input class="ifield" id="nrname" placeholder="e.g. Sound Technician"/>
       <button class="bigbtn" onclick="addRole()">+ Add Role</button>
     </div>
-    <div id="mr-list"></div>
+    <div id="mrlist"></div>
   </div>
 </div>
 
 <!-- LEAVE -->
 <div class="screen" id="screen-leave">
-  <div class="lhdr" style="background:#fff5f5;border-color:#ffcdd2;">
-    <span style="font-size:26px;">🌴</span>
-    <div><div class="ltitle" style="color:#c62828;">On Leave</div><div style="font-size:12px;color:#666;" id="l-count">0 staff</div></div>
-  </div>
+  <div class="lhdr" style="background:#fff5f5;border-color:#ffcdd2;"><span style="font-size:26px;">🌴</span><div><div class="ltitle" style="color:#c62828;">On Leave</div><div style="font-size:12px;color:#666;" id="lcnt">0 staff</div></div></div>
   <div style="display:flex;gap:7px;margin-bottom:9px;">
-    <button id="lt-a" onclick="ltab('a')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #c62828;background:#c62828;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">Available</button>
-    <button id="lt-m" onclick="ltab('m')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #c62828;background:transparent;color:#c62828;font-size:11px;font-weight:700;cursor:pointer;">Marked</button>
+    <button id="lta" onclick="ltab('a')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #c62828;background:#c62828;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">Available</button>
+    <button id="ltm" onclick="ltab('m')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #c62828;background:transparent;color:#c62828;font-size:11px;font-weight:700;cursor:pointer;">Marked</button>
   </div>
-  <input class="sbar" id="l-search" placeholder="Search staff..." oninput="drawLeave()"/>
-  <div id="l-list"></div>
+  <input class="sbar" id="lsrch" placeholder="Search..." oninput="drawLeave()"/>
+  <div id="llist"></div>
 </div>
 
 <!-- OFFICE -->
 <div class="screen" id="screen-office">
-  <div class="lhdr" style="background:#fff8f0;border-color:#ffe0b2;">
-    <span style="font-size:26px;">🏢</span>
-    <div><div class="ltitle" style="color:#e65100;">In Office</div><div style="font-size:12px;color:#666;" id="o-count">0 staff</div></div>
-  </div>
+  <div class="lhdr" style="background:#fff8f0;border-color:#ffe0b2;"><span style="font-size:26px;">🏢</span><div><div class="ltitle" style="color:#e65100;">In Office</div><div style="font-size:12px;color:#666;" id="ocnt">0 staff</div></div></div>
   <div style="display:flex;gap:7px;margin-bottom:9px;">
-    <button id="ot-a" onclick="otab('a')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #e65100;background:#e65100;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">Available</button>
-    <button id="ot-m" onclick="otab('m')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #e65100;background:transparent;color:#e65100;font-size:11px;font-weight:700;cursor:pointer;">Marked</button>
+    <button id="ota" onclick="otab('a')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #e65100;background:#e65100;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">Available</button>
+    <button id="otm" onclick="otab('m')" style="flex:1;padding:8px;border-radius:7px;border:1.5px solid #e65100;background:transparent;color:#e65100;font-size:11px;font-weight:700;cursor:pointer;">Marked</button>
   </div>
-  <input class="sbar" id="o-search" placeholder="Search staff..." oninput="drawOffice()"/>
-  <div id="o-list"></div>
+  <input class="sbar" id="osrch" placeholder="Search..." oninput="drawOffice()"/>
+  <div id="olist"></div>
 </div>
 
 <!-- REPORT -->
 <div class="screen" id="screen-report">
-  <div class="phdr"><span style="font-size:28px;">📋</span>
-    <div><div class="ptitle">Duty Report</div>
-      <div style="font-size:12px;color:#1565c0;font-weight:600;" id="rpt-duty"></div>
-      <div style="font-size:10px;color:#888;" id="rpt-prep"></div>
-    </div>
-  </div>
-  <div id="rpt-body"></div>
-  <button class="pdfbtn" onclick="makePDF()">⬇ Download PDF</button>
+  <div class="phdr"><span style="font-size:26px;">📋</span><div><div class="ptitle">Duty Report</div><div style="font-size:12px;color:#1565c0;font-weight:600;" id="rptduty"></div><div style="font-size:10px;color:#888;" id="rptprep"></div></div></div>
+  <div id="rptbody"></div>
+  <button class="pdfbtn" onclick="makePDF()">Download PDF</button>
 </div>
 
 <!-- STAFF REPORT -->
 <div class="screen" id="screen-staffrep">
-  <div class="phdr"><span style="font-size:28px;">📊</span>
-    <div><div class="ptitle">Staff Monthly Report</div><div style="font-size:11px;color:#888;">Select employee and month</div></div>
-  </div>
-  <div class="section">
-    <div class="sec-hd">SELECT</div>
-    <select class="sfield" id="sr-emp" onchange="drawSR()"><option value="">-- Select Employee --</option></select>
+  <div class="phdr"><span style="font-size:26px;">📊</span><div><div class="ptitle">Staff Monthly Report</div><div style="font-size:11px;color:#888;">Select employee and month</div></div></div>
+  <div class="sec"><div class="sech">SELECT</div>
+    <select class="sfield" id="srEmp" onchange="drawSR()"><option value="">-- Select Employee --</option></select>
     <div style="display:flex;gap:8px;">
-      <select class="sfield" id="sr-month" onchange="drawSR()" style="flex:1;"></select>
-      <select class="sfield" id="sr-year" onchange="drawSR()" style="flex:1;"></select>
+      <select class="sfield" id="srMon" onchange="drawSR()" style="flex:1;"></select>
+      <select class="sfield" id="srYr" onchange="drawSR()" style="flex:1;"></select>
     </div>
   </div>
-  <div id="sr-summary"></div>
-  <div id="sr-body"></div>
-  <button class="pdfbtn hidden" id="sr-pdf-btn" onclick="makeSRPDF()">⬇ Download Staff PDF</button>
+  <div id="srSum"></div>
+  <div id="srBody"></div>
+  <button class="pdfbtn hide" id="srPdfBtn" onclick="makeSRPDF()">Download Staff PDF</button>
 </div>
 
-<!-- ASSIGN DUTIES SCREEN -->
-<div class="screen" id="screen-assign">
-  <div class="phdr"><span style="font-size:28px;">📋</span>
-    <div><div class="ptitle">Assign Duties</div><div style="font-size:11px;color:#888;">All venues — tap Assign to add staff</div></div>
-  </div>
-  <input class="sbar" id="as-search" placeholder="Search venues..." oninput="drawAssign()"/>
-  <div id="as-list"></div>
-</div>
-
-<!-- SETTINGS SCREEN -->
+<!-- SETTINGS -->
 <div class="screen" id="screen-settings">
-  <div class="phdr"><span style="font-size:28px;">🔧</span>
-    <div><div class="ptitle">Settings</div><div style="font-size:11px;color:#888;">Change password & app settings</div></div>
-  </div>
-  <div class="section">
-    <div class="sec-hd">CHANGE PASSWORD</div>
+  <div class="phdr"><span style="font-size:26px;">🔧</span><div><div class="ptitle">Settings</div><div style="font-size:11px;color:#888;">Change password &amp; app info</div></div></div>
+  <div class="sec"><div class="sech">CHANGE PASSWORD</div>
     <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Current Password</div>
-    <input id="cp-cur" type="password" class="ifield" placeholder="Enter current password"/>
+    <input id="cpCur" type="password" class="ifield" placeholder="Current password"/>
     <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">New Password</div>
-    <input id="cp-new" type="password" class="ifield" placeholder="Enter new password"/>
+    <input id="cpNew" type="password" class="ifield" placeholder="New password (min 4 chars)"/>
     <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Confirm New Password</div>
-    <input id="cp-con" type="password" class="ifield" placeholder="Confirm new password"/>
-    <div id="cp-msg" style="font-size:12px;text-align:center;margin-bottom:8px;display:none;"></div>
+    <input id="cpCon" type="password" class="ifield" placeholder="Confirm new password"/>
+    <div id="cpMsg" style="font-size:12px;text-align:center;margin-bottom:8px;display:none;padding:8px;border-radius:7px;"></div>
     <button class="bigbtn" onclick="changePass()">Change Password</button>
   </div>
-  <div class="section">
-    <div class="sec-hd">APP INFO</div>
-    <div style="font-size:13px;color:#333;padding:6px 0;border-bottom:1px solid #f0f4ff;">App: Grover Audio Visual Services</div>
-    <div style="font-size:13px;color:#333;padding:6px 0;border-bottom:1px solid #f0f4ff;">Version: 12.0</div>
-    <div style="font-size:13px;color:#333;padding:6px 0;">Built for: Staff Deployment Management</div>
+  <div class="sec"><div class="sech">APP INFO</div>
+    <div style="font-size:13px;color:#333;padding:7px 0;border-bottom:1px solid #f0f4ff;">Company: Grover Audio Visual Services</div>
+    <div style="font-size:13px;color:#333;padding:7px 0;border-bottom:1px solid #f0f4ff;">Version: 13.0</div>
+    <div style="font-size:13px;color:#333;padding:7px 0;">Purpose: Staff Deployment Management</div>
   </div>
-  <button onclick="doLogout()" style="display:block;width:100%;background:#ffebee;border:1.5px solid #ffcdd2;color:#c62828;border-radius:9px;padding:12px 0;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;">🚪 Logout</button>
+  <button onclick="doLogout()" style="display:block;width:100%;background:#ffebee;border:1.5px solid #ffcdd2;color:#c62828;border-radius:9px;padding:12px 0;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;">Logout</button>
 </div>
 
+</div><!-- end appBody -->
+
 <script>
-var CREDENTIALS=[{user:'admin',pass:'gavs2024'},{user:'grover',pass:'audio123'}];
-var loggedIn=false;
-window.onerror=function(msg,src,line,col,err){console.error('JS ERROR:',msg,'line:',line);document.getElementById('v-list').innerHTML='<div style="color:red;padding:20px;">Error: '+msg+' (line '+line+')</div>';return false;};
-// ════════════════════════════════════════════════════════════════
-// HELPER FUNCTIONS (defined first so they can be used anywhere)
-// ════════════════════════════════════════════════════════════════
-function uid(){return '_'+Math.random().toString(36).slice(2,9);}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function cc(r){if(r==='Manager')return'#1a237e';var i=ROLES.indexOf(r);return CLRS[i>=0?i%CLRS.length:0]||'#1565c0';}
-function ini(n){var p=n.trim().split(' ');return(p[0]||'?')[0].toUpperCase()+((p[1]||'')[0]||'').toUpperCase();}
+// ── DATA ──────────────────────────────────────────────────────────────────────
+var CREDS = [{u:"admin",p:"gavs2024"},{u:"grover",p:"audio123"}];
+var curUser = "";
+var CLRS = ["#1565c0","#6a1b9a","#0277bd","#1b5e20","#b71c1c","#880e4f","#e65100","#00695c","#33691e","#4527a0","#c62828","#4e342e","#00796b","#ad1457","#283593"];
+var TIMES = ["6:00 AM","7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","8:00 PM","9:00 PM","10:00 PM","11:00 PM"];
+var MONS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+var VNS = ["The Leela Palace New Delhi","The Oberoi New Delhi","ITC Maurya New Delhi","Taj Mahal Hotel New Delhi","The Imperial New Delhi","Hyatt Regency Delhi","Radisson Blu Plaza Delhi Airport","Le Meridien New Delhi","The Ashok New Delhi","Sheraton New Delhi Hotel","Eros Hotel New Delhi","The Suryaa New Delhi","Crowne Plaza Today Okhla","JW Marriott New Delhi Aerocity","Pullman New Delhi Aerocity","Novotel New Delhi Aerocity","Andaz Delhi","Aloft New Delhi Aerocity","Ibis New Delhi Aerocity","Pride Plaza Hotel Aerocity","Holiday Inn New Delhi Aerocity","Roseate House New Delhi","The Grand New Delhi","Shangri-La Eros New Delhi","Lalit New Delhi","Hans Hotel New Delhi","The Manor New Delhi","Hotel Bristol New Delhi","Jaypee Siddharth New Delhi","Vivanta New Delhi Dwarka","Lemon Tree Premier New Delhi","The Westin Gurgaon","Trident Gurgaon","Hyatt Place Gurgaon","Courtyard by Marriott Gurgaon","ITC Grand Bharat Gurgaon","Hilton Garden Inn Gurgaon","Four Points by Sheraton Gurgaon","DoubleTree Hilton Gurgaon","Le Meridien Gurgaon","Park Hyatt Gurgaon","Radisson Blu MBD Noida","Crowne Plaza Greater Noida","Jaypee Greens Golf Resort Noida","The Westin Sohna Resort","Vivanta Surajkund","Sheraton Saket New Delhi","Fortune Select Excalibur Gurgaon","Country Inn Sahibabad","Maidens Hotel Delhi"];
+var ROLES = ["Manager","Sound Engineer","Lighting Tech","AV Tech","Stage Manager","Camera Operator","Video Tech","Crew Lead","Setup Specialist","Live Stream Tech","Projection Tech","DJ Operator","Truss Rigger"];
+var staff = [];
+var venues = [];
+var asgn = {};
+var lvMap = {};
+var offMap = {};
+var dlog = {};
+var curV = null;
+var curRole = "All";
+var lTab = "a";
+var oTab = "a";
+var mTab = "staff";
+var pDel = null;
+
+// ── INIT venues ───────────────────────────────────────────────────────────────
+function mkId(){return "_"+Math.random().toString(36).slice(2,9);}
+VNS.forEach(function(n){venues.push({id:mkId(),name:n,vip:false});});
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function cc(r){if(r==="Manager")return"#1a237e";var i=ROLES.indexOf(r);return CLRS[i>=0?i%CLRS.length:0]||"#1565c0";}
+function ini(n){var p=n.trim().split(" ");return(p[0]||"?")[0].toUpperCase()+((p[1]||"")[0]||"").toUpperCase();}
 function nd(d){var x=new Date(d);x.setDate(x.getDate()+1);return x.toISOString().slice(0,10);}
-function fd(d){return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});}
-function getD(){return document.getElementById('datepicker').value||new Date().toISOString().slice(0,10);}
-function isMgr(e){return e&&e.role==='Manager';}
-
-// ════════════════════════════════════════════════════════════════
-// DATA
-// ════════════════════════════════════════════════════════════════
-var CLRS=['#1565c0','#6a1b9a','#0277bd','#1b5e20','#b71c1c','#880e4f','#e65100','#00695c','#33691e','#4527a0','#c62828','#4e342e','#00796b','#ad1457','#283593'];
-var TIMES=['6:00 AM','7:00 AM','8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM','8:00 PM','9:00 PM','10:00 PM','11:00 PM'];
-var MOS=['January','February','March','April','May','June','July','August','September','October','November','December'];
-var VN=['The Leela Palace New Delhi','The Oberoi New Delhi','ITC Maurya New Delhi','Taj Mahal Hotel New Delhi','The Imperial New Delhi','Hyatt Regency Delhi','Radisson Blu Plaza Delhi Airport','Le Meridien New Delhi','The Ashok New Delhi','Sheraton New Delhi Hotel','Eros Hotel New Delhi','The Suryaa New Delhi','Crowne Plaza Today Okhla','JW Marriott New Delhi Aerocity','Pullman New Delhi Aerocity','Novotel New Delhi Aerocity','Andaz Delhi','Aloft New Delhi Aerocity','Ibis New Delhi Aerocity','Pride Plaza Hotel Aerocity','Holiday Inn New Delhi Aerocity','Roseate House New Delhi','The Grand New Delhi','Shangri-La Eros New Delhi','Lalit New Delhi','Hans Hotel New Delhi','The Manor New Delhi','Hotel Bristol New Delhi','Jaypee Siddharth New Delhi','Vivanta New Delhi Dwarka','Lemon Tree Premier New Delhi','The Westin Gurgaon','Trident Gurgaon','Hyatt Place Gurgaon','Courtyard by Marriott Gurgaon','ITC Grand Bharat Gurgaon','Hilton Garden Inn Gurgaon','Four Points by Sheraton Gurgaon','DoubleTree Hilton Gurgaon','Le Meridien Gurgaon','Park Hyatt Gurgaon','Radisson Blu MBD Noida','Crowne Plaza Greater Noida','Jaypee Greens Golf Resort Noida','The Westin Sohna Resort','Vivanta Surajkund','Sheraton Saket New Delhi','Fortune Select Excalibur Gurgaon','Country Inn Sahibabad','Maidens Hotel Delhi'];
-var ROLES=['Manager','Sound Engineer','Lighting Tech','AV Tech','Stage Manager','Camera Operator','Video Tech','Crew Lead','Setup Specialist','Live Stream Tech','Projection Tech','DJ Operator','Truss Rigger'];
-
-var staff=[];
-var venues=VN.map(function(n){return{id:uid(),name:n,vip:false};});
-var asgn={};   // venueId -> {empId->{emp,duty}}
-var lv={};     // empId->{emp,duty}
-var off={};    // empId->{emp,duty}
-var dlog={};   // daily log
-var curV=null;
-var curRole='All';
-var lTab='a', oTab='a', mTab='staff';
-var pDel=null; // pending delete
-
-// ════════════════════════════════════════════════════════════════
-// DERIVED
-// ════════════════════════════════════════════════════════════════
+function fd(d){return new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});}
+function getD(){return document.getElementById("datepicker").value||new Date().toISOString().slice(0,10);}
+function isMgr(e){return e&&e.role==="Manager";}
 function getTeam(vid){return Object.values(asgn[vid]||{});}
 function getAids(){var r=[];Object.values(asgn).forEach(function(m){Object.keys(m).forEach(function(i){r.push(i);});});return r;}
+function mkTsel(cur,cb){return "<select class="tsel" onchange=""+cb+"">"+TIMES.map(function(t){return"<option"+(t===cur?" selected":"")+">"+t+"</option>";}).join("")+"</select>";}
 
-// ════════════════════════════════════════════════════════════════
-// TOAST
-// ════════════════════════════════════════════════════════════════
+// ── TOAST ─────────────────────────────────────────────────────────────────────
 var TT;
-function toast(msg,t){
-  var el=document.getElementById('toast');
-  el.textContent=msg;
-  el.style.background=t==='e'?'#c62828':t==='w'?'#e65100':'#1b5e20';
-  el.style.display='block';
-  clearTimeout(TT);TT=setTimeout(function(){el.style.display='none';},2500);
+function toast(msg,t){var el=document.getElementById("toast");el.textContent=msg;el.style.background=t==="e"?"#c62828":t==="w"?"#e65100":"#1b5e20";el.style.display="block";clearTimeout(TT);TT=setTimeout(function(){el.style.display="none";},2500);}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────────
+function showModal(h){document.getElementById("mbox").innerHTML=h;document.getElementById("modal").classList.remove("hide");}
+function closeModal(){document.getElementById("modal").classList.add("hide");}
+
+// ── LOGIN ─────────────────────────────────────────────────────────────────────
+function doLogin(){
+  var u=(document.getElementById("lusr").value||"").trim().toLowerCase();
+  var p=(document.getElementById("lpas").value||"").trim();
+  var ok=null;
+  for(var i=0;i<CREDS.length;i++){if(CREDS[i].u===u&&CREDS[i].p===p){ok=CREDS[i];break;}}
+  if(ok){
+    curUser=u;
+    document.getElementById("loginScreen").style.display="none";
+    document.getElementById("appHdr").style.display="block";
+    document.getElementById("appBody").style.display="block";
+    document.getElementById("lerr").style.display="none";
+    initApp();
+    toast("Welcome, "+u+"!");
+  } else {
+    document.getElementById("lerr").style.display="block";
+    document.getElementById("lpas").value="";
+  }
 }
 
-// ════════════════════════════════════════════════════════════════
-// MODAL
-// ════════════════════════════════════════════════════════════════
-function showModal(html){
-  document.getElementById('modal-box').innerHTML=html;
-  document.getElementById('modal-ov').classList.remove('hidden');
+function doLogout(){
+  curUser="";
+  document.getElementById("loginScreen").style.display="flex";
+  document.getElementById("appHdr").style.display="none";
+  document.getElementById("appBody").style.display="none";
+  document.getElementById("lpas").value="";
+  document.getElementById("lusr").value="";
+  toast("Logged out","w");
 }
-function closeModal(){document.getElementById('modal-ov').classList.add('hidden');}
 
-// ════════════════════════════════════════════════════════════════
-// NAVIGATION
-// ════════════════════════════════════════════════════════════════
-function go(s){
-  document.querySelectorAll('.screen').forEach(function(x){x.classList.remove('active');});
-  document.querySelectorAll('.nav-btn').forEach(function(x){x.classList.remove('on');});
-  var sc=document.getElementById('screen-'+s);
-  if(sc)sc.classList.add('active');
-  var nb=document.getElementById('nb-'+(s==='detail'?'venues':s));
-  if(nb)nb.classList.add('on');
+// ── APP INIT ──────────────────────────────────────────────────────────────────
+function initApp(){
+  document.getElementById("datepicker").value=new Date().toISOString().slice(0,10);
+  initSRDropdowns();
+  applyPinned();
   drawStats();
-  if(s==='venues')drawVenues();
-  else if(s==='detail')drawDetail();
-  else if(s==='manage')drawManage();
-  else if(s==='leave'){lTab='a';styleLTabs();drawLeave();}
-  else if(s==='office'){oTab='a';styleOTabs();drawOffice();}
-  else if(s==='report')drawReport();
-  else if(s==='staffrep')initSR();
-  else if(s==='assign')drawAssign();
-  else if(s==='settings'){};
+  drawVenues();
 }
 
-// ════════════════════════════════════════════════════════════════
-// STATS
-// ════════════════════════════════════════════════════════════════
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function go(s){
+  document.querySelectorAll(".screen").forEach(function(x){x.classList.remove("active");});
+  document.querySelectorAll(".nb").forEach(function(x){x.classList.remove("on");});
+  var sc=document.getElementById("screen-"+s);if(sc)sc.classList.add("active");
+  var nb=document.getElementById("nb-"+(s==="detail"?"venues":s));if(nb)nb.classList.add("on");
+  drawStats();
+  if(s==="venues")drawVenues();
+  else if(s==="assign")drawAssign();
+  else if(s==="detail")drawDetail();
+  else if(s==="manage")drawManage();
+  else if(s==="leave"){lTab="a";styleLTabs();drawLeave();}
+  else if(s==="office"){oTab="a";styleOTabs();drawOffice();}
+  else if(s==="report")drawReport();
+  else if(s==="staffrep")drawSR();
+}
+
+// ── STATS ─────────────────────────────────────────────────────────────────────
 function drawStats(){
-  var a=getAids().length,l=Object.keys(lv).length,o=Object.keys(off).length;
-  var f=Math.max(0,staff.length-a-l-o);
-  document.getElementById('stats-bar').innerHTML=
-    sc('Staff',staff.length)+sc('Deployed',a,'#90ef90')+
-    sc('Leave',l,'#ff8a80')+sc('Office',o,'#ffcc80')+sc('Free',f,'#ce93d8');
-}
-function sc(l,v,c){
-  return '<div class="stat"><div class="stat-v" style="'+(c?'color:'+c:'')+'">'+v+'</div><div class="stat-l">'+l+'</div></div>';
+  var a=getAids().length,l=Object.keys(lvMap).length,o=Object.keys(offMap).length,f=Math.max(0,staff.length-a-l-o);
+  document.getElementById("statsBar").innerHTML=
+    "<div class="stt"><div class="stv">"+staff.length+"</div><div class="stl">Staff</div></div>"+
+    "<div class="stt"><div class="stv" style="color:#90ef90;">"+a+"</div><div class="stl">Deployed</div></div>"+
+    "<div class="stt"><div class="stv" style="color:#ff8a80;">"+l+"</div><div class="stl">Leave</div></div>"+
+    "<div class="stt"><div class="stv" style="color:#ffcc80;">"+o+"</div><div class="stl">Office</div></div>"+
+    "<div class="stt"><div class="stv" style="color:#ce93d8;">"+f+"</div><div class="stl">Free</div></div>";
 }
 
-// ════════════════════════════════════════════════════════════════
-// VENUES SCREEN
-// ════════════════════════════════════════════════════════════════
+// ── PINNED STAFF ──────────────────────────────────────────────────────────────
+function applyPinned(){
+  var lids=Object.keys(lvMap),oids=Object.keys(offMap);
+  staff.forEach(function(e){
+    if(!e.pinnedVenue)return;
+    if(lids.indexOf(e.id)>=0||oids.indexOf(e.id)>=0)return;
+    var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===e.pinnedVenue){v=venues[i];break;}}
+    if(!v)return;
+    Object.keys(asgn).forEach(function(vid){if(vid!==e.pinnedVenue&&asgn[vid][e.id])delete asgn[vid][e.id];});
+    if(!asgn[e.pinnedVenue])asgn[e.pinnedVenue]={};
+    if(!asgn[e.pinnedVenue][e.id])asgn[e.pinnedVenue][e.id]={emp:e,duty:"6:00 AM",pinned:true};
+  });
+}
+
+// ── VENUES ────────────────────────────────────────────────────────────────────
 function drawVenues(){
-  var q=(document.getElementById('v-search')||{}).value||'';
-  var el=document.getElementById('v-list');
-  if(!el){console.error('v-list not found');return;}
-  console.log('drawVenues called, venues count:',venues.length);
-  var fv=venues.filter(function(v){return v.name.toLowerCase().includes(q.toLowerCase());});
+  var q=(document.getElementById("vsrch")||{}).value||"";
+  var el=document.getElementById("vlist");if(!el)return;
+  var fv=venues.filter(function(v){return v.name.toLowerCase().indexOf(q.toLowerCase())>=0;});
   var vips=fv.filter(function(v){return v.vip;});
   var rest=fv.filter(function(v){return !v.vip;});
   var list=vips.concat(rest);
-  if(!list.length){el.innerHTML='<div class="empty-big"><div class="ei">🏨</div><div class="et">No venues found</div></div>';return;}
-  var h='';
-  list.forEach(function(v,i){
+  if(!list.length){el.innerHTML="<div class="empty">No venues found.</div>";return;}
+  var h="";
+  list.forEach(function(v){
     var t=getTeam(v.id);
     var mgrs=t.filter(function(a){return isMgr(a.emp);});
-    var mh=mgrs.map(function(a){
-      return '<div class="mgr-bar"><span style="font-size:13px;">👔</span><div><div class="mgr-nm">'+esc(a.emp.name)+'</div>'+(a.emp.phone?'<div class="mgr-ph">Ph: '+esc(a.emp.phone)+'</div>':'')+' </div></div>';
-    }).join('');
-    var prev=t.filter(function(a){return !isMgr(a.emp);}).slice(0,4).map(function(a){
-      var c=cc(a.emp.role);
-      return '<span class="vtag" style="color:'+c+';background:'+c+'18;border:1px solid '+c+'33;">'+esc(a.emp.name.split(' ')[0])+'</span>';
-    }).join('');
-    if(t.filter(function(a){return !isMgr(a.emp);}).length>4)prev+='<span style="font-size:10px;color:#888;">+more</span>';
-    h+=(v.vip?'<div style="font-size:9px;font-weight:800;color:#fff;background:#f9a825;padding:3px 13px;letter-spacing:0.08em;">⭐ VIP EVENT</div>':'')+
-      '<div class="vcard'+(v.vip?' vip-card':'')+'" onclick="openV(\''+v.id+'\')">'+(mh)+
-      '<div class="vcard-row">'+
-        '<div class="vnum">V'+(venues.indexOf(v)+1)+'</div>'+
-        '<div style="flex:1;min-width:0;"><div class="vname">'+esc(v.name)+'</div>'+
-        '<div class="vmeta"><span style="color:#1565c0;font-weight:700;">'+t.length+'</span> staff assigned</div></div>'+
-        (t.length?'<div style="background:#1565c0;color:#fff;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;">'+t.length+'</div>':'')+
-        '<span style="font-size:18px;color:#bbb;margin-left:3px;">›</span>'+
-      '</div>'+
-      (prev?'<div class="vpreview">'+prev+'</div>':'')+
-    '</div>';
+    var mh=mgrs.map(function(a){return "<div class="mbar"><span style="font-size:13px;">M</span><div><div class="mnm">"+esc(a.emp.name)+"</div>"+(a.emp.phone?"<div class="mph">Ph: "+esc(a.emp.phone)+"</div>":"")+"</div></div>";}).join("");
+    var prev=t.filter(function(a){return !isMgr(a.emp);}).slice(0,4).map(function(a){var c=cc(a.emp.role);return "<span style="font-size:10px;color:"+c+";background:"+c+"18;border:1px solid "+c+"33;border-radius:4px;padding:2px 6px;">"+esc(a.emp.name.split(" ")[0])+"</span>";}).join("");
+    if(t.filter(function(a){return !isMgr(a.emp);}).length>4)prev+="<span style="font-size:10px;color:#888;">+more</span>";
+    h+=(v.vip?"<div style="font-size:9px;font-weight:800;color:#fff;background:#f9a825;padding:3px 13px;">VIP EVENT</div>":"")+
+      "<div class="vcard"+(v.vip?" vip":"")+"" onclick="openV('"+v.id+"')">"+mh+
+      "<div class="vrow"><div class="vnum">V"+(venues.indexOf(v)+1)+"</div>"+
+      "<div style="flex:1;min-width:0;"><div class="vname">"+esc(v.name)+"</div>"+
+      "<div class="vmeta"><span style="color:#1565c0;font-weight:700;">"+t.length+"</span> staff</div></div>"+
+      (t.length?"<div style="background:#1565c0;color:#fff;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;">"+t.length+"</div>":"")+
+      "<span style="font-size:18px;color:#bbb;margin-left:3px;"> ></span></div>"+
+      (prev?"<div class="vprev">"+prev+"</div>":"")+
+    "</div>";
   });
   el.innerHTML=h;
 }
 
-function openV(id){
-  curV=id;curRole='All';
-  var el=document.getElementById('add-search');if(el)el.value='';
-  go('detail');
-}
+function openV(id){curV=id;curRole="All";var el=document.getElementById("addsrch");if(el)el.value="";go("detail");}
 
-// ════════════════════════════════════════════════════════════════
-// DETAIL SCREEN
-// ════════════════════════════════════════════════════════════════
-function drawDetail(){
-  var v=venues.find(function(x){return x.id===curV;});if(!v)return;
-  var t=getTeam(curV);
-  document.getElementById('d-title').textContent=v.name;
-  document.getElementById('d-meta').textContent=t.length+' staff assigned'+(v.vip?' · ⭐ VIP EVENT':'');
-  document.getElementById('clear-btn').style.display=t.length?'block':'none';
-  var vb=document.getElementById('vip-btn');
-  vb.className='vipbtn'+(v.vip?' on':'');
-
-  // Assigned section
-  var ah='';
-  if(t.length){
+// ── ASSIGN DUTIES ─────────────────────────────────────────────────────────────
+function drawAssign(){
+  var q=(document.getElementById("asrch")||{}).value||"";
+  var el=document.getElementById("alist2");if(!el)return;
+  var fv=venues.filter(function(v){return v.name.toLowerCase().indexOf(q.toLowerCase())>=0;});
+  if(!fv.length){el.innerHTML="<div class="empty">No venues found.</div>";return;}
+  var h="";
+  fv.forEach(function(v){
+    var t=getTeam(v.id);
     var mgrs=t.filter(function(a){return isMgr(a.emp);});
-    var pins=t.filter(function(a){return a.pinned&&!isMgr(a.emp);});
-    var rest=t.filter(function(a){return !a.pinned&&!isMgr(a.emp);});
-    var sorted=mgrs.concat(pins).concat(rest);
-    ah='<div class="section"><div class="sec-hd">ASSIGNED TEAM — '+t.length+' STAFF</div>';
-    sorted.forEach(function(a){
-      var c=cc(a.emp.role);var av=ini(a.emp.name);
-      var isMG=isMgr(a.emp);
-      ah+='<div class="acard'+(isMG?' mgr-card':a.pinned?' pin-card':'')+'">';
-      if(isMG){
-        ah+='<div class="av" style="background:#1a237e;color:#fff;">'+av+'</div>';
-        ah+='<div style="flex:1;min-width:0;">';
-        ah+='<div class="enm" style="color:#1a237e;">'+esc(a.emp.name)+' <span class="badge mgr-badge">MGR</span>'+(a.emp.phone?' &nbsp;<span style="font-size:10px;color:#3949ab;font-weight:600;">Ph: '+esc(a.emp.phone)+'</span>':'')+'</div>';
-      } else {
-        ah+='<div class="av" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+av+'</div>';
-        ah+='<div style="flex:1;min-width:0;">';
-        ah+='<div class="enm">'+esc(a.emp.name)+(a.pinned?' <span class="badge pin-badge">📌 FIXED</span>':'')+'</div>';
-      }
-      ah+='<div class="erl" style="color:'+c+';">'+esc(a.emp.role)+'</div>';
-      ah+='<div class="drow"><span class="dlbl">⏰ Duty:</span>'+mkTsel(a.duty,'vdu(\''+a.emp.id+'\',\''+curV+'\',this.value)')+'</div>';
-      ah+='</div>';
-      ah+='<button class="rmbtn" onclick="'+(a.pinned||isMG?'pinOpts(\''+a.emp.id+'\')':'remV(\''+a.emp.id+'\',\''+curV+'\')')+'">'+( a.pinned||isMG?'⚙️':'✕')+'</button>';
-      ah+='</div>';
-    });
-    ah+='</div>';
-  }
-  document.getElementById('assigned-sec').innerHTML=ah;
-
-  // Role filters
-  var rf='<button class="rpill'+(curRole==='All'?' on':'')+'" style="'+(curRole==='All'?'background:#1565c0;color:#fff;border:none;':'')+'" onclick="setRole(\'All\')">All</button>';
-  ROLES.forEach(function(r){var c=cc(r);var on=curRole===r;rf+='<button class="rpill'+(on?' on':'')+'" style="'+(on?'background:'+c+';color:#fff;border:none;':'')+'" onclick="setRole(\''+esc(r)+'\')">'+esc(r)+'</button>';});
-  document.getElementById('role-filters').innerHTML=rf;
-  drawAddStaff();
-}
-
-function mkTsel(cur,cb){
-  return '<select class="tsel" onchange="'+cb+'">'+TIMES.map(function(t){return'<option'+(t===cur?' selected':'')+'>'+t+'</option>';}).join('')+'</select>';
-}
-
-function drawAddStaff(){
-  var q=(document.getElementById('add-search')||{}).value||'';
-  var aids=getAids();var lids=Object.keys(lv);var oids=Object.keys(off);
-  var av=staff.filter(function(e){
-    return !aids.includes(e.id)&&!lids.includes(e.id)&&!oids.includes(e.id)&&
-      e.name.toLowerCase().includes(q.toLowerCase())&&(curRole==='All'||e.role===curRole);
+    h+=(v.vip?"<div style="font-size:9px;font-weight:800;color:#fff;background:#f9a825;padding:3px 13px;">VIP EVENT</div>":"")+
+      "<div style="background:#fff;border:1.5px solid "+(v.vip?"#f9a825":"#e3eaff")+";border-radius:13px;margin-bottom:9px;overflow:hidden;">";
+    mgrs.forEach(function(a){h+="<div class="mbar"><span>M</span><div><div class="mnm">"+esc(a.emp.name)+"</div>"+(a.emp.phone?"<div class="mph">Ph: "+esc(a.emp.phone)+"</div>":"")+"</div></div>";});
+    h+="<div style="display:flex;align-items:center;padding:11px 13px 8px;gap:9px;">"+
+      "<div style="font-weight:800;font-size:10px;color:#1565c0;background:#e3eaff;border-radius:5px;padding:2px 7px;flex-shrink:0;">V"+(venues.indexOf(v)+1)+"</div>"+
+      "<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:#0d47a1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">"+esc(v.name)+"</div>"+
+      "<div style="font-size:10px;color:#666;"><span style="color:#1565c0;font-weight:700;">"+t.length+"</span> staff assigned</div></div>"+
+      "<button onclick="openV('"+v.id+"');" style="background:#1565c0;border:none;color:#fff;border-radius:8px;padding:7px 13px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;">Assign +</button></div>";
+    if(t.length){
+      h+="<div style="display:flex;flex-wrap:wrap;gap:4px;padding:3px 13px 11px;">";
+      t.forEach(function(a){var c=cc(a.emp.role);h+="<span style="font-size:10px;color:"+c+";background:"+c+"18;border:1px solid "+c+"33;border-radius:4px;padding:2px 7px;">"+(isMgr(a.emp)?"[M] ":"")+esc(a.emp.name)+"</span>";});
+      h+="</div>";
+    }
+    h+="</div>";
   });
-  var el=document.getElementById('add-list');
-  if(!staff.length){el.innerHTML='<div class="empty">No staff yet. Go to Manage tab.</div>';return;}
-  if(!av.length){el.innerHTML='<div class="empty">No available staff matching filters.</div>';return;}
-  el.innerHTML=av.map(function(e){
-    var c=cc(e.role);
-    return '<div class="srow" ontouchstart="tStart(event,\''+e.id+'\')" onclick="addE(\''+e.id+'\')">'+'<div class="av" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div>'+
-      '<div style="flex:1;min-width:0;"><div class="enm">'+esc(e.name)+(isMgr(e)?'<span class="badge mgr-badge">MGR</span>':'')+(e.pinnedVenue===curV?'<span class="badge pin-badge">📌</span>':'')+'</div>'+
-      '<div class="erl" style="color:'+c+';">'+esc(e.role)+'</div>'+(e.phone?'<div style="font-size:10px;color:#888;">Ph: '+esc(e.phone)+'</div>':'')+
-      '</div><button class="addbtn" onclick="event.stopPropagation();addE(\''+e.id+'\')">+ Add</button></div>';
-  }).join('');
+  el.innerHTML=h;
+}
+
+// ── DETAIL ────────────────────────────────────────────────────────────────────
+function drawDetail(){
+  var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===curV){v=venues[i];break;}}if(!v)return;
+  var t=getTeam(curV);
+  document.getElementById("dtitle").textContent=v.name;
+  document.getElementById("dmeta").textContent=t.length+" staff assigned"+(v.vip?" - VIP EVENT":"");
+  document.getElementById("clearbtn").style.display=t.length?"block":"none";
+  var vb=document.getElementById("vipbtn");vb.className="vipbtn"+(v.vip?" on":"");
+  var mgrs=t.filter(function(a){return isMgr(a.emp);});
+  var pins=t.filter(function(a){return a.pinned&&!isMgr(a.emp);});
+  var rest=t.filter(function(a){return !a.pinned&&!isMgr(a.emp);});
+  var sorted=mgrs.concat(pins).concat(rest);
+  var ah="";
+  if(sorted.length){
+    ah="<div class="sec"><div class="sech">ASSIGNED TEAM - "+sorted.length+" STAFF</div>";
+    sorted.forEach(function(a){
+      var c=cc(a.emp.role);var av=ini(a.emp.name);var isMG=isMgr(a.emp);
+      ah+="<div class="ac"+(isMG?" mgrc":a.pinned?" pinc":"")+"">";
+      ah+=isMG?"<div class="av" style="background:#1a237e;color:#fff;">"+av+"</div>":"<div class="av" style="background:"+c+"18;color:"+c+";border:2px solid "+c+"33;">"+av+"</div>";
+      ah+="<div style="flex:1;min-width:0;">";
+      ah+=isMG?"<div class="en" style="color:#1a237e;">"+esc(a.emp.name)+" <span class="bdg mgrb">MGR</span>"+(a.emp.phone?" Ph: "+esc(a.emp.phone):"")+"</div>":"<div class="en">"+esc(a.emp.name)+(a.pinned?" <span class="bdg pinb">FIXED</span>":"")+"</div>";
+      ah+="<div class="er" style="color:"+c+"">"+esc(a.emp.role)+"</div>";
+      ah+="<div class="drow"><span class="dlbl">Duty:</span>"+mkTsel(a.duty,"vdu('"+a.emp.id+"','"+curV+"',this.value)")+"</div>";
+      ah+="</div><button class="rmbtn" onclick=""+( a.pinned||isMG?"pinOpts('"+a.emp.id+"')":"remV('"+a.emp.id+"','"+curV+"')") +"">"+( a.pinned||isMG?"...":"x")+"</button></div>";
+    });
+    ah+="</div>";
+  }
+  document.getElementById("asec").innerHTML=ah;
+  var rf="<button class="rpill"+(curRole==="All"?" on":"")+"" style=""+( curRole==="All"?"background:#1565c0;color:#fff;border:none;":"") +"" onclick="setRole('All')">All</button>";
+  ROLES.forEach(function(r){var c=cc(r);var on=curRole===r;rf+="<button class="rpill"+(on?" on":"")+"" style=""+( on?"background:"+c+";color:#fff;border:none;":"")+"" onclick="setRole('"+esc(r)+"')">"+esc(r)+"</button>";});
+  document.getElementById("rfilts").innerHTML=rf;
+  drawAddStaff();
 }
 
 function setRole(r){curRole=r;drawDetail();}
 function vdu(eid,vid,val){if(asgn[vid]&&asgn[vid][eid])asgn[vid][eid].duty=val;}
-function toggleVIP(){var v=venues.find(function(x){return x.id===curV;});if(!v)return;v.vip=!v.vip;drawDetail();drawVenues();toast(v.vip?'VIP Event set!':'VIP removed','w');}
+function toggleVIP(){var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===curV){v=venues[i];break;}}if(!v)return;v.vip=!v.vip;drawDetail();drawVenues();toast(v.vip?"VIP set!":"VIP removed","w");}
+
+function drawAddStaff(){
+  var q=(document.getElementById("addsrch")||{}).value||"";
+  var aids=getAids(),lids=Object.keys(lvMap),oids=Object.keys(offMap);
+  var av=staff.filter(function(e){return aids.indexOf(e.id)<0&&lids.indexOf(e.id)<0&&oids.indexOf(e.id)<0&&e.name.toLowerCase().indexOf(q.toLowerCase())>=0&&(curRole==="All"||e.role===curRole);});
+  var el=document.getElementById("addlist");if(!el)return;
+  if(!staff.length){el.innerHTML="<div class="empty">No staff yet. Go to Manage tab.</div>";return;}
+  if(!av.length){el.innerHTML="<div class="empty">No available staff.</div>";return;}
+  el.innerHTML=av.map(function(e){
+    var c=cc(e.role);
+    return "<div class="sr" ontouchstart="tStart(event,'"+e.id+"');" onclick="addE('"+e.id+"');">"+
+      "<div class="av" style="background:"+c+"18;color:"+c+";border:2px solid "+c+"33;">"+ini(e.name)+"</div>"+
+      "<div style="flex:1;min-width:0;"><div class="en">"+esc(e.name)+(isMgr(e)?" [MGR]":"")+(e.pinnedVenue===curV?" [Fixed]":"")+"</div>"+
+      "<div class="er" style="color:"+c+"">"+esc(e.role)+"</div>"+(e.phone?"<div style="font-size:10px;color:#888;">Ph: "+esc(e.phone)+"</div>":"")+
+      "</div><button class="addbtn" onclick="event.stopPropagation();addE('"+e.id+"');">+ Add</button></div>";
+  }).join("");
+}
 
 function addE(eid){
-  var e=staff.find(function(x){return x.id===eid;});if(!e||!curV)return;
+  var e=null;for(var i=0;i<staff.length;i++){if(staff[i].id===eid){e=staff[i];break;}}if(!e||!curV)return;
   if(!asgn[curV])asgn[curV]={};
   Object.keys(asgn).forEach(function(vid){if(asgn[vid][eid])delete asgn[vid][eid];});
-  delete lv[eid];delete off[eid];
-  asgn[curV][eid]={emp:e,duty:'6:00 AM',pinned:e.pinnedVenue===curV};
-  var v=venues.find(function(x){return x.id===curV;});
-  toast(e.name+' \u2192 '+(v?v.name:'venue'));
+  delete lvMap[eid];delete offMap[eid];
+  asgn[curV][eid]={emp:e,duty:"6:00 AM",pinned:e.pinnedVenue===curV};
+  var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===curV){v=venues[i];break;}}
+  toast(e.name+" added to "+(v?v.name:"venue"));
   drawDetail();drawStats();
 }
 
 function remV(eid,vid){if(asgn[vid])delete asgn[vid][eid];drawDetail();drawStats();}
-function clearVen(){if(curV)asgn[curV]={};toast('Venue cleared','w');drawDetail();drawStats();}
+function clearVen(){if(curV)asgn[curV]={};toast("Cleared","w");drawDetail();drawStats();}
 
 function pinOpts(eid){
   var a=asgn[curV]&&asgn[curV][eid];if(!a)return;
   var emp=a.emp;
-  var vOpts=venues.filter(function(v){return v.id!==curV;}).map(function(v){
-    return '<button class="mbtn green" onclick="movePin(\''+eid+'\',\''+v.id+'\');closeModal();">🏨 Move to: '+esc(v.name)+'</button>';
-  }).join('');
-  showModal(
-    '<div class="modal-title">'+esc(emp.name)+'</div>'+
-    '<div style="text-align:center;font-size:11px;color:#888;margin-bottom:12px;">'+esc(emp.role)+'</div>'+
-    '<button class="mbtn warn" onclick="moveToLeave(\''+eid+'\');closeModal();">🌴 Give Leave Today</button>'+
-    '<button class="mbtn warn" onclick="moveToOffice(\''+eid+'\');closeModal();">🏢 Give Office Duty Today</button>'+
-    '<div style="font-size:10px;color:#888;margin:10px 0 6px;font-weight:700;">MOVE TO ANOTHER VENUE:</div>'+
-    '<div style="max-height:200px;overflow-y:auto;">'+vOpts+'</div>'+
-    '<button class="mbtn red" onclick="remV(\''+eid+'\',\''+curV+'\');closeModal();">✕ Remove from Venue</button>'+
-    '<button class="mcancel" onclick="closeModal()">Cancel</button>'
-  );
+  var vopts=venues.filter(function(v){return v.id!==curV;}).map(function(v){return "<button class="mbtn grn" onclick="movePin('"+eid+"','"+v.id+"');closeModal();">"+"Move to: "+esc(v.name)+"</button>";}).join("");
+  showModal("<div class="mtitle">"+esc(emp.name)+"</div>"+
+    "<button class="mbtn warn" onclick="mvLeave('"+eid+"');closeModal();">Give Leave Today</button>"+
+    "<button class="mbtn warn" onclick="mvOffice('"+eid+"');closeModal();">Give Office Duty Today</button>"+
+    "<div style="font-size:10px;color:#888;margin:10px 0 6px;font-weight:700;">MOVE TO:</div>"+
+    "<div style="max-height:200px;overflow-y:auto;">"+vopts+"</div>"+
+    "<button class="mbtn red" onclick="remV('"+eid+"','"+curV+"');closeModal();">Remove from Venue</button>"+
+    "<button class="mcancel" onclick="closeModal()">Cancel</button>");
 }
 
-function movePin(eid,vid){
-  var a=asgn[curV]&&asgn[curV][eid];if(!a)return;
-  if(!asgn[vid])asgn[vid]={};
-  asgn[vid][eid]=Object.assign({},a);
-  delete asgn[curV][eid];
-  var v=venues.find(function(x){return x.id===vid;});
-  toast(a.emp.name+' moved to '+(v?v.name:'venue'));
-  drawDetail();drawStats();
-}
+function movePin(eid,vid){var a=asgn[curV]&&asgn[curV][eid];if(!a)return;if(!asgn[vid])asgn[vid]={};asgn[vid][eid]=Object.assign({},a);delete asgn[curV][eid];drawDetail();drawStats();toast("Moved!");}
+function mvLeave(eid){var a=asgn[curV]&&asgn[curV][eid];if(!a)return;lvMap[eid]={emp:a.emp,duty:a.duty};delete asgn[curV][eid];toast("On leave","w");drawDetail();drawStats();}
+function mvOffice(eid){var a=asgn[curV]&&asgn[curV][eid];if(!a)return;offMap[eid]={emp:a.emp,duty:a.duty};delete asgn[curV][eid];toast("In office","w");drawDetail();drawStats();}
 
-function moveToLeave(eid){
-  var a=asgn[curV]&&asgn[curV][eid];if(!a)return;
-  lv[eid]={emp:a.emp,duty:a.duty};delete asgn[curV][eid];
-  toast(a.emp.name+' on leave today','w');drawDetail();drawStats();
-}
-
-function moveToOffice(eid){
-  var a=asgn[curV]&&asgn[curV][eid];if(!a)return;
-  off[eid]={emp:a.emp,duty:a.duty};delete asgn[curV][eid];
-  toast(a.emp.name+' in office today','w');drawDetail();drawStats();
-}
-
-// ════════════════════════════════════════════════════════════════
-// PINNED STAFF
-// ════════════════════════════════════════════════════════════════
-function applyPinned(){
-  var lids=Object.keys(lv);var oids=Object.keys(off);
-  staff.forEach(function(e){
-    if(!e.pinnedVenue)return;
-    if(lids.includes(e.id)||oids.includes(e.id))return;
-    var v=venues.find(function(v){return v.id===e.pinnedVenue;});if(!v)return;
-    Object.keys(asgn).forEach(function(vid){if(vid!==e.pinnedVenue&&asgn[vid][e.id])delete asgn[vid][e.id];});
-    if(!asgn[e.pinnedVenue])asgn[e.pinnedVenue]={};
-    if(!asgn[e.pinnedVenue][e.id])asgn[e.pinnedVenue][e.id]={emp:e,duty:'6:00 AM',pinned:true};
-  });
-}
-
-// ════════════════════════════════════════════════════════════════
-// MANAGE
-// ════════════════════════════════════════════════════════════════
+// ── MANAGE ────────────────────────────────────────────────────────────────────
 function mtab(t){
   mTab=t;
-  ['staff','venues','roles'].forEach(function(x){
-    document.getElementById('mp-'+x).classList.toggle('hidden',x!==t);
-    document.getElementById('mt-'+x).classList.toggle('on',x===t);
+  ["staff","venues","roles"].forEach(function(x){
+    document.getElementById("mp-"+x).classList.toggle("hide",x!==t);
+    document.getElementById("mt-"+x).classList.toggle("on",x===t);
   });
   drawManage();
 }
-
-function drawManage(){
-  fillRoleDD();fillPinDD();
-  if(mTab==='staff')drawMStaff();
-  else if(mTab==='venues')drawMVenues();
-  else if(mTab==='roles')drawMRoles();
-}
-
-function fillRoleDD(){
-  var el=document.getElementById('ns-role');if(!el)return;
-  var cur=el.value;
-  el.innerHTML=ROLES.map(function(r){return'<option'+(r===cur?' selected':'')+'>'+esc(r)+'</option>';}).join('');
-  togglePhone();
-}
-
-function togglePhone(){
-  var r=document.getElementById('ns-role').value;
-  document.getElementById('ns-phone').style.display=r==='Manager'?'block':'none';
-}
-
-function fillPinDD(){
-  var el=document.getElementById('ns-pin');if(!el)return;
-  var cur=el.value;
-  el.innerHTML='<option value="">No Fixed Venue</option>'+
-    venues.map(function(v){return'<option value="'+v.id+'"'+(v.id===cur?' selected':'')+'>'+esc(v.name)+'</option>';}).join('');
-}
+function drawManage(){fillRDD();fillPDD();if(mTab==="staff")drawMStaff();else if(mTab==="venues")drawMVenues();else if(mTab==="roles")drawMRoles();}
+function fillRDD(){var el=document.getElementById("nsrole");if(!el)return;var cur=el.value;el.innerHTML=ROLES.map(function(r){return"<option"+(r===cur?" selected":"")+">"+esc(r)+"</option>";}).join("");togglePh();}
+function togglePh(){var r=document.getElementById("nsrole").value;document.getElementById("nsphone").style.display=r==="Manager"?"block":"none";}
+function fillPDD(){var el=document.getElementById("nspin");if(!el)return;var cur=el.value;el.innerHTML="<option value="">No Fixed Venue</option>"+venues.map(function(v){return"<option value=""+v.id+"""+(v.id===cur?" selected":"")+">"+esc(v.name)+"</option>";}).join("");}
 
 function addStaff(){
-  var n=(document.getElementById('ns-name').value||'').trim();
-  var r=document.getElementById('ns-role').value||ROLES[0];
-  var ph=(document.getElementById('ns-phone').value||'').trim();
-  var pin=document.getElementById('ns-pin').value||'';
-  if(!n){toast('Enter a name','w');return;}
-  var e={id:uid(),name:n,role:r,phone:ph,pinnedVenue:pin};
+  var n=(document.getElementById("nsname").value||"").trim();
+  var r=document.getElementById("nsrole").value||ROLES[0];
+  var ph=(document.getElementById("nsphone").value||"").trim();
+  var pin=document.getElementById("nspin").value||"";
+  if(!n){toast("Enter a name","w");return;}
+  var e={id:mkId(),name:n,role:r,phone:ph,pinnedVenue:pin};
   staff.push(e);
-  document.getElementById('ns-name').value='';
-  document.getElementById('ns-phone').value='';
-  if(pin){if(!asgn[pin])asgn[pin]={};asgn[pin][e.id]={emp:e,duty:'6:00 AM',pinned:true};}
-  toast(n+' added!');drawMStaff();drawStats();refreshSREmp();
+  document.getElementById("nsname").value="";document.getElementById("nsphone").value="";
+  if(pin){if(!asgn[pin])asgn[pin]={};if(!asgn[pin][e.id])asgn[pin][e.id]={emp:e,duty:"6:00 AM",pinned:true};}
+  toast(n+" added!");drawMStaff();drawStats();refreshSREmp();
 }
 
-function delStaff(eid){
-  var e=staff.find(function(x){return x.id===eid;});if(!e)return;
-  pDel={type:'staff',id:eid,name:e.name};
-  showModal(
-    '<div class="modal-title" style="color:#c62828;">Delete Staff?</div>'+
-    '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:14px;">Delete <strong>'+esc(e.name)+'</strong>?<br><span style="font-size:11px;color:#888;">This cannot be undone.</span></div>'+
-    '<button class="mbtn red" onclick="doDel()">Yes, Delete</button>'+
-    '<button class="mcancel" onclick="closeModal()">Cancel</button>'
-  );
-}
-
-function delVenue(vid){
-  var v=venues.find(function(x){return x.id===vid;});if(!v)return;
-  var tc=getTeam(vid).length;
-  pDel={type:'venue',id:vid,name:v.name};
-  showModal(
-    '<div class="modal-title" style="color:#c62828;">Delete Venue?</div>'+
-    '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:8px;">Delete <strong>'+esc(v.name)+'</strong>?</div>'+
-    (tc?'<div style="text-align:center;font-size:12px;color:#e65100;background:#fff8f0;border-radius:8px;padding:8px;margin-bottom:12px;">Warning: '+tc+' staff will be unassigned.</div>':'')+
-    '<button class="mbtn red" onclick="doDel()">Yes, Delete</button>'+
-    '<button class="mcancel" onclick="closeModal()">Cancel</button>'
-  );
-}
-
-function delRole(r){
-  if(r==='Manager'){toast('Cannot delete Manager role','e');return;}
-  pDel={type:'role',id:r,name:r};
-  showModal(
-    '<div class="modal-title" style="color:#c62828;">Delete Role?</div>'+
-    '<div style="text-align:center;font-size:14px;color:#333;margin-bottom:14px;">Delete role <strong>'+esc(r)+'</strong>?</div>'+
-    '<button class="mbtn red" onclick="doDel()">Yes, Delete</button>'+
-    '<button class="mcancel" onclick="closeModal()">Cancel</button>'
-  );
-}
+function delStaff(eid){var e=null;for(var i=0;i<staff.length;i++){if(staff[i].id===eid){e=staff[i];break;}}if(!e)return;pDel={type:"staff",id:eid,name:e.name};showModal("<div class="mtitle" style="color:#c62828;">Delete Staff?</div><div style="text-align:center;font-size:14px;color:#333;margin-bottom:14px;">Delete <strong>"+esc(e.name)+"</strong>?</div><button class="mbtn red" onclick="doDel()">Yes Delete</button><button class="mcancel" onclick="closeModal()">Cancel</button>");}
+function delVenue(vid){var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===vid){v=venues[i];break;}}if(!v)return;var tc=getTeam(vid).length;pDel={type:"venue",id:vid,name:v.name};showModal("<div class="mtitle" style="color:#c62828;">Delete Venue?</div><div style="text-align:center;font-size:14px;color:#333;margin-bottom:8px;">Delete <strong>"+esc(v.name)+"</strong>?</div>"+(tc?"<div style="color:#e65100;font-size:12px;text-align:center;margin-bottom:12px;">"+tc+" staff will be unassigned.</div>":"")+"<button class="mbtn red" onclick="doDel()">Yes Delete</button><button class="mcancel" onclick="closeModal()">Cancel</button>");}
+function delRole(r){if(r==="Manager"){toast("Cannot delete Manager","e");return;}pDel={type:"role",id:r,name:r};showModal("<div class="mtitle" style="color:#c62828;">Delete Role?</div><div style="text-align:center;font-size:14px;margin-bottom:14px;">Delete <strong>"+esc(r)+"</strong>?</div><button class="mbtn red" onclick="doDel()">Yes Delete</button><button class="mcancel" onclick="closeModal()">Cancel</button>");}
 
 function doDel(){
-  if(!pDel){closeModal();return;}
-  var pd=pDel;pDel=null;closeModal();
-  if(pd.type==='staff'){
-    staff=staff.filter(function(e){return e.id!==pd.id;});
-    delete lv[pd.id];delete off[pd.id];
-    Object.keys(asgn).forEach(function(v){delete asgn[v][pd.id];});
-    toast(pd.name+' removed','w');drawMStaff();drawStats();refreshSREmp();
-  } else if(pd.type==='venue'){
-    venues=venues.filter(function(v){return v.id!==pd.id;});
-    delete asgn[pd.id];
-    staff.forEach(function(e){if(e.pinnedVenue===pd.id)e.pinnedVenue='';});
-    toast('Venue removed','w');drawMVenues();drawVenues();fillPinDD();
-  } else if(pd.type==='role'){
-    ROLES.splice(ROLES.indexOf(pd.id),1);
-    toast(pd.name+' removed','w');drawMRoles();fillRoleDD();
-  }
+  if(!pDel){closeModal();return;}var pd=pDel;pDel=null;closeModal();
+  if(pd.type==="staff"){staff=staff.filter(function(e){return e.id!==pd.id;});delete lvMap[pd.id];delete offMap[pd.id];Object.keys(asgn).forEach(function(v){delete asgn[v][pd.id];});toast(pd.name+" removed","w");drawMStaff();drawStats();refreshSREmp();}
+  else if(pd.type==="venue"){venues=venues.filter(function(v){return v.id!==pd.id;});delete asgn[pd.id];staff.forEach(function(e){if(e.pinnedVenue===pd.id)e.pinnedVenue="";});toast("Venue removed","w");drawMVenues();drawVenues();fillPDD();}
+  else if(pd.type==="role"){ROLES.splice(ROLES.indexOf(pd.id),1);toast(pd.name+" removed","w");drawMRoles();fillRDD();}
 }
 
-function drawMStaff(){
-  var q=(document.getElementById('ms-search')||{}).value||'';
-  var el=document.getElementById('ms-list');
-  var f=staff.filter(function(e){return e.name.toLowerCase().includes(q.toLowerCase());});
-  if(!staff.length){el.innerHTML='<div class="empty-big"><div class="ei">👤</div><div class="et">No Staff Added Yet</div></div>';return;}
-  el.innerHTML=f.map(function(e){
-    var c=cc(e.role);
-    var pv=e.pinnedVenue?venues.find(function(v){return v.id===e.pinnedVenue;}):null;
-    return '<div class="mrow">'+'<div class="av" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div>'+
-      '<div style="flex:1;min-width:0;"><div class="enm">'+esc(e.name)+(isMgr(e)?'<span class="badge mgr-badge">MGR</span>':'')+'</div>'+
-      '<div class="erl" style="color:'+c+';">'+esc(e.role)+'</div>'+
-      (e.phone?'<div style="font-size:10px;color:#888;">Ph: '+esc(e.phone)+'</div>':'')+
-      (pv?'<div style="font-size:10px;color:#7986cb;">Fixed: '+esc(pv.name)+'</div>':'')+
-      '</div>'+
-      '<button class="editbtn" onclick="editStaff(\''+e.id+'\')" title="Edit">✏️</button>'+
-      '<button class="delbtn" onclick="delStaff(\''+e.id+'\')" title="Delete">🗑️</button></div>';
-  }).join('');
-}
-
-function addVenue(){
-  var n=(document.getElementById('nv-name').value||'').trim();
-  if(!n){toast('Enter venue name','w');return;}
-  venues.push({id:uid(),name:n,vip:false});
-  document.getElementById('nv-name').value='';
-  toast(n+' added!');drawMVenues();drawVenues();fillPinDD();
-}
-
-function drawMVenues(){
-  var q=(document.getElementById('mv-search')||{}).value||'';
-  var el=document.getElementById('mv-list');
-  var f=venues.filter(function(v){return v.name.toLowerCase().includes(q.toLowerCase());});
-  if(!venues.length){el.innerHTML='<div class="empty-big"><div class="ei">🏨</div><div class="et">No Venues</div></div>';return;}
-  el.innerHTML=f.map(function(v){
-    return '<div class="mrow">'+'<div class="av" style="background:#e3eaff;color:#1565c0;font-size:9px;">V'+(venues.indexOf(v)+1)+'</div>'+
-      '<div style="flex:1;min-width:0;"><div class="enm" style="font-size:12px;">'+esc(v.name)+'</div>'+(v.vip?'<span style="font-size:9px;background:#f9a825;color:#fff;border-radius:4px;padding:1px 6px;font-weight:700;">VIP</span>':'')+
-      '</div>'+
-      '<button class="editbtn" onclick="editVenue(\''+v.id+'\')" title="Edit">✏️</button>'+
-      '<button class="delbtn" onclick="delVenue(\''+v.id+'\')" title="Delete">🗑️</button></div>';
-  }).join('');
-}
-
-function addRole(){
-  var n=(document.getElementById('nr-name').value||'').trim();
-  if(!n){toast('Enter role name','w');return;}
-  if(ROLES.includes(n)){toast('Already exists','w');return;}
-  ROLES.push(n);document.getElementById('nr-name').value='';
-  toast(n+' added!');drawMRoles();fillRoleDD();
-}
-
-function drawMRoles(){
-  var el=document.getElementById('mr-list');
-  el.innerHTML=ROLES.map(function(r,i){
-    var c=cc(r);
-    return '<div class="mrow">'+'<div class="av" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;font-size:10px;">'+(i+1)+'</div>'+
-      '<div style="flex:1;"><div class="enm" style="color:'+c+';">'+esc(r)+'</div></div>'+
-      (r!=='Manager'?'<button class="delbtn" onclick="delRole(\''+esc(r)+'\')">🗑️</button>':'<span style="font-size:10px;color:#1a237e;padding:0 4px;">🔒</span>')+
-    '</div>';
-  }).join('');
-}
-
-// ════════════════════════════════════════════════════════════════
-// EDIT STAFF / VENUE
-// ════════════════════════════════════════════════════════════════
 function editStaff(eid){
-  var e=staff.find(function(x){return x.id===eid;});if(!e)return;
-  var ropts=ROLES.map(function(r){return'<option value="'+esc(r)+'"'+(e.role===r?' selected':'')+'>'+esc(r)+'</option>';}).join('');
-  var popts='<option value="">No Fixed Venue</option>'+venues.map(function(v){return'<option value="'+v.id+'"'+(e.pinnedVenue===v.id?' selected':'')+'>'+esc(v.name)+'</option>';}).join('');
-  showModal(
-    '<div class="modal-title">Edit Staff</div>'+
-    '<label style="font-size:11px;color:#555;font-weight:700;">Name</label>'+
-    '<input id="es-nm" class="ifield" value="'+esc(e.name)+'" style="margin-top:3px;"/>'+
-    '<label style="font-size:11px;color:#555;font-weight:700;">Role</label>'+
-    '<select id="es-rl" class="sfield" style="margin-top:3px;">'+ropts+'</select>'+
-    '<label style="font-size:11px;color:#555;font-weight:700;">Phone</label>'+
-    '<input id="es-ph" class="ifield" value="'+esc(e.phone||'')+'" placeholder="Phone number" style="margin-top:3px;"/>'+
-    '<label style="font-size:11px;color:#555;font-weight:700;">Fixed Venue</label>'+
-    '<select id="es-pn" class="sfield" style="margin-top:3px;margin-bottom:12px;">'+popts+'</select>'+
-    '<button class="mbtn blue" onclick="saveES(\''+eid+'\')">Save Changes</button>'+
-    '<button class="mcancel" onclick="closeModal()">Cancel</button>'
-  );
+  var e=null;for(var i=0;i<staff.length;i++){if(staff[i].id===eid){e=staff[i];break;}}if(!e)return;
+  var ropts=ROLES.map(function(r){return"<option value=""+esc(r)+"""+(e.role===r?" selected":"")+">"+esc(r)+"</option>";}).join("");
+  var popts="<option value="">No Fixed Venue</option>"+venues.map(function(v){return"<option value=""+v.id+"""+(e.pinnedVenue===v.id?" selected":"")+">"+esc(v.name)+"</option>";}).join("");
+  showModal("<div class="mtitle">Edit Staff</div>"+
+    "<label style="font-size:11px;color:#555;font-weight:700;">Name</label><input id="esNm" class="ifield" value=""+esc(e.name)+"" style="margin-top:3px;"/>"+
+    "<label style="font-size:11px;color:#555;font-weight:700;">Role</label><select id="esRl" class="sfield" style="margin-top:3px;">"+ropts+"</select>"+
+    "<label style="font-size:11px;color:#555;font-weight:700;">Phone</label><input id="esPh" class="ifield" value=""+esc(e.phone||"")+"" placeholder="Phone" style="margin-top:3px;"/>"+
+    "<label style="font-size:11px;color:#555;font-weight:700;">Fixed Venue</label><select id="esPn" class="sfield" style="margin-top:3px;margin-bottom:12px;">"+popts+"</select>"+
+    "<button class="mbtn blue" onclick="saveES('"+eid+"')">Save</button><button class="mcancel" onclick="closeModal()">Cancel</button>");
 }
 
 function saveES(eid){
-  var n=(document.getElementById('es-nm').value||'').trim();
-  var r=document.getElementById('es-rl').value;
-  var ph=(document.getElementById('es-ph').value||'').trim();
-  var pin=document.getElementById('es-pn').value;
-  if(!n){toast('Enter a name','w');return;}
-  var e=staff.find(function(x){return x.id===eid;});if(!e){closeModal();return;}
-  var oldPin=e.pinnedVenue;
-  e.name=n;e.role=r;e.phone=ph;e.pinnedVenue=pin;
+  var n=(document.getElementById("esNm").value||"").trim();
+  var r=document.getElementById("esRl").value;
+  var ph=(document.getElementById("esPh").value||"").trim();
+  var pin=document.getElementById("esPn").value;
+  if(!n){toast("Enter name","w");return;}
+  var e=null;for(var i=0;i<staff.length;i++){if(staff[i].id===eid){e=staff[i];break;}}if(!e){closeModal();return;}
+  var oldPin=e.pinnedVenue;e.name=n;e.role=r;e.phone=ph;e.pinnedVenue=pin;
   Object.values(asgn).forEach(function(vm){if(vm[eid])vm[eid].emp=e;});
-  if(lv[eid])lv[eid].emp=e;
-  if(off[eid])off[eid].emp=e;
-  if(pin&&pin!==oldPin){
-    if(oldPin&&asgn[oldPin])delete asgn[oldPin][eid];
-    if(!asgn[pin])asgn[pin]={};
-    if(!asgn[pin][eid])asgn[pin][eid]={emp:e,duty:'6:00 AM',pinned:true};
-  } else if(!pin&&oldPin){
-    Object.values(asgn).forEach(function(vm){if(vm[eid])vm[eid].pinned=false;});
-  }
-  closeModal();toast(n+' updated!');drawMStaff();drawStats();refreshSREmp();
-  if(curV)drawDetail();
+  if(lvMap[eid])lvMap[eid].emp=e;if(offMap[eid])offMap[eid].emp=e;
+  if(pin&&pin!==oldPin){if(oldPin&&asgn[oldPin])delete asgn[oldPin][eid];if(!asgn[pin])asgn[pin]={};if(!asgn[pin][eid])asgn[pin][eid]={emp:e,duty:"6:00 AM",pinned:true};}
+  else if(!pin&&oldPin){Object.values(asgn).forEach(function(vm){if(vm[eid])vm[eid].pinned=false;});}
+  closeModal();toast(n+" updated!");drawMStaff();drawStats();refreshSREmp();if(curV)drawDetail();
 }
 
 function editVenue(vid){
-  var v=venues.find(function(x){return x.id===vid;});if(!v)return;
-  showModal(
-    '<div class="modal-title">Edit Venue</div>'+
-    '<label style="font-size:11px;color:#555;font-weight:700;">Venue Name</label>'+
-    '<input id="ev-nm" class="ifield" value="'+esc(v.name)+'" style="margin-top:3px;margin-bottom:14px;"/>'+
-    '<button class="mbtn blue" onclick="saveEV(\''+vid+'\')">Save Changes</button>'+
-    '<button class="mcancel" onclick="closeModal()">Cancel</button>'
-  );
+  var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===vid){v=venues[i];break;}}if(!v)return;
+  showModal("<div class="mtitle">Edit Venue</div><label style="font-size:11px;color:#555;font-weight:700;">Venue Name</label><input id="evNm" class="ifield" value=""+esc(v.name)+"" style="margin-top:3px;margin-bottom:14px;"/><button class="mbtn blue" onclick="saveEV('"+vid+"')">Save</button><button class="mcancel" onclick="closeModal()">Cancel</button>");
 }
 
 function saveEV(vid){
-  var n=(document.getElementById('ev-nm').value||'').trim();
-  if(!n){toast('Enter venue name','w');return;}
-  var v=venues.find(function(x){return x.id===vid;});if(!v){closeModal();return;}
-  v.name=n;closeModal();toast(n+' updated!');drawMVenues();drawVenues();fillPinDD();
-  if(curV===vid)drawDetail();
+  var n=(document.getElementById("evNm").value||"").trim();if(!n){toast("Enter name","w");return;}
+  var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===vid){v=venues[i];break;}}if(!v){closeModal();return;}
+  v.name=n;closeModal();toast(n+" updated!");drawMVenues();drawVenues();fillPDD();if(curV===vid)drawDetail();
 }
 
-// ════════════════════════════════════════════════════════════════
-// LEAVE
-// ════════════════════════════════════════════════════════════════
-function styleLTabs(){
-  document.getElementById('lt-a').style.background=lTab==='a'?'#c62828':'transparent';
-  document.getElementById('lt-a').style.color=lTab==='a'?'#fff':'#c62828';
-  document.getElementById('lt-m').style.background=lTab==='m'?'#c62828':'transparent';
-  document.getElementById('lt-m').style.color=lTab==='m'?'#fff':'#c62828';
+function addVenue(){var n=(document.getElementById("nvname").value||"").trim();if(!n){toast("Enter name","w");return;}venues.push({id:mkId(),name:n,vip:false});document.getElementById("nvname").value="";toast(n+" added!");drawMVenues();drawVenues();fillPDD();}
+function addRole(){var n=(document.getElementById("nrname").value||"").trim();if(!n){toast("Enter role","w");return;}if(ROLES.indexOf(n)>=0){toast("Exists","w");return;}ROLES.push(n);document.getElementById("nrname").value="";toast(n+" added!");drawMRoles();fillRDD();}
+
+function drawMStaff(){
+  var q=(document.getElementById("mssrch")||{}).value||"";
+  var el=document.getElementById("mslist");
+  var f=staff.filter(function(e){return e.name.toLowerCase().indexOf(q.toLowerCase())>=0;});
+  if(!staff.length){el.innerHTML="<div class="ebig"><div class="abi">👤</div><div class="att">No Staff Yet</div></div>";return;}
+  el.innerHTML=f.map(function(e){
+    var c=cc(e.role);var pv=null;if(e.pinnedVenue){for(var i=0;i<venues.length;i++){if(venues[i].id===e.pinnedVenue){pv=venues[i];break;}}}
+    return "<div class="mrow"><div class="av" style="background:"+c+"18;color:"+c+";border:2px solid "+c+"33;">"+ini(e.name)+"</div>"+
+      "<div style="flex:1;min-width:0;"><div class="en">"+esc(e.name)+(isMgr(e)?" [MGR]":"")+"</div>"+
+      "<div class="er" style="color:"+c+"">"+esc(e.role)+"</div>"+
+      (e.phone?"<div style="font-size:10px;color:#888;">Ph: "+esc(e.phone)+"</div>":"")+
+      (pv?"<div style="font-size:10px;color:#7986cb;">Fixed: "+esc(pv.name)+"</div>":"")+
+      "</div><button class="editbtn" onclick="editStaff('"+e.id+"')">E</button>"+
+      "<button class="delbtn" onclick="delStaff('"+e.id+"')">X</button></div>";
+  }).join("");
 }
+
+function drawMVenues(){
+  var q=(document.getElementById("mvsrch")||{}).value||"";
+  var el=document.getElementById("mvlist");
+  var f=venues.filter(function(v){return v.name.toLowerCase().indexOf(q.toLowerCase())>=0;});
+  if(!venues.length){el.innerHTML="<div class="ebig"><div class="abi">🏨</div><div class="att">No Venues</div></div>";return;}
+  el.innerHTML=f.map(function(v){
+    return "<div class="mrow"><div class="av" style="background:#e3eaff;color:#1565c0;font-size:9px;">V"+(venues.indexOf(v)+1)+"</div>"+
+      "<div style="flex:1;min-width:0;"><div class="en" style="font-size:12px;">"+esc(v.name)+"</div>"+(v.vip?"<span style="font-size:9px;background:#f9a825;color:#fff;border-radius:4px;padding:1px 6px;font-weight:700;">VIP</span>":"")+
+      "</div><button class="editbtn" onclick="editVenue('"+v.id+"')">E</button>"+
+      "<button class="delbtn" onclick="delVenue('"+v.id+"')">X</button></div>";
+  }).join("");
+}
+
+function drawMRoles(){
+  var el=document.getElementById("mrlist");
+  el.innerHTML=ROLES.map(function(r,i){var c=cc(r);return "<div class="mrow"><div class="av" style="background:"+c+"18;color:"+c+";border:2px solid "+c+"33;font-size:10px;">"+(i+1)+"</div><div style="flex:1;"><div class="en" style="color:"+c+"">"+esc(r)+"</div></div>"+(r!=="Manager"?"<button class="delbtn" onclick="delRole('"+esc(r)+"')">X</button>":"<span style="font-size:10px;color:#1a237e;padding:0 6px;">Lock</span>")+"</div>";}).join("");
+}
+
+// ── LEAVE ─────────────────────────────────────────────────────────────────────
+function styleLTabs(){document.getElementById("lta").style.background=lTab==="a"?"#c62828":"transparent";document.getElementById("lta").style.color=lTab==="a"?"#fff":"#c62828";document.getElementById("ltm").style.background=lTab==="m"?"#c62828":"transparent";document.getElementById("ltm").style.color=lTab==="m"?"#fff":"#c62828";}
 function ltab(t){lTab=t;styleLTabs();drawLeave();}
-
-function markLeave(eid){
-  var e=staff.find(function(x){return x.id===eid;});if(!e)return;
-  Object.keys(asgn).forEach(function(v){delete asgn[v][eid];});delete off[eid];
-  lv[eid]={emp:e,duty:'6:00 AM'};
-  toast(e.name+' on leave');drawLeave();drawStats();
-}
-function unLeave(eid){delete lv[eid];toast('Leave removed','w');drawLeave();drawStats();}
-function ldut(eid,val){if(lv[eid])lv[eid].duty=val;}
-
+function markLeave(eid){var e=null;for(var i=0;i<staff.length;i++){if(staff[i].id===eid){e=staff[i];break;}}if(!e)return;Object.keys(asgn).forEach(function(v){delete asgn[v][eid];});delete offMap[eid];lvMap[eid]={emp:e,duty:"6:00 AM"};toast(e.name+" on leave");drawLeave();drawStats();}
+function unLeave(eid){delete lvMap[eid];toast("Removed","w");drawLeave();drawStats();}
+function ldut(eid,val){if(lvMap[eid])lvMap[eid].duty=val;}
 function drawLeave(){
-  var q=(document.getElementById('l-search')||{}).value||'';
-  document.getElementById('l-count').textContent=Object.keys(lv).length+' staff marked';
-  var el=document.getElementById('l-list');
-  var aids=getAids();var oids=Object.keys(off);
-  if(lTab==='a'){
-    var av=staff.filter(function(e){return !lv[e.id]&&!aids.includes(e.id)&&!oids.includes(e.id)&&e.name.toLowerCase().includes(q.toLowerCase());});
-    if(!av.length){el.innerHTML='<div class="empty">No available undeployed staff.</div>';return;}
-    el.innerHTML=av.map(function(e){var c=cc(e.role);return '<div class="mrow"><div class="av" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div><div style="flex:1;min-width:0;"><div class="enm">'+esc(e.name)+'</div><div class="erl" style="color:'+c+';">'+esc(e.role)+'</div></div><button class="togbtn" style="color:#c62828;border-color:#c62828;background:transparent;" onclick="markLeave(\''+e.id+'\')">Mark</button></div>';}).join('');
+  var q=(document.getElementById("lsrch")||{}).value||"";
+  document.getElementById("lcnt").textContent=Object.keys(lvMap).length+" staff";
+  var el=document.getElementById("llist");
+  var aids=getAids(),oids=Object.keys(offMap);
+  if(lTab==="a"){
+    var av=staff.filter(function(e){return !lvMap[e.id]&&aids.indexOf(e.id)<0&&oids.indexOf(e.id)<0&&e.name.toLowerCase().indexOf(q.toLowerCase())>=0;});
+    if(!av.length){el.innerHTML="<div class="empty">No undeployed staff.</div>";return;}
+    el.innerHTML=av.map(function(e){var c=cc(e.role);return "<div class="mrow"><div class="av" style="background:"+c+"18;color:"+c+";border:2px solid "+c+"33;">"+ini(e.name)+"</div><div style="flex:1;min-width:0;"><div class="en">"+esc(e.name)+"</div><div class="er" style="color:"+c+"">"+esc(e.role)+"</div></div><button class="togbtn" style="color:#c62828;border-color:#c62828;background:transparent;" onclick="markLeave('"+e.id+"')">Mark</button></div>";}).join("");
   } else {
-    var mk=Object.values(lv).filter(function(a){return a.emp.name.toLowerCase().includes(q.toLowerCase());});
-    if(!mk.length){el.innerHTML='<div class="empty">No staff on leave.</div>';return;}
-    el.innerHTML=mk.map(function(a){var c=cc(a.emp.role);return '<div class="acard" style="background:#fff5f5;border:1.5px solid #ffcdd2;margin-bottom:7px;"><div class="av" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(a.emp.name)+'</div><div style="flex:1;min-width:0;"><div class="enm">'+esc(a.emp.name)+'</div><div class="erl" style="color:'+c+';">'+esc(a.emp.role)+'</div><div class="drow"><span class="dlbl">⏰</span>'+mkTsel(a.duty,"ldut('"+a.emp.id+"',this.value)")+'</div></div><button class="rmbtn" onclick="unLeave(\''+a.emp.id+'\')">✕</button></div>';}).join('');
+    var mk=Object.values(lvMap).filter(function(a){return a.emp.name.toLowerCase().indexOf(q.toLowerCase())>=0;});
+    if(!mk.length){el.innerHTML="<div class="empty">No staff on leave.</div>";return;}
+    el.innerHTML=mk.map(function(a){var c=cc(a.emp.role);return "<div class="ac" style="background:#fff5f5;border:1.5px solid #ffcdd2;margin-bottom:7px;"><div class="av" style="background:"+c+"18;color:"+c+";border:2px solid "+c+"33;">"+ini(a.emp.name)+"</div><div style="flex:1;min-width:0;"><div class="en">"+esc(a.emp.name)+"</div><div class="er" style="color:"+c+"">"+esc(a.emp.role)+"</div></div><button class="rmbtn" onclick="unLeave('"+a.emp.id+"')">x</button></div>";}).join("");
   }
 }
 
-// ════════════════════════════════════════════════════════════════
-// OFFICE
-// ════════════════════════════════════════════════════════════════
-function styleOTabs(){
-  document.getElementById('ot-a').style.background=oTab==='a'?'#e65100':'transparent';
-  document.getElementById('ot-a').style.color=oTab==='a'?'#fff':'#e65100';
-  document.getElementById('ot-m').style.background=oTab==='m'?'#e65100':'transparent';
-  document.getElementById('ot-m').style.color=oTab==='m'?'#fff':'#e65100';
-}
+// ── OFFICE ────────────────────────────────────────────────────────────────────
+function styleOTabs(){document.getElementById("ota").style.background=oTab==="a"?"#e65100":"transparent";document.getElementById("ota").style.color=oTab==="a"?"#fff":"#e65100";document.getElementById("otm").style.background=oTab==="m"?"#e65100":"transparent";document.getElementById("otm").style.color=oTab==="m"?"#fff":"#e65100";}
 function otab(t){oTab=t;styleOTabs();drawOffice();}
-
-function markOffice(eid){
-  var e=staff.find(function(x){return x.id===eid;});if(!e)return;
-  Object.keys(asgn).forEach(function(v){delete asgn[v][eid];});delete lv[eid];
-  off[eid]={emp:e,duty:'6:00 AM'};
-  toast(e.name+' in office');drawOffice();drawStats();
-}
-function unOffice(eid){delete off[eid];toast('Removed','w');drawOffice();drawStats();}
-function odut(eid,val){if(off[eid])off[eid].duty=val;}
-
+function markOffice(eid){var e=null;for(var i=0;i<staff.length;i++){if(staff[i].id===eid){e=staff[i];break;}}if(!e)return;Object.keys(asgn).forEach(function(v){delete asgn[v][eid];});delete lvMap[eid];offMap[eid]={emp:e,duty:"6:00 AM"};toast(e.name+" in office");drawOffice();drawStats();}
+function unOffice(eid){delete offMap[eid];toast("Removed","w");drawOffice();drawStats();}
+function odut(eid,val){if(offMap[eid])offMap[eid].duty=val;}
 function drawOffice(){
-  var q=(document.getElementById('o-search')||{}).value||'';
-  document.getElementById('o-count').textContent=Object.keys(off).length+' staff marked';
-  var el=document.getElementById('o-list');
-  var aids=getAids();var lids=Object.keys(lv);
-  if(oTab==='a'){
-    var av=staff.filter(function(e){return !off[e.id]&&!aids.includes(e.id)&&!lids.includes(e.id)&&e.name.toLowerCase().includes(q.toLowerCase());});
-    if(!av.length){el.innerHTML='<div class="empty">No available undeployed staff.</div>';return;}
-    el.innerHTML=av.map(function(e){var c=cc(e.role);return '<div class="mrow"><div class="av" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(e.name)+'</div><div style="flex:1;min-width:0;"><div class="enm">'+esc(e.name)+'</div><div class="erl" style="color:'+c+';">'+esc(e.role)+'</div></div><button class="togbtn" style="color:#e65100;border-color:#e65100;background:transparent;" onclick="markOffice(\''+e.id+'\')">Mark</button></div>';}).join('');
+  var q=(document.getElementById("osrch")||{}).value||"";
+  document.getElementById("ocnt").textContent=Object.keys(offMap).length+" staff";
+  var el=document.getElementById("olist");
+  var aids=getAids(),lids=Object.keys(lvMap);
+  if(oTab==="a"){
+    var av=staff.filter(function(e){return !offMap[e.id]&&aids.indexOf(e.id)<0&&lids.indexOf(e.id)<0&&e.name.toLowerCase().indexOf(q.toLowerCase())>=0;});
+    if(!av.length){el.innerHTML="<div class="empty">No undeployed staff.</div>";return;}
+    el.innerHTML=av.map(function(e){var c=cc(e.role);return "<div class="mrow"><div class="av" style="background:"+c+"18;color:"+c+";border:2px solid "+c+"33;">"+ini(e.name)+"</div><div style="flex:1;min-width:0;"><div class="en">"+esc(e.name)+"</div><div class="er" style="color:"+c+"">"+esc(e.role)+"</div></div><button class="togbtn" style="color:#e65100;border-color:#e65100;background:transparent;" onclick="markOffice('"+e.id+"')">Mark</button></div>";}).join("");
   } else {
-    var mk=Object.values(off).filter(function(a){return a.emp.name.toLowerCase().includes(q.toLowerCase());});
-    if(!mk.length){el.innerHTML='<div class="empty">No staff in office.</div>';return;}
-    el.innerHTML=mk.map(function(a){var c=cc(a.emp.role);return '<div class="acard" style="background:#fff8f0;border:1.5px solid #ffe0b2;margin-bottom:7px;"><div class="av" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;">'+ini(a.emp.name)+'</div><div style="flex:1;min-width:0;"><div class="enm">'+esc(a.emp.name)+'</div><div class="erl" style="color:'+c+';">'+esc(a.emp.role)+'</div><div class="drow"><span class="dlbl">⏰</span>'+mkTsel(a.duty,"odut('"+a.emp.id+"',this.value)")+'</div></div><button class="rmbtn" onclick="unOffice(\''+a.emp.id+'\')">✕</button></div>';}).join('');
+    var mk=Object.values(offMap).filter(function(a){return a.emp.name.toLowerCase().indexOf(q.toLowerCase())>=0;});
+    if(!mk.length){el.innerHTML="<div class="empty">No staff in office.</div>";return;}
+    el.innerHTML=mk.map(function(a){var c=cc(a.emp.role);return "<div class="ac" style="background:#fff8f0;border:1.5px solid #ffe0b2;margin-bottom:7px;"><div class="av" style="background:"+c+"18;color:"+c+";border:2px solid "+c+"33;">"+ini(a.emp.name)+"</div><div style="flex:1;min-width:0;"><div class="en">"+esc(a.emp.name)+"</div><div class="er" style="color:"+c+"">"+esc(a.emp.role)+"</div></div><button class="rmbtn" onclick="unOffice('"+a.emp.id+"')">x</button></div>";}).join("");
   }
 }
 
-// ════════════════════════════════════════════════════════════════
-// REPORT (PDF preview)
-// ════════════════════════════════════════════════════════════════
+// ── REPORT ────────────────────────────────────────────────────────────────────
+function saveLog(){var d=getD();var log={venues:{},leave:[],office:[]};Object.keys(asgn).forEach(function(vid){log.venues[vid]={};Object.keys(asgn[vid]).forEach(function(eid){log.venues[vid][eid]=asgn[vid][eid].duty;});});Object.keys(lvMap).forEach(function(eid){log.leave.push({id:eid,duty:lvMap[eid].duty});});Object.keys(offMap).forEach(function(eid){log.office.push({id:eid,duty:offMap[eid].duty});});dlog[d]=log;}
+
 function drawReport(){
-  var d=getD();var ndd=nd(d);
-  document.getElementById('rpt-duty').textContent='Duty Date: '+fd(ndd);
-  document.getElementById('rpt-prep').textContent='Prepared: '+fd(d);
-  var lv2=Object.values(lv),ov=Object.values(off);
-  var h='';
+  var d=getD(),ndd=nd(d);
+  document.getElementById("rptduty").textContent="Duty Date: "+fd(ndd);
+  document.getElementById("rptprep").textContent="Prepared: "+fd(d);
+  var lv2=Object.values(lvMap),ov=Object.values(offMap),h="";
   venues.forEach(function(v){
     var t=getTeam(v.id);if(!t.length)return;
     var mgrs=t.filter(function(a){return isMgr(a.emp);});
     var rest=t.filter(function(a){return !isMgr(a.emp);});
-    var sorted=mgrs.concat(rest);
-    h+='<div class="pvcard"'+(v.vip?' style="border-left:4px solid #f9a825;"':'')+'>';
-    if(v.vip)h+='<div style="font-size:9px;font-weight:800;color:#f9a825;margin-bottom:5px;">⭐ VIP EVENT</div>';
-    h+='<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:9px;"><span style="font-size:17px;">🏨</span><div><div class="pvname">'+esc(v.name)+'</div><div style="font-size:11px;color:#1565c0;font-weight:600;">'+t.length+' staff</div></div></div>';
-    sorted.forEach(function(a,i){
-      var c=cc(a.emp.role);var isMG=isMgr(a.emp);
-      h+='<div class="prow"'+(isMG?' style="background:#e8eaf6;border-radius:6px;"':'')+'>';
-      h+='<span class="pnum">'+(i+1)+'</span>';
-      h+='<div style="flex:1;min-width:0;">';
-      if(isMG)h+='<div style="font-weight:800;font-size:13px;color:#1a237e;">'+esc(a.emp.name)+(a.emp.phone?'  <span style="font-size:11px;color:#3949ab;font-weight:600;">Ph: '+esc(a.emp.phone)+'</span>':'')+'</div>';
-      else h+='<div style="font-weight:700;font-size:12px;color:#111;">'+esc(a.emp.name)+'</div>';
-      h+='<span style="font-size:10px;color:'+c+';background:'+c+'18;border-radius:3px;padding:1px 5px;">'+esc(a.emp.role)+'</span>';
-      h+='</div>';
-      h+='<div style="font-size:11px;font-weight:700;color:#0d47a1;flex-shrink:0;">⏰ '+esc(a.duty)+'</div>';
-      h+='</div>';
+    h+="<div class="pvcard">"+(v.vip?"<div style="font-size:9px;font-weight:800;color:#f9a825;margin-bottom:5px;">VIP EVENT</div>":"")+
+      "<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:9px;"><div><div class="pvname">"+esc(v.name)+"</div><div style="font-size:11px;color:#1565c0;font-weight:600;">"+t.length+" staff</div></div></div>";
+    mgrs.concat(rest).forEach(function(a,i){
+      var c=cc(a.emp.role),isMG=isMgr(a.emp);
+      h+="<div class="prow"style=""+( isMG?"background:#e8eaf6;border-radius:6px;":"")+"">";
+      h+="<span class="pnum">"+(i+1)+"</span><div style="flex:1;min-width:0;">";
+      h+=isMG?"<div style="font-weight:800;font-size:13px;color:#1a237e;">"+esc(a.emp.name)+(a.emp.phone?"  Ph: "+esc(a.emp.phone):"")+"</div>":"<div style="font-weight:700;font-size:12px;color:#111;">"+esc(a.emp.name)+"</div>";
+      h+="<span style="font-size:10px;color:"+c+";background:"+c+"18;border-radius:3px;padding:1px 5px;">"+esc(a.emp.role)+"</span></div>";
+      h+="<div style="font-size:11px;font-weight:700;color:#0d47a1;flex-shrink:0;">"+esc(a.duty)+"</div></div>";
     });
-    h+='</div>';
+    h+="</div>";
   });
-  if(lv2.length){
-    h+='<div class="pvcard" style="border-left:4px solid #c62828;"><div style="display:flex;gap:9px;margin-bottom:9px;"><span style="font-size:17px;">🌴</span><div><div class="pvname" style="color:#c62828;">On Leave</div><div style="font-size:11px;color:#c62828;">'+lv2.length+' staff</div></div></div>';
-    lv2.forEach(function(a,i){var c=cc(a.emp.role);h+='<div class="prow"><span class="pnum">'+(i+1)+'</span><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:12px;color:#111;">'+esc(a.emp.name)+'</div><span style="font-size:10px;color:'+c+';background:'+c+'18;border-radius:3px;padding:1px 5px;">'+esc(a.emp.role)+'</span></div></div>';});
-    h+='</div>';
-  }
-  if(ov.length){
-    h+='<div class="pvcard" style="border-left:4px solid #e65100;"><div style="display:flex;gap:9px;margin-bottom:9px;"><span style="font-size:17px;">🏢</span><div><div class="pvname" style="color:#e65100;">In Office</div><div style="font-size:11px;color:#e65100;">'+ov.length+' staff</div></div></div>';
-    ov.forEach(function(a,i){var c=cc(a.emp.role);h+='<div class="prow"><span class="pnum">'+(i+1)+'</span><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:12px;color:#111;">'+esc(a.emp.name)+'</div><span style="font-size:10px;color:'+c+';background:'+c+'18;border-radius:3px;padding:1px 5px;">'+esc(a.emp.role)+'</span></div></div>';});
-    h+='</div>';
-  }
-  if(!h)h='<div class="empty">No staff deployed yet.</div>';
-  document.getElementById('rpt-body').innerHTML=h;
+  if(lv2.length){h+="<div class="pvcard" style="border-left:4px solid #c62828;"><div class="pvname" style="color:#c62828;margin-bottom:9px;">On Leave - "+lv2.length+" staff</div>";lv2.forEach(function(a,i){var c=cc(a.emp.role);h+="<div class="prow"><span class="pnum">"+(i+1)+"</span><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:12px;">"+esc(a.emp.name)+"</div><span style="font-size:10px;color:"+c+";background:"+c+"18;border-radius:3px;padding:1px 5px;">"+esc(a.emp.role)+"</span></div></div>";});h+="</div>";}
+  if(ov.length){h+="<div class="pvcard" style="border-left:4px solid #e65100;"><div class="pvname" style="color:#e65100;margin-bottom:9px;">In Office - "+ov.length+" staff</div>";ov.forEach(function(a,i){var c=cc(a.emp.role);h+="<div class="prow"><span class="pnum">"+(i+1)+"</span><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:12px;">"+esc(a.emp.name)+"</div><span style="font-size:10px;color:"+c+";background:"+c+"18;border-radius:3px;padding:1px 5px;">"+esc(a.emp.role)+"</span></div></div>";});h+="</div>";}
+  if(!h)h="<div class="empty">No staff deployed yet.</div>";
+  document.getElementById("rptbody").innerHTML=h;
   saveLog();
 }
 
-// ════════════════════════════════════════════════════════════════
-// DAILY LOG
-// ════════════════════════════════════════════════════════════════
-function saveLog(){
-  var d=getD();
-  var log={venues:{},leave:[],office:[]};
-  Object.keys(asgn).forEach(function(vid){log.venues[vid]={};Object.keys(asgn[vid]).forEach(function(eid){log.venues[vid][eid]=asgn[vid][eid].duty;});});
-  Object.keys(lv).forEach(function(eid){log.leave.push({id:eid,duty:lv[eid].duty});});
-  Object.keys(off).forEach(function(eid){log.office.push({id:eid,duty:off[eid].duty});});
-  dlog[d]=log;
-}
-
-// ════════════════════════════════════════════════════════════════
-// MAKE PDF
-// ════════════════════════════════════════════════════════════════
+// ── MAKE PDF ──────────────────────────────────────────────────────────────────
 function makePDF(){
-  var d=getD();var ndd=nd(d);
-  var lv2=Object.values(lv),ov=Object.values(off);
-  if(!window.jspdf){toast('PDF loading...','w');return;}
-  var doc=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  var d=getD(),ndd=nd(d);
+  var lv2=Object.values(lvMap),ov=Object.values(offMap);
+  if(!window.jspdf){toast("PDF loading...","w");return;}
+  var doc=new window.jspdf.jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
   var pw=210,mg=12,y=mg;
   function cp(n){if(y+n>283){doc.addPage();y=mg;}}
-
-  // Header
-  doc.setFillColor(21,101,192);doc.rect(0,0,pw,36,'F');
-  try{
-    var img=document.getElementById('logoImg');
-    if(img&&img.complete&&img.naturalWidth>0){
-      var cv=document.createElement('canvas');cv.width=img.naturalWidth;cv.height=img.naturalHeight;
-      cv.getContext('2d').drawImage(img,0,0);
-      doc.addImage(cv.toDataURL('image/png'),'PNG',mg,4,28,28);
-    }
-  }catch(er){}
-  doc.setTextColor(255,255,255);doc.setFontSize(16);doc.setFont('helvetica','bold');
-  doc.text('GROVER AUDIO VISUAL SERVICES',pw/2+10,14,{align:'center'});
-  doc.setFontSize(8);doc.setFont('helvetica','normal');
-  doc.text('Staff Duty Deployment Report',pw/2+10,22,{align:'center'});
+  doc.setFillColor(21,101,192);doc.rect(0,0,pw,36,"F");
+  try{var img=document.getElementById("logoImg");if(img&&img.complete&&img.naturalWidth>0){var cv=document.createElement("canvas");cv.width=img.naturalWidth;cv.height=img.naturalHeight;cv.getContext("2d").drawImage(img,0,0);doc.addImage(cv.toDataURL("image/png"),"PNG",mg,4,28,28);}}catch(er){}
+  doc.setTextColor(255,255,255);doc.setFontSize(16);doc.setFont("helvetica","bold");
+  doc.text("GROVER AUDIO VISUAL SERVICES",pw/2+10,14,{align:"center"});
+  doc.setFontSize(8);doc.setFont("helvetica","normal");doc.text("Staff Duty Deployment Report",pw/2+10,22,{align:"center"});
   y=42;
-
-  // Dates
-  doc.setTextColor(13,71,161);doc.setFontSize(11);doc.setFont('helvetica','bold');
-  doc.text('Duty Date: '+fd(ndd),mg,y);
-  doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(130,130,130);
-  doc.text('Prepared: '+fd(d),mg,y+6);y+=16;
-
-  // Venues
+  doc.setTextColor(13,71,161);doc.setFontSize(11);doc.setFont("helvetica","bold");doc.text("Duty Date: "+fd(ndd),mg,y);
+  doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(130,130,130);doc.text("Prepared: "+fd(d),mg,y+6);y+=16;
   venues.forEach(function(v){
-    var t=getTeam(v.id);if(!t.length)return;
-    cp(24);
-    // Venue header - always blue
-    doc.setFillColor(21,101,192);doc.roundedRect(mg,y,pw-mg*2,12,2,2,'F');
-    doc.setTextColor(255,255,255);doc.setFontSize(10);doc.setFont('helvetica','bold');
-    doc.text(v.name,pw/2,y+8,{align:'center'});
-    // VIP EVENT in red on right
-    if(v.vip){
-      doc.setTextColor(255,60,60);doc.setFontSize(8);
-      doc.text('VIP EVENT',pw-mg-3,y+5,{align:'right'});
-      doc.setTextColor(255,255,255);
-    }
-    doc.setFontSize(8);doc.setTextColor(255,255,255);
-    doc.text(t.length+' staff',pw-mg-3,y+10,{align:'right'});
-    y+=13;
-
-    // Table header
-    doc.setFillColor(220,230,255);doc.rect(mg,y,pw-mg*2,6,'F');
-    doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont('helvetica','bold');
-    doc.text('#',mg+2,y+4.2);doc.text('Name',mg+10,y+4.2);
-    doc.text('Role',mg+100,y+4.2);doc.text('Duty Time',pw-mg-3,y+4.2,{align:'right'});
-    y+=7;
-
+    var t=getTeam(v.id);if(!t.length)return;cp(24);
+    doc.setFillColor(21,101,192);doc.roundedRect(mg,y,pw-mg*2,12,2,2,"F");
+    doc.setTextColor(255,255,255);doc.setFontSize(10);doc.setFont("helvetica","bold");
+    doc.text(v.name,pw/2,y+8,{align:"center"});
+    if(v.vip){doc.setTextColor(255,60,60);doc.setFontSize(8);doc.text("VIP EVENT",pw-mg-3,y+5,{align:"right"});doc.setTextColor(255,255,255);}
+    doc.setFontSize(8);doc.text(t.length+" staff",pw-mg-3,y+10,{align:"right"});y+=13;
+    doc.setFillColor(220,230,255);doc.rect(mg,y,pw-mg*2,6,"F");
+    doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont("helvetica","bold");
+    doc.text("#",mg+2,y+4.2);doc.text("Name",mg+10,y+4.2);doc.text("Role",mg+100,y+4.2);doc.text("Duty",pw-mg-3,y+4.2,{align:"right"});y+=7;
     var mgrs=t.filter(function(a){return isMgr(a.emp);});
     var rest=t.filter(function(a){return !isMgr(a.emp);});
     mgrs.concat(rest).forEach(function(a,i){
-      var isMG=isMgr(a.emp);var rh=isMG?8:6.5;
-      cp(rh);
-      if(isMG){doc.setFillColor(255,244,180);doc.rect(mg,y,pw-mg*2,rh,'F');doc.setDrawColor(220,160,0);doc.setLineWidth(0.4);doc.rect(mg,y,pw-mg*2,rh,'S');doc.setLineWidth(0.2);}
-      else if(i%2===0){doc.setFillColor(248,250,255);doc.rect(mg,y,pw-mg*2,rh,'F');}
-      doc.setTextColor(150,150,150);doc.setFontSize(7);doc.setFont('helvetica','normal');
-      doc.text(String(i+1),mg+2,y+rh-2);
-      if(isMG){
-        doc.setTextColor(120,70,0);doc.setFont('helvetica','bold');doc.setFontSize(8);
-        var nm=a.emp.name+(a.emp.phone?'  Ph:'+a.emp.phone:'');
-        doc.text(nm,mg+10,y+rh-2);
-      } else {
-        doc.setTextColor(30,30,30);doc.setFont('helvetica','bold');doc.setFontSize(7);
-        doc.text(a.emp.name,mg+10,y+rh-2);
-      }
-      doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(100,100,100);
-      doc.text(a.emp.role,mg+100,y+rh-2);
-      doc.setTextColor(13,71,161);doc.setFont('helvetica','bold');doc.setFontSize(7);
-      doc.text(a.duty,pw-mg-3,y+rh-2,{align:'right'});
+      var isMG=isMgr(a.emp),rh=isMG?8:6.5;cp(rh);
+      if(isMG){doc.setFillColor(255,244,180);doc.rect(mg,y,pw-mg*2,rh,"F");doc.setDrawColor(220,160,0);doc.setLineWidth(0.4);doc.rect(mg,y,pw-mg*2,rh,"S");doc.setLineWidth(0.2);}
+      else if(i%2===0){doc.setFillColor(248,250,255);doc.rect(mg,y,pw-mg*2,rh,"F");}
+      doc.setTextColor(150,150,150);doc.setFontSize(7);doc.setFont("helvetica","normal");doc.text(String(i+1),mg+2,y+rh-2);
+      if(isMG){doc.setTextColor(120,70,0);doc.setFont("helvetica","bold");doc.setFontSize(8);doc.text(a.emp.name+(a.emp.phone?"  Ph:"+a.emp.phone:""),mg+10,y+rh-2);}
+      else{doc.setTextColor(30,30,30);doc.setFont("helvetica","bold");doc.setFontSize(7);doc.text(a.emp.name,mg+10,y+rh-2);}
+      doc.setFont("helvetica","normal");doc.setFontSize(6);doc.setTextColor(100,100,100);doc.text(a.emp.role,mg+100,y+rh-2);
+      doc.setTextColor(13,71,161);doc.setFont("helvetica","bold");doc.setFontSize(7);doc.text(a.duty,pw-mg-3,y+rh-2,{align:"right"});
       y+=rh;
-    });
-    y+=4;
+    });y+=4;
   });
-
-  // Leave - no duty time
-  if(lv2.length){
-    cp(20);
-    doc.setFillColor(198,40,40);doc.roundedRect(mg,y,pw-mg*2,10,2,2,'F');
-    doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','bold');
-    doc.text('ON LEAVE',pw/2,y+7,{align:'center'});
-    doc.text(lv2.length+' staff',pw-mg-3,y+7,{align:'right'});
-    y+=11;
-    doc.setFillColor(220,230,255);doc.rect(mg,y,pw-mg*2,6,'F');
-    doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont('helvetica','bold');
-    doc.text('#',mg+2,y+4.2);doc.text('Name',mg+10,y+4.2);doc.text('Role',mg+100,y+4.2);y+=7;
-    lv2.forEach(function(a,i){
-      cp(6.5);
-      if(i%2===0){doc.setFillColor(255,245,245);doc.rect(mg,y,pw-mg*2,6.5,'F');}
-      doc.setTextColor(150,150,150);doc.setFontSize(7);doc.setFont('helvetica','normal');doc.text(String(i+1),mg+2,y+4.5);
-      doc.setTextColor(30,30,30);doc.setFont('helvetica','bold');doc.text(a.emp.name,mg+10,y+4.5);
-      doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(100,100,100);doc.text(a.emp.role,mg+100,y+4.5);
-      y+=6.5;
-    });y+=4;
-  }
-
-  // Office - no duty time
-  if(ov.length){
-    cp(20);
-    doc.setFillColor(230,81,0);doc.roundedRect(mg,y,pw-mg*2,10,2,2,'F');
-    doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','bold');
-    doc.text('IN OFFICE',pw/2,y+7,{align:'center'});
-    doc.text(ov.length+' staff',pw-mg-3,y+7,{align:'right'});
-    y+=11;
-    doc.setFillColor(220,230,255);doc.rect(mg,y,pw-mg*2,6,'F');
-    doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont('helvetica','bold');
-    doc.text('#',mg+2,y+4.2);doc.text('Name',mg+10,y+4.2);doc.text('Role',mg+100,y+4.2);y+=7;
-    ov.forEach(function(a,i){
-      cp(6.5);
-      if(i%2===0){doc.setFillColor(255,248,240);doc.rect(mg,y,pw-mg*2,6.5,'F');}
-      doc.setTextColor(150,150,150);doc.setFontSize(7);doc.setFont('helvetica','normal');doc.text(String(i+1),mg+2,y+4.5);
-      doc.setTextColor(30,30,30);doc.setFont('helvetica','bold');doc.text(a.emp.name,mg+10,y+4.5);
-      doc.setFont('helvetica','normal');doc.setFontSize(6);doc.setTextColor(100,100,100);doc.text(a.emp.role,mg+100,y+4.5);
-      y+=6.5;
-    });y+=4;
-  }
-
-  // Footer
-  var pc=doc.internal.getNumberOfPages();
-  for(var p=1;p<=pc;p++){
-    doc.setPage(p);doc.setFillColor(230,236,255);doc.rect(0,287,pw,10,'F');
-    doc.setFontSize(7);doc.setTextColor(120,120,120);doc.setFont('helvetica','normal');
-    doc.text('Grover Audio Visual Services  |  '+fd(d),mg,293);
-    doc.text('Page '+p+' of '+pc,pw-mg,293,{align:'right'});
-  }
-  doc.save('GAVS_Duty_'+ndd+'.pdf');
-  toast('PDF downloaded!');
+  if(lv2.length){cp(20);doc.setFillColor(198,40,40);doc.roundedRect(mg,y,pw-mg*2,10,2,2,"F");doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont("helvetica","bold");doc.text("ON LEAVE",pw/2,y+7,{align:"center"});doc.text(lv2.length+" staff",pw-mg-3,y+7,{align:"right"});y+=11;doc.setFillColor(220,230,255);doc.rect(mg,y,pw-mg*2,6,"F");doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont("helvetica","bold");doc.text("#",mg+2,y+4.2);doc.text("Name",mg+10,y+4.2);doc.text("Role",mg+100,y+4.2);y+=7;lv2.forEach(function(a,i){cp(6.5);if(i%2===0){doc.setFillColor(255,245,245);doc.rect(mg,y,pw-mg*2,6.5,"F");}doc.setTextColor(150,150,150);doc.setFontSize(7);doc.setFont("helvetica","normal");doc.text(String(i+1),mg+2,y+4.5);doc.setTextColor(30,30,30);doc.setFont("helvetica","bold");doc.text(a.emp.name,mg+10,y+4.5);doc.setFont("helvetica","normal");doc.setFontSize(6);doc.setTextColor(100,100,100);doc.text(a.emp.role,mg+100,y+4.5);y+=6.5;});y+=4;}
+  if(ov.length){cp(20);doc.setFillColor(230,81,0);doc.roundedRect(mg,y,pw-mg*2,10,2,2,"F");doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont("helvetica","bold");doc.text("IN OFFICE",pw/2,y+7,{align:"center"});doc.text(ov.length+" staff",pw-mg-3,y+7,{align:"right"});y+=11;doc.setFillColor(220,230,255);doc.rect(mg,y,pw-mg*2,6,"F");doc.setTextColor(13,71,161);doc.setFontSize(6);doc.setFont("helvetica","bold");doc.text("#",mg+2,y+4.2);doc.text("Name",mg+10,y+4.2);doc.text("Role",mg+100,y+4.2);y+=7;ov.forEach(function(a,i){cp(6.5);if(i%2===0){doc.setFillColor(255,248,240);doc.rect(mg,y,pw-mg*2,6.5,"F");}doc.setTextColor(150,150,150);doc.setFontSize(7);doc.setFont("helvetica","normal");doc.text(String(i+1),mg+2,y+4.5);doc.setTextColor(30,30,30);doc.setFont("helvetica","bold");doc.text(a.emp.name,mg+10,y+4.5);doc.setFont("helvetica","normal");doc.setFontSize(6);doc.setTextColor(100,100,100);doc.text(a.emp.role,mg+100,y+4.5);y+=6.5;});y+=4;}
+  var pc=doc.internal.getNumberOfPages();for(var p=1;p<=pc;p++){doc.setPage(p);doc.setFillColor(230,236,255);doc.rect(0,287,pw,10,"F");doc.setFontSize(7);doc.setTextColor(120,120,120);doc.setFont("helvetica","normal");doc.text("Grover Audio Visual Services | "+fd(d),mg,293);doc.text("Page "+p+" of "+pc,pw-mg,293,{align:"right"});}
+  doc.save("GAVS_Duty_"+ndd+".pdf");toast("PDF downloaded!");
 }
 
-// ════════════════════════════════════════════════════════════════
-// STAFF MONTHLY REPORT
-// ════════════════════════════════════════════════════════════════
-function initSR(){
+// ── STAFF REPORT ──────────────────────────────────────────────────────────────
+function initSRDropdowns(){
+  var ms=document.getElementById("srMon");if(ms&&!ms.options.length){MONS.forEach(function(m,i){ms.innerHTML+="<option value=""+i+"">"+m+"</option>";});ms.value=new Date().getMonth();}
+  var ys=document.getElementById("srYr");if(ys&&!ys.options.length){var cy=new Date().getFullYear();for(var y2=cy;y2>=cy-2;y2--){ys.innerHTML+="<option value=""+y2+"">"+y2+"</option>";}ys.value=cy;}
   refreshSREmp();
-  // Fill months
-  var ms=document.getElementById('sr-month');
-  if(ms&&!ms.options.length){
-    MOS.forEach(function(m,i){ms.innerHTML+='<option value="'+i+'">'+m+'</option>';});
-    ms.value=new Date().getMonth();
-  }
-  var ys=document.getElementById('sr-year');
-  if(ys&&!ys.options.length){
-    var cy=new Date().getFullYear();
-    for(var y2=cy;y2>=cy-2;y2--){ys.innerHTML+='<option value="'+y2+'">'+y2+'</option>';}
-    ys.value=cy;
-  }
-  drawSR();
 }
-
-function refreshSREmp(){
-  var el=document.getElementById('sr-emp');if(!el)return;
-  var cur=el.value;
-  el.innerHTML='<option value="">-- Select Employee --</option>'+
-    staff.map(function(e){return'<option value="'+e.id+'"'+(e.id===cur?' selected':'')+'>'+esc(e.name)+' ('+esc(e.role)+')</option>';}).join('');
-}
-
+function refreshSREmp(){var el=document.getElementById("srEmp");if(!el)return;var cur=el.value;el.innerHTML="<option value="">-- Select Employee --</option>"+staff.map(function(e){return"<option value=""+e.id+"""+( e.id===cur?" selected":"")+">"+esc(e.name)+" ("+esc(e.role)+")</option>";}).join("");}
 function drawSR(){
-  var eid=document.getElementById('sr-emp').value;
-  var month=parseInt(document.getElementById('sr-month').value);
-  var year=parseInt(document.getElementById('sr-year').value);
-  var ss=document.getElementById('sr-summary');
-  var sb=document.getElementById('sr-body');
-  var btn=document.getElementById('sr-pdf-btn');
-  if(!eid){ss.innerHTML='';sb.innerHTML='';btn.classList.add('hidden');return;}
-  var emp=staff.find(function(e){return e.id===eid;});
-  if(!emp){ss.innerHTML='';sb.innerHTML='';return;}
-  var dim=new Date(year,month+1,0).getDate();
-  var dep=0,lvD=0,offD=0,frD=0;
-  var rows='';
+  var eid=document.getElementById("srEmp").value;
+  var month=parseInt(document.getElementById("srMon").value);
+  var year=parseInt(document.getElementById("srYr").value);
+  var ss=document.getElementById("srSum"),sb=document.getElementById("srBody"),btn=document.getElementById("srPdfBtn");
+  if(!eid){ss.innerHTML="";sb.innerHTML="";btn.classList.add("hide");return;}
+  var emp=null;for(var i=0;i<staff.length;i++){if(staff[i].id===eid){emp=staff[i];break;}}if(!emp)return;
+  var dim=new Date(year,month+1,0).getDate(),dep=0,lvD=0,offD=0,frD=0,rows="";
   var today=new Date().toISOString().slice(0,10);
   for(var day=1;day<=dim;day++){
-    var ds=year+'-'+String(month+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
-    var log=dlog[ds];
-    var status='free';var detail='Unassigned';var duty='';
+    var ds=year+"-"+String(month+1).padStart(2,"0")+"-"+String(day).padStart(2,"0");
+    var log=dlog[ds],status="free",detail="Unassigned",duty="";
     if(log){
-      var inL=log.leave&&log.leave.find(function(x){return x.id===eid;});
-      var inO=log.office&&log.office.find(function(x){return x.id===eid;});
-      if(inL){status='leave';detail='On Leave';duty=inL.duty;lvD++;}
-      else if(inO){status='office';detail='In Office';duty=inO.duty;offD++;}
-      else{
-        Object.keys(log.venues||{}).forEach(function(vid){
-          if(log.venues[vid][eid]){
-            var v=venues.find(function(x){return x.id===vid;});
-            detail=v?v.name:'Venue';duty=log.venues[vid][eid];status='deployed';dep++;
-          }
-        });
-        if(status==='free')frD++;
-      }
-    } else {
-      if(ds===today){
-        var ft=false;
-        Object.keys(asgn).forEach(function(vid){if(asgn[vid][eid]){var v=venues.find(function(x){return x.id===vid;});detail=v?v.name:'Venue';duty=asgn[vid][eid].duty;status='deployed';dep++;ft=true;}});
-        if(!ft&&lv[eid]){status='leave';detail='On Leave';duty=lv[eid].duty;lvD++;}
-        else if(!ft&&off[eid]){status='office';detail='In Office';duty=off[eid].duty;offD++;}
-        else if(!ft)frD++;
-      } else frD++;
-    }
-    var dc=status==='deployed'?'#1565c0':status==='leave'?'#c62828':status==='office'?'#e65100':'#ccc';
-    var bg=status==='deployed'?'#f0f4ff':status==='leave'?'#fff5f5':status==='office'?'#fff8f0':'#fff';
-    var dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(year,month,day).getDay()];
-    rows+='<div class="rep-row" style="background:'+bg+';"><div style="font-weight:800;color:#1565c0;width:24px;flex-shrink:0;">'+day+'</div><div style="font-size:10px;color:#888;width:28px;flex-shrink:0;">'+dn+'</div><div style="flex:1;font-weight:600;color:'+dc+';">'+esc(detail)+'</div>'+(duty?'<div style="font-size:10px;color:#0d47a1;font-weight:700;flex-shrink:0;">'+esc(duty)+'</div>':'')+'</div>';
+      var inL=null;if(log.leave){for(var i=0;i<log.leave.length;i++){if(log.leave[i].id===eid){inL=log.leave[i];break;}}}
+      var inO=null;if(log.office){for(var i=0;i<log.office.length;i++){if(log.office[i].id===eid){inO=log.office[i];break;}}}
+      if(inL){status="leave";detail="On Leave";duty=inL.duty;lvD++;}
+      else if(inO){status="office";detail="In Office";duty=inO.duty;offD++;}
+      else{Object.keys(log.venues||{}).forEach(function(vid){if(log.venues[vid][eid]){var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===vid){v=venues[i];break;}}detail=v?v.name:"Venue";duty=log.venues[vid][eid];status="deployed";dep++;}});if(status==="free")frD++;}
+    } else {if(ds===today){var ft=false;Object.keys(asgn).forEach(function(vid){if(asgn[vid][eid]){var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===vid){v=venues[i];break;}}detail=v?v.name:"Venue";duty=asgn[vid][eid].duty;status="deployed";dep++;ft=true;}});if(!ft&&lvMap[eid]){status="leave";detail="On Leave";lvD++;}else if(!ft&&offMap[eid]){status="office";detail="In Office";offD++;}else if(!ft)frD++;}else frD++;}
+    var dc=status==="deployed"?"#1565c0":status==="leave"?"#c62828":status==="office"?"#e65100":"#ccc";
+    var bg=status==="deployed"?"#f0f4ff":status==="leave"?"#fff5f5":status==="office"?"#fff8f0":"#fff";
+    var dn=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(year,month,day).getDay()];
+    rows+="<div class="reprow" style="background:"+bg+""><div style="font-weight:800;color:#1565c0;width:24px;flex-shrink:0;">"+day+"</div><div style="font-size:10px;color:#888;width:28px;flex-shrink:0;">"+dn+"</div><div style="flex:1;font-weight:600;color:"+dc+"">"+esc(detail)+"</div>"+(duty?"<div style="font-size:10px;color:#0d47a1;font-weight:700;flex-shrink:0;">"+esc(duty)+"</div>":"")+"</div>";
   }
   var c=cc(emp.role);
-  ss.innerHTML='<div class="section"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div class="av" style="background:'+c+'18;color:'+c+';border:2px solid '+c+'33;width:42px;height:42px;border-radius:10px;font-size:13px;">'+ini(emp.name)+'</div><div><div style="font-size:14px;font-weight:800;color:#0d47a1;">'+esc(emp.name)+'</div><div style="font-size:11px;color:'+c+';font-weight:600;">'+esc(emp.role)+'</div>'+(emp.phone?'<div style="font-size:10px;color:#888;">Ph: '+esc(emp.phone)+'</div>':'')+'</div></div>'+
-    '<div style="font-size:13px;font-weight:800;color:#0d47a1;margin-bottom:8px;">'+MOS[month]+' '+year+'</div>'+
-    '<div style="display:flex;gap:5px;flex-wrap:wrap;">'+
-    '<div style="background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;padding:6px 10px;text-align:center;flex:1;min-width:55px;"><div style="font-size:15px;font-weight:800;color:#1565c0;">'+dep+'</div><div style="font-size:9px;color:#888;">Deployed</div></div>'+
-    '<div style="background:#fff5f5;border:1.5px solid #ffcdd2;border-radius:8px;padding:6px 10px;text-align:center;flex:1;min-width:55px;"><div style="font-size:15px;font-weight:800;color:#c62828;">'+lvD+'</div><div style="font-size:9px;color:#888;">Leave</div></div>'+
-    '<div style="background:#fff8f0;border:1.5px solid #ffe0b2;border-radius:8px;padding:6px 10px;text-align:center;flex:1;min-width:55px;"><div style="font-size:15px;font-weight:800;color:#e65100;">'+offD+'</div><div style="font-size:9px;color:#888;">Office</div></div>'+
-    '<div style="background:#f5f5f5;border:1.5px solid #ddd;border-radius:8px;padding:6px 10px;text-align:center;flex:1;min-width:55px;"><div style="font-size:15px;font-weight:800;color:#888;">'+frD+'</div><div style="font-size:9px;color:#888;">Free</div></div>'+
-    '</div></div>';
-  sb.innerHTML='<div class="section"><div class="sec-hd">DAY BY DAY</div>'+rows+'</div>';
-  btn.classList.remove('hidden');
+  ss.innerHTML="<div class="sec"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div class="av" style="background:"+c+"18;color:"+c+";border:2px solid "+c+"33;width:42px;height:42px;border-radius:10px;font-size:13px;">"+ini(emp.name)+"</div><div><div style="font-size:14px;font-weight:800;color:#0d47a1;">"+esc(emp.name)+"</div><div style="font-size:11px;color:"+c+";font-weight:600;">"+esc(emp.role)+"</div>"+(emp.phone?"<div style="font-size:10px;color:#888;">Ph: "+esc(emp.phone)+"</div>":"")+"</div></div>"+
+    "<div style="font-size:13px;font-weight:800;color:#0d47a1;margin-bottom:8px;">"+MONS[month]+" "+year+"</div>"+
+    "<div style="display:flex;gap:5px;flex-wrap:wrap;">"+
+    "<div style="background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;padding:6px 10px;text-align:center;flex:1;min-width:55px;"><div style="font-size:15px;font-weight:800;color:#1565c0;">"+dep+"</div><div style="font-size:9px;color:#888;">Deployed</div></div>"+
+    "<div style="background:#fff5f5;border:1.5px solid #ffcdd2;border-radius:8px;padding:6px 10px;text-align:center;flex:1;min-width:55px;"><div style="font-size:15px;font-weight:800;color:#c62828;">"+lvD+"</div><div style="font-size:9px;color:#888;">Leave</div></div>"+
+    "<div style="background:#fff8f0;border:1.5px solid #ffe0b2;border-radius:8px;padding:6px 10px;text-align:center;flex:1;min-width:55px;"><div style="font-size:15px;font-weight:800;color:#e65100;">"+offD+"</div><div style="font-size:9px;color:#888;">Office</div></div>"+
+    "<div style="background:#f5f5f5;border:1.5px solid #ddd;border-radius:8px;padding:6px 10px;text-align:center;flex:1;min-width:55px;"><div style="font-size:15px;font-weight:800;color:#888;">"+frD+"</div><div style="font-size:9px;color:#888;">Free</div></div>"+
+    "</div></div>";
+  sb.innerHTML="<div class="sec"><div class="sech">DAY BY DAY</div>"+rows+"</div>";
+  btn.classList.remove("hide");
 }
 
 function makeSRPDF(){
-  var eid=document.getElementById('sr-emp').value;
-  var month=parseInt(document.getElementById('sr-month').value);
-  var year=parseInt(document.getElementById('sr-year').value);
-  var emp=staff.find(function(e){return e.id===eid;});
-  if(!emp||!window.jspdf){toast('Error','e');return;}
-  var doc=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  var eid=document.getElementById("srEmp").value;
+  var month=parseInt(document.getElementById("srMon").value);
+  var year=parseInt(document.getElementById("srYr").value);
+  var emp=null;for(var i=0;i<staff.length;i++){if(staff[i].id===eid){emp=staff[i];break;}}
+  if(!emp||!window.jspdf){toast("Error","e");return;}
+  var doc=new window.jspdf.jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
   var pw=210,mg=12,y=mg;
   function cp(n){if(y+n>283){doc.addPage();y=mg;}}
-  doc.setFillColor(21,101,192);doc.rect(0,0,pw,36,'F');
-  try{var img=document.getElementById('logoImg');if(img&&img.complete&&img.naturalWidth>0){var cv=document.createElement('canvas');cv.width=img.naturalWidth;cv.height=img.naturalHeight;cv.getContext('2d').drawImage(img,0,0);doc.addImage(cv.toDataURL('image/png'),'PNG',mg,4,28,28);}}catch(er){}
-  doc.setTextColor(255,255,255);doc.setFontSize(16);doc.setFont('helvetica','bold');
-  doc.text('GROVER AUDIO VISUAL SERVICES',pw/2+10,14,{align:'center'});
-  doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text('Employee Monthly Duty Report',pw/2+10,22,{align:'center'});
-  y=42;
-  var c2=cc(emp.role);
-  doc.setFillColor(240,244,255);doc.roundedRect(mg,y,pw-mg*2,22,3,3,'F');
-  doc.setTextColor(13,71,161);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text(emp.name,mg+5,y+9);
-  doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(80,80,80);doc.text(emp.role,mg+5,y+16);
-  if(emp.phone)doc.text('Ph: '+emp.phone,mg+5,y+21);
-  doc.setTextColor(13,71,161);doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text(MOS[month]+' '+year,pw-mg-5,y+12,{align:'right'});
-  y+=28;
-  var dim=new Date(year,month+1,0).getDate();
-  var dep=0,lvD=0,offD=0,frD=0;
-  var rows2=[];
-  var today2=new Date().toISOString().slice(0,10);
+  doc.setFillColor(21,101,192);doc.rect(0,0,pw,36,"F");
+  try{var img=document.getElementById("logoImg");if(img&&img.complete&&img.naturalWidth>0){var cv=document.createElement("canvas");cv.width=img.naturalWidth;cv.height=img.naturalHeight;cv.getContext("2d").drawImage(img,0,0);doc.addImage(cv.toDataURL("image/png"),"PNG",mg,4,28,28);}}catch(er){}
+  doc.setTextColor(255,255,255);doc.setFontSize(16);doc.setFont("helvetica","bold");doc.text("GROVER AUDIO VISUAL SERVICES",pw/2+10,14,{align:"center"});
+  doc.setFontSize(8);doc.setFont("helvetica","normal");doc.text("Employee Monthly Duty Report",pw/2+10,22,{align:"center"});y=42;
+  doc.setFillColor(240,244,255);doc.roundedRect(mg,y,pw-mg*2,22,3,3,"F");
+  doc.setTextColor(13,71,161);doc.setFontSize(12);doc.setFont("helvetica","bold");doc.text(emp.name,mg+5,y+9);
+  doc.setFontSize(8);doc.setFont("helvetica","normal");doc.setTextColor(80,80,80);doc.text(emp.role,mg+5,y+16);if(emp.phone)doc.text("Ph: "+emp.phone,mg+5,y+21);
+  doc.setTextColor(13,71,161);doc.setFontSize(11);doc.setFont("helvetica","bold");doc.text(MONS[month]+" "+year,pw-mg-5,y+12,{align:"right"});y+=28;
+  var dim=new Date(year,month+1,0).getDate(),dep=0,lvD=0,offD=0,frD=0,rows2=[];
   for(var day=1;day<=dim;day++){
-    var ds2=year+'-'+String(month+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
-    var log2=dlog[ds2];var status2='free';var detail2='Unassigned';var duty2='';
-    if(log2){
-      var inL2=log2.leave&&log2.leave.find(function(x){return x.id===eid;});
-      var inO2=log2.office&&log2.office.find(function(x){return x.id===eid;});
-      if(inL2){status2='leave';detail2='On Leave';duty2=inL2.duty;lvD++;}
-      else if(inO2){status2='office';detail2='In Office';duty2=inO2.duty;offD++;}
-      else{Object.keys(log2.venues||{}).forEach(function(vid){if(log2.venues[vid][eid]){var v=venues.find(function(x){return x.id===vid;});detail2=v?v.name:'Venue';duty2=log2.venues[vid][eid];status2='deployed';dep++;}});if(status2==='free')frD++;}
-    } else {frD++;}
-    var dn2=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(year,month,day).getDay()];
-    rows2.push({day:day,dn:dn2,status:status2,detail:detail2,duty:duty2});
+    var ds=year+"-"+String(month+1).padStart(2,"0")+"-"+String(day).padStart(2,"0");
+    var log=dlog[ds],status="free",detail="Unassigned",duty="";
+    if(log){
+      var inL=null;if(log.leave){for(var i=0;i<log.leave.length;i++){if(log.leave[i].id===eid){inL=log.leave[i];break;}}}
+      var inO=null;if(log.office){for(var i=0;i<log.office.length;i++){if(log.office[i].id===eid){inO=log.office[i];break;}}}
+      if(inL){status="leave";detail="On Leave";duty=inL.duty;lvD++;}
+      else if(inO){status="office";detail="In Office";duty=inO.duty;offD++;}
+      else{Object.keys(log.venues||{}).forEach(function(vid){if(log.venues[vid][eid]){var v=null;for(var i=0;i<venues.length;i++){if(venues[i].id===vid){v=venues[i];break;}}detail=v?v.name:"Venue";duty=log.venues[vid][eid];status="deployed";dep++;}});if(status==="free")frD++;}
+    }else frD++;
+    var dn=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(year,month,day).getDay()];
+    rows2.push({day:day,dn:dn,status:status,detail:detail,duty:duty});
   }
-  // Summary
-  doc.setFillColor(240,244,255);doc.roundedRect(mg,y,pw-mg*2,16,3,3,'F');
-  var sc2=[mg+4,60,105,152];var slbl=['Deployed','Leave','Office','Free'];var sv=[dep,lvD,offD,frD];var scl=[[21,101,192],[198,40,40],[230,81,0],[150,150,150]];
-  slbl.forEach(function(l,i){doc.setTextColor(120,120,120);doc.setFontSize(7);doc.setFont('helvetica','normal');doc.text(l,sc2[i],y+6);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.setTextColor(scl[i][0],scl[i][1],scl[i][2]);doc.text(String(sv[i]),sc2[i],y+14);});
-  y+=22;
-  // Table
-  doc.setFillColor(21,101,192);doc.rect(mg,y,pw-mg*2,7,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(7);doc.setFont('helvetica','bold');
-  doc.text('Day',mg+2,y+5);doc.text('Date',mg+12,y+5);doc.text('Status / Venue',mg+35,y+5);doc.text('Duty',pw-mg-3,y+5,{align:'right'});y+=8;
+  doc.setFillColor(240,244,255);doc.roundedRect(mg,y,pw-mg*2,16,3,3,"F");
+  var sc2=[mg+4,60,105,152],slbl=["Deployed","Leave","Office","Free"],sv=[dep,lvD,offD,frD],scl=[[21,101,192],[198,40,40],[230,81,0],[150,150,150]];
+  slbl.forEach(function(l,i){doc.setTextColor(120,120,120);doc.setFontSize(7);doc.setFont("helvetica","normal");doc.text(l,sc2[i],y+6);doc.setFontSize(12);doc.setFont("helvetica","bold");doc.setTextColor(scl[i][0],scl[i][1],scl[i][2]);doc.text(String(sv[i]),sc2[i],y+14);});y+=22;
+  doc.setFillColor(21,101,192);doc.rect(mg,y,pw-mg*2,7,"F");doc.setTextColor(255,255,255);doc.setFontSize(7);doc.setFont("helvetica","bold");
+  doc.text("Day",mg+2,y+5);doc.text("Date",mg+12,y+5);doc.text("Status / Venue",mg+35,y+5);doc.text("Duty",pw-mg-3,y+5,{align:"right"});y+=8;
   rows2.forEach(function(row){
-    cp(7);
-    var bgc=row.status==='deployed'?[240,244,255]:row.status==='leave'?[255,245,245]:row.status==='office'?[255,248,240]:[255,255,255];
-    doc.setFillColor(bgc[0],bgc[1],bgc[2]);doc.rect(mg,y,pw-mg*2,6.5,'F');
-    doc.setDrawColor(220,220,220);doc.rect(mg,y,pw-mg*2,6.5,'S');
-    var tc=row.status==='deployed'?[21,101,192]:row.status==='leave'?[198,40,40]:row.status==='office'?[230,81,0]:[150,150,150];
-    doc.setTextColor(80,80,80);doc.setFontSize(7);doc.setFont('helvetica','bold');doc.text(row.dn,mg+2,y+4.5);
-    doc.setFont('helvetica','normal');doc.text(String(row.day).padStart(2,'0')+'/'+String(month+1).padStart(2,'0'),mg+12,y+4.5);
-    doc.setTextColor(tc[0],tc[1],tc[2]);doc.setFont('helvetica',row.status==='deployed'?'bold':'normal');
-    var det=row.detail.length>38?row.detail.slice(0,37)+'...':row.detail;
-    doc.text(det,mg+35,y+4.5);
-    if(row.duty){doc.setTextColor(13,71,161);doc.setFont('helvetica','bold');doc.text(row.duty,pw-mg-3,y+4.5,{align:'right'});}
+    cp(7);var bgc=row.status==="deployed"?[240,244,255]:row.status==="leave"?[255,245,245]:row.status==="office"?[255,248,240]:[255,255,255];
+    doc.setFillColor(bgc[0],bgc[1],bgc[2]);doc.rect(mg,y,pw-mg*2,6.5,"F");doc.setDrawColor(220,220,220);doc.rect(mg,y,pw-mg*2,6.5,"S");
+    var tc=row.status==="deployed"?[21,101,192]:row.status==="leave"?[198,40,40]:row.status==="office"?[230,81,0]:[150,150,150];
+    doc.setTextColor(80,80,80);doc.setFontSize(7);doc.setFont("helvetica","bold");doc.text(row.dn,mg+2,y+4.5);
+    doc.setFont("helvetica","normal");doc.text(String(row.day).padStart(2,"0")+"/"+String(month+1).padStart(2,"0"),mg+12,y+4.5);
+    doc.setTextColor(tc[0],tc[1],tc[2]);doc.setFont("helvetica",row.status==="deployed"?"bold":"normal");
+    var det=row.detail.length>38?row.detail.slice(0,37)+"...":row.detail;doc.text(det,mg+35,y+4.5);
+    if(row.duty){doc.setTextColor(13,71,161);doc.setFont("helvetica","bold");doc.text(row.duty,pw-mg-3,y+4.5,{align:"right"});}
     y+=6.5;
   });
-  var pc2=doc.internal.getNumberOfPages();
-  for(var p2=1;p2<=pc2;p2++){doc.setPage(p2);doc.setFillColor(230,236,255);doc.rect(0,287,pw,10,'F');doc.setFontSize(7);doc.setTextColor(120,120,120);doc.setFont('helvetica','normal');doc.text('Grover Audio Visual Services | '+emp.name+' | '+MOS[month]+' '+year,mg,293);doc.text('Page '+p2+' of '+pc2,pw-mg,293,{align:'right'});}
-  doc.save('GAVS_'+emp.name.replace(/ /g,'_')+'_'+MOS[month]+'_'+year+'.pdf');
-  toast('Staff PDF downloaded!');
+  var pc2=doc.internal.getNumberOfPages();for(var p=1;p<=pc2;p++){doc.setPage(p);doc.setFillColor(230,236,255);doc.rect(0,287,pw,10,"F");doc.setFontSize(7);doc.setTextColor(120,120,120);doc.setFont("helvetica","normal");doc.text("Grover Audio Visual Services | "+emp.name+" | "+MONS[month]+" "+year,mg,293);doc.text("Page "+p+" of "+pc2,pw-mg,293,{align:"right"});}
+  doc.save("GAVS_"+emp.name.replace(/ /g,"_")+"_"+MONS[month]+"_"+year+".pdf");toast("PDF downloaded!");
 }
 
-// ════════════════════════════════════════════════════════════════
-// TOUCH DRAG & DROP
-// ════════════════════════════════════════════════════════════════
+// ── SETTINGS ──────────────────────────────────────────────────────────────────
+function changePass(){
+  var cur=document.getElementById("cpCur").value;
+  var nw=document.getElementById("cpNew").value;
+  var cn=document.getElementById("cpCon").value;
+  var msg=document.getElementById("cpMsg");
+  var cred=null;for(var i=0;i<CREDS.length;i++){if(CREDS[i].u===curUser){cred=CREDS[i];break;}}
+  if(!cred||cred.p!==cur){msg.style.background="#ffebee";msg.style.color="#c62828";msg.textContent="Current password is wrong.";msg.style.display="block";return;}
+  if(!nw||nw.length<4){msg.style.background="#ffebee";msg.style.color="#c62828";msg.textContent="Password must be at least 4 characters.";msg.style.display="block";return;}
+  if(nw!==cn){msg.style.background="#ffebee";msg.style.color="#c62828";msg.textContent="Passwords do not match.";msg.style.display="block";return;}
+  cred.p=nw;
+  document.getElementById("cpCur").value="";document.getElementById("cpNew").value="";document.getElementById("cpCon").value="";
+  msg.style.background="#e8f5e9";msg.style.color="#1b5e20";msg.textContent="Password changed!";msg.style.display="block";
+  setTimeout(function(){msg.style.display="none";},3000);toast("Password updated!");
+}
+
+// ── TOUCH DRAG ────────────────────────────────────────────────────────────────
 var dragId=null,ghost=null;
 function tStart(ev,eid){
   dragId=eid;var t=ev.touches[0];
-  var e=staff.find(function(x){return x.id===eid;});if(!e)return;
-  var c=cc(e.role);
-  ghost=document.createElement('div');ghost.className='ghost';
-  ghost.style.left=(t.clientX-110)+'px';ghost.style.top=(t.clientY-30)+'px';
-  ghost.innerHTML='<div style="background:#fff;border:2px solid '+c+';border-radius:10px;padding:8px 13px;display:flex;align-items:center;gap:9px;box-shadow:0 6px 22px rgba(0,0,0,0.2);font-family:sans-serif;"><div style="width:30px;height:30px;border-radius:7px;background:'+c+'22;color:'+c+';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;">'+ini(e.name)+'</div><div><div style="font-size:12px;font-weight:700;color:#111;">'+esc(e.name)+'</div><div style="font-size:9px;color:'+c+';">'+esc(e.role)+'</div></div></div>';
-  document.body.appendChild(ghost);
-  if(navigator.vibrate)navigator.vibrate(30);
-  ev.stopPropagation();
+  var e=null;for(var i=0;i<staff.length;i++){if(staff[i].id===eid){e=staff[i];break;}}if(!e)return;
+  var c=cc(e.role);ghost=document.createElement("div");ghost.className="ghost";
+  ghost.style.left=(t.clientX-110)+"px";ghost.style.top=(t.clientY-30)+"px";
+  ghost.innerHTML="<div style="background:#fff;border:2px solid "+c+";border-radius:10px;padding:8px 13px;display:flex;align-items:center;gap:9px;box-shadow:0 6px 22px rgba(0,0,0,0.2);font-family:sans-serif;"><div style="width:30px;height:30px;border-radius:7px;background:"+c+"22;color:"+c+";display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;">"+ini(e.name)+"</div><div><div style="font-size:12px;font-weight:700;color:#111;">"+esc(e.name)+"</div><div style="font-size:9px;color:"+c+"">"+esc(e.role)+"</div></div></div>";
+  document.body.appendChild(ghost);if(navigator.vibrate)navigator.vibrate(30);ev.stopPropagation();
 }
-document.addEventListener('touchmove',function(ev){
-  if(!dragId||!ghost)return;ev.preventDefault();
-  var t=ev.touches[0];ghost.style.left=(t.clientX-110)+'px';ghost.style.top=(t.clientY-30)+'px';
-  var dz=document.getElementById('dropzone');
-  if(dz){var r=dz.getBoundingClientRect();dz.style.background=(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)?'#c8e6c9':'#e8f5e9';}
+document.addEventListener("touchmove",function(ev){
+  if(!dragId||!ghost)return;ev.preventDefault();var t=ev.touches[0];
+  ghost.style.left=(t.clientX-110)+"px";ghost.style.top=(t.clientY-30)+"px";
+  var dz=document.getElementById("dropzone");
+  if(dz){var r=dz.getBoundingClientRect();dz.style.background=(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)?"#c8e6c9":"#e8f5e9";}
 },{passive:false});
-document.addEventListener('touchend',function(ev){
+document.addEventListener("touchend",function(ev){
   if(!dragId){if(ghost){try{document.body.removeChild(ghost);}catch(x){}ghost=null;}return;}
-  var t=ev.changedTouches[0];var dz=document.getElementById('dropzone');var dropped=false;
-  if(dz){var r=dz.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom){addE(dragId);dropped=true;}dz.style.background='#e8f5e9';}
+  var t=ev.changedTouches[0];var dz=document.getElementById("dropzone");var dropped=false;
+  if(dz){var r=dz.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom){addE(dragId);dropped=true;}dz.style.background="#e8f5e9";}
   if(ghost){try{document.body.removeChild(ghost);}catch(x){}ghost=null;}
-  if(dropped&&navigator.vibrate)navigator.vibrate([20,10,20]);
-  dragId=null;
+  if(dropped&&navigator.vibrate)navigator.vibrate([20,10,20]);dragId=null;
 });
 
-// ════════════════════════════════════════════════════════════════
-// LOGIN
-// ════════════════════════════════════════════════════════════════
-function doLogin(){
-  var u=(document.getElementById('login-user').value||'').trim().toLowerCase();
-  var p=(document.getElementById('login-pass').value||'').trim();
-  var ok=CREDENTIALS.find(function(c){return c.user===u&&c.pass===p;});
-  if(ok){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('login-err').style.display='none';
-    toast('Welcome, '+u+'!');
-  } else {
-    document.getElementById('login-err').style.display='block';
-    document.getElementById('login-pass').value='';
-    document.getElementById('login-pass').focus();
-  }
-}
-
-// ════════════════════════════════════════════════════════════════
-// SETTINGS
-// ════════════════════════════════════════════════════════════════
-function changePass(){
-  var cur=document.getElementById('cp-cur').value;
-  var nw=document.getElementById('cp-new').value;
-  var cn=document.getElementById('cp-con').value;
-  var msg=document.getElementById('cp-msg');
-  var curUser=localStorage.getItem('gavs_user')||'admin';
-  var cred=CREDENTIALS.find(function(c){return c.user===curUser;});
-  if(!cred||cred.pass!==cur){
-    msg.style.color='#c62828';msg.textContent='Current password is incorrect.';msg.style.display='block';return;
-  }
-  if(!nw||nw.length<4){
-    msg.style.color='#c62828';msg.textContent='New password must be at least 4 characters.';msg.style.display='block';return;
-  }
-  if(nw!==cn){
-    msg.style.color='#c62828';msg.textContent='New passwords do not match.';msg.style.display='block';return;
-  }
-  cred.pass=nw;
-  document.getElementById('cp-cur').value='';
-  document.getElementById('cp-new').value='';
-  document.getElementById('cp-con').value='';
-  msg.style.color='#1b5e20';msg.textContent='Password changed successfully!';msg.style.display='block';
-  setTimeout(function(){msg.style.display='none';},3000);
-  toast('Password updated!');
-}
-
-function doLogout(){
-  localStorage.removeItem('gavs_user');
-  document.getElementById('login-screen').style.display='flex';
-  document.getElementById('login-pass').value='';
-  document.getElementById('login-user').value='';
-  toast('Logged out','w');
-}
-
-// ════════════════════════════════════════════════════════════════
-// ASSIGN DUTIES SCREEN
-// ════════════════════════════════════════════════════════════════
-function drawAssign(){
-  var q=(document.getElementById('as-search')||{}).value||'';
-  var el=document.getElementById('as-list');if(!el)return;
-  var fv=venues.filter(function(v){return v.name.toLowerCase().includes(q.toLowerCase());});
-  if(!fv.length){el.innerHTML='<div class="empty">No venues found.</div>';return;}
-  var h='';
-  fv.forEach(function(v,i){
-    var t=getTeam(v.id);
-    var mgrs=t.filter(function(a){return isMgr(a.emp);});
-    h+='<div style="background:#fff;border:1.5px solid '+(v.vip?'#f9a825':'#e3eaff')+';border-radius:13px;margin-bottom:9px;overflow:hidden;">';
-    if(v.vip)h+='<div style="font-size:9px;font-weight:800;color:#fff;background:#f9a825;padding:3px 13px;letter-spacing:0.08em;">⭐ VIP EVENT</div>';
-    // Manager bar if any
-    mgrs.forEach(function(a){h+='<div class="mgr-bar"><span style="font-size:13px;">👔</span><div><div class="mgr-nm">'+esc(a.emp.name)+'</div>'+(a.emp.phone?'<div class="mgr-ph">Ph: '+esc(a.emp.phone)+'</div>':'')+'</div></div>';});
-    h+='<div style="display:flex;align-items:center;padding:11px 13px 8px;gap:9px;">';
-    h+='<div style="font-weight:800;font-size:10px;color:'+(v.vip?'#e65100':'#1565c0')+';background:'+(v.vip?'#fff8e1':'#e3eaff')+';border-radius:5px;padding:2px 7px;flex-shrink:0;">V'+(venues.indexOf(v)+1)+'</div>';
-    h+='<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:#0d47a1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(v.name)+'</div>';
-    h+='<div style="font-size:10px;color:#666;margin-top:1px;"><span style="color:#1565c0;font-weight:700;">'+t.length+'</span> staff assigned</div></div>';
-    h+='<button onclick="openV(''+v.id+'')" style="background:#1565c0;border:none;color:#fff;border-radius:8px;padding:7px 13px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;">Assign +</button>';
-    h+='</div>';
-    // Staff chips
-    if(t.length){
-      h+='<div style="display:flex;flex-wrap:wrap;gap:4px;padding:3px 13px 11px;">';
-      t.forEach(function(a){
-        var c=cc(a.emp.role);
-        h+='<span style="font-size:10px;color:'+c+';background:'+c+'18;border:1px solid '+c+'33;border-radius:4px;padding:2px 7px;">'+(isMgr(a.emp)?'👔 ':'')+esc(a.emp.name)+'</span>';
-      });
-      h+='</div>';
-    }
-    h+='</div>';
-  });
-  el.innerHTML=h;
-}
-
-// ════════════════════════════════════════════════════════════════
-// INIT (runs after DOM is ready)
-// ════════════════════════════════════════════════════════════════
-// Wire up login button
-var loginBtn=document.getElementById('login-btn');
-if(loginBtn){
-  loginBtn.addEventListener('click',function(){doLogin();});
-}
-// Also wire up enter key on password
-var passField=document.getElementById('login-pass');
-if(passField){passField.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});}
-document.getElementById('datepicker').value=new Date().toISOString().slice(0,10);
-document.getElementById('datepicker').addEventListener('change',function(){applyPinned();drawStats();});
-applyPinned();
-drawStats();
-drawVenues();
+// ── WIRE UP LOGIN BUTTON ──────────────────────────────────────────────────────
+document.getElementById("lbtn").addEventListener("click",function(){doLogin();});
+document.getElementById("lpas").addEventListener("keydown",function(e){if(e.key==="Enter")doLogin();});
+document.getElementById("lusr").addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("lpas").focus();});
+document.getElementById("datepicker").addEventListener("change",function(){applyPinned();drawStats();});
 </script>
 </body>
 </html>
