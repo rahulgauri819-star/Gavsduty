@@ -5,7 +5,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <meta http-equiv="Cache-Control" content="no-cache"/>
-<title>GAVS Staff App v14</title>
+<title>GAVS Staff App v15</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -112,16 +112,16 @@ input,select,button{font-family:inherit;}
   <img src="gavs_logo.png" alt="GAVS" style="height:80px;width:auto;margin-bottom:16px;" onerror="this.style.display='none'"/>
   <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;text-align:center;">Grover Audio Visual Services</div>
   <div style="font-size:11px;color:#bbdefb;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:28px;">Staff Deployment System</div>
-  <div style="background:#fff;border-radius:16px;padding:24px;width:100%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+  <form id="loginForm" onsubmit="doLogin();return false;" style="background:#fff;border-radius:16px;padding:24px;width:100%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
     <div style="font-size:16px;font-weight:800;color:#0d47a1;margin-bottom:18px;text-align:center;">Login</div>
     <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Username</div>
-    <input id="lusr" type="text" placeholder="Enter username" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:12px;box-sizing:border-box;"/>
+    <input id="lusr" name="username" type="text" autocomplete="username" placeholder="Enter username" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:16px;outline:none;margin-bottom:12px;box-sizing:border-box;"/>
     <div style="font-size:11px;color:#555;font-weight:700;margin-bottom:4px;">Password</div>
-    <input id="lpas" type="password" placeholder="Enter password" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:14px;outline:none;margin-bottom:16px;box-sizing:border-box;"/>
+    <input id="lpas" name="password" type="password" autocomplete="current-password" placeholder="Enter password" style="width:100%;background:#f0f4ff;border:1.5px solid #bbdefb;border-radius:8px;color:#111;padding:10px 12px;font-size:16px;outline:none;margin-bottom:16px;box-sizing:border-box;"/>
     <div id="lerr" style="color:#c62828;font-size:12px;text-align:center;margin-bottom:10px;display:none;">Wrong username or password</div>
-    <button id="lbtn" type="button" onclick="doLogin()" style="width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:13px 0;font-size:15px;font-weight:700;cursor:pointer;">Login</button>
-  </div>
-  <div style="font-size:10px;color:#90caf9;margin-top:20px;">GAVS &copy; 2026</div>
+    <input type="submit" value="Login" style="width:100%;background:#1565c0;border:none;color:#fff;border-radius:9px;padding:14px 0;font-size:16px;font-weight:700;cursor:pointer;-webkit-appearance:none;appearance:none;display:block;"/>
+  </form>
+  <div style="font-size:10px;color:#90caf9;margin-top:20px;">GAVS 2026</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -930,8 +930,7 @@ document.addEventListener("touchend",function(ev){
 });
 
 // ── WIRE UP LOGIN BUTTON ──────────────────────────────────────────────────────
-document.getElementById("lbtn").addEventListener("click",function(){doLogin();});
-document.getElementById("lbtn").addEventListener("touchstart",function(e){e.preventDefault();doLogin();});
+// Login handled by form onsubmit
 document.getElementById("lpas").addEventListener("keydown",function(e){if(e.key==="Enter")doLogin();});
 document.getElementById("lusr").addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("lpas").focus();});
 document.getElementById("datepicker").addEventListener("change",function(){applyPinned();drawStats();});
